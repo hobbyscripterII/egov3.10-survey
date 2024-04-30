@@ -22,7 +22,6 @@ public class PhotoController {
 	@GetMapping("/list.do")
 	public String getPhotoList(Model model) {
 		model.addAttribute("list", photoService.getPhotoBoardList());
-		return "/photo/list";
+		return "photo/list";
 	}
-	
 }

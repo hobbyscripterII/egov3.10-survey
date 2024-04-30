@@ -1,3 +1,4 @@
+package egovframework.example.sample.service;
 ///*
 // * Copyright 2008-2009 the original author or authors.
 // *
