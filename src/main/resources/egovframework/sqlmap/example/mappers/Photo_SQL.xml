@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.sample.service.impl.PhotoMapper">
+<select id="getPhotoBoardList" resultType="PhotoListGetVo">
+SELECT ifile, iboard, original_name originalName, saved_name savedName, ext
+FROM file_tbl
+WHERE ext = '.png' OR ext = '.jpg'
+</select>
+</mapper>
