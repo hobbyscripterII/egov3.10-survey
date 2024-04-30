@@ -13,10 +13,7 @@
 <section>
 	<h1>list.jsp</h1>
 	<c:forEach var="l" items="${list }">
-		<c:out value="${l.ifile }" />
-		<c:out value="${l.iboard }" />
-		<c:out value="${l.originalName }${l.ext }" />
-		<c:out value="${l.originalName }${l.ext }" />
+		<img alt="썸네일" src="/winitech/img/${l.savedName }${l.ext }">
 	</c:forEach>
 </section>
 </body>

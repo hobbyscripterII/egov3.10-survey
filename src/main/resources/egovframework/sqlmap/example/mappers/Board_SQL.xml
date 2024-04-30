@@ -1,5 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.example.sample.service.impl.BoardMapper">
+<select id="getBoardList" parameterType="Criteria" resultType="BoardListGetVo">
+SELECT iboard, title, name, VIEW, created_at createdAt
+FROM board_tbl
+<where>
+	<choose>
+		<when test="name != null and name != '' || title != null and title != ''">
+		<!-- 검색할 경우 -->
+		</when>
+		<otherwise>
+		<!-- 검색이 아닌 경우 -->
+		code = 0
+		</otherwise>
+	</choose>
+	<if test="name != null and name != ''">
+	AND name LIKE '%${name}%'
+	</if>
+	<if test="title != null and title != ''">
+	AND title LIKE '%${title}%'
+	</if>
+</where>
+ORDER BY iboard DESC
+LIMIT #{pageStart}, #{amount}
+</select>
 
+<!-- 페이지네이션에 사용할 게시글 총 개수 -->
+<select id="getBoardListCnt" parameterType="Criteria" resultType="int">
+SELECT COUNT(*)
+FROM board_tbl
+WHERE CODE = 0
+	<if test="name != null and name != ''">
+	AND NAME LIKE '%${name}%'
+	</if>
+	<if test="title != null and title != ''">
+	AND title LIKE '%${title}%'
+	</if>
+ORDER BY iboard DESC
+</select>
+
+<!-- 게시글 상세보기 -->
+<select id="selBoard" resultType="BoardSelVo">
+SELECT iboard, code, name, title, contents, reply_fl replyFl, created_at createdAt
+FROM board_tbl
+WHERE iboard = #{iboard}
+</select>
+
+<!-- 답변글 상세보기 -->
+<select id="selBoardReply" resultType="BoardSelVo">
+SELECT iboard, name, title, contents, VIEW, created_at createdAt
+FROM board_tbl
+WHERE code = #{code}
+</select>
+
+<!-- 게시글 작성 -->
+<insert id="insBoard" useGeneratedKeys="true" keyProperty="iboard">
+INSERT INTO board_tbl(code, NAME, pwd, title, contents)
+VALUES(#{code}, #{name}, #{pwd}, #{title}, #{contents})
+</insert>
+
+<!-- 게시글 삭제 -->
+<delete id="delBoard">
+DELETE FROM board_tbl
+WHERE iboard = #{iboard}
+</delete>
+
+<delete id="delBoardReply" parameterType="int">
+DELETE FROM board_tbl
+WHERE CODE = #{code}
+</delete>
+
+<!-- 답변글 식별코드(게시글 pk) 가져오기 -->
+<select id="getBoardCode" parameterType="int" resultType="int">
+SELECT CODE
+FROM board_tbl
+WHERE iboard = #{iboard}
+</select>
+
+<select id="getBoardCodeCnt" parameterType="int" resultType="int">
+SELECT COUNT(*) FROM board_tbl WHERE CODE = #{code}
+</select>
+
+<!-- 게시글 답변 상태 플래그 수정 -->
+<update id="updBoardReplyFl" parameterType="BoardReplyUpdDto">
+UPDATE board_tbl SET
+reply_fl = #{replyFl}
+WHERE iboard = #{iboard}
+</update>
+
+<!-- 게시글 수정 -->
+<update id="updBoard" parameterType="BoardUpdDto">
+UPDATE board_tbl SET
+title = #{title},
+contents = #{contents}
+WHERE iboard = #{iboard}
+</update>
+
+<!-- 게시글 등록 시 암호화된 패스워드 가져오기 -->
+<select id="getHashedPwd" resultType="string">
+SELECT pwd
+FROM board_tbl
+WHERE iboard = #{iboard}
+</select>
+
+<!-- 첨부파일 관련 -->
+<insert id="insBoardFile" useGeneratedKeys="true" keyProperty="ifile">
+INSERT INTO file_tbl(iboard, original_name, saved_name, ext, file_size)
+VALUES(#{iboard}, #{originalName}, #{savedName}, #{ext}, #{fileSize})
+</insert>
+
+<select id="getBoardFile" parameterType="int" resultType="BoardFileGetVo">
+SELECT ifile, iboard, original_name originalName, saved_name savedName, ext, file_size fileSize
+FROM file_tbl
+WHERE iboard = #{iboard}
+</select>
+
+<select id="selBoardFile" parameterType="int" resultType="BoardFileSelVo">
+SELECT original_name originalName, saved_name savedName, ext 
+FROM file_tbl
+WHERE ifile = #{ifile}
+</select>
+
+<delete id="delBoardFile" parameterType="int">
+DELETE FROM file_tbl
+WHERE ifile = #{ifile}
+</delete>
+
+<!-- 특정 게시글 첨부파일 개수 가져오기(예외 처리용) -->
+<select id="getBoardFileCnt" parameterType="int" resultType="int">
+SELECT COUNT(*) FROM file_tbl WHERE iboard = #{iboard}
+</select>
+
+<!-- 조회수 증가 -->
+<update id="updView" parameterType="int">
+UPDATE board_tbl SET
+VIEW = (SELECT VIEW FROM board_tbl WHERE iboard = #{iboard}) + 1
+WHERE iboard = #{iboard}
+</update>
 </mapper>
