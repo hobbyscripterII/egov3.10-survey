@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
   <div class="container-fluid">
     <a class="navbar-brand" href="/winitech/home.do">실습과제 평가 프로젝트</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -8,6 +8,11 @@
         <li class="nav-item"><a class="nav-link" href="/winitech/board/list.do">게시판</a></li>
         <li class="nav-item"><a class="nav-link" href="/winitech/photo/list.do">사진 게시판</a></li>
       </ul>
+      
+	<div class="btn-group" role="group" aria-label="Basic example">
+	  <button type="button" class="btn btn-primary" onclick="location.href='/winitech/user/signin.do'">로그인</button>
+	  <button type="button" class="btn btn-secondary" onclick="location.href='/winitech/user/signup.do'">회원가입</button>
+	</div>
     </div>
   </div>
 </nav>

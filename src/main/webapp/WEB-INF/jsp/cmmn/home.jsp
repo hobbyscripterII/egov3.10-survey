@@ -10,7 +10,10 @@
     <title>title</title>
     <!-- <title><spring:message code="title.sample" /></title> -->
 </head>
+<style>
+	body { background-image: url("https://images.unsplash.com/photo-1576493254399-06fe2a922081?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"); background-size: cover; background-attachment: fixed; }
+</style>
 <body>
-	<h1>home.jsp</h1>
+<h1 class="title">실습평가 과제 프로젝트</h1>
 </body>
 </html>

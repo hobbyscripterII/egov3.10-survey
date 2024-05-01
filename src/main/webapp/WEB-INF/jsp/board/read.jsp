@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html>
 <body>
-<section>
 <div class="modal" id="exampleModal">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -59,7 +58,6 @@
 	<button type="button" class="btn btn-danger btn-margin" id="btn-delete" data-iboard="${vo.iboard }" >삭제</button>
 	<button type="button" class="btn btn-primary" onclick="location.href = '/winitech/board/list.do'">목록</button>
 </div>
-</section>
 </body>
 </html>
 

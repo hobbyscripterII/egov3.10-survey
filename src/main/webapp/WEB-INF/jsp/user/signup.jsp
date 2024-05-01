@@ -10,9 +10,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1 class="title">사진 게시판 목록</h1>
-<c:forEach var="l" items="${list }">
-	<img alt="썸네일" src="/winitech/img/${l.savedName }${l.ext }">
-</c:forEach>
+<h1 class="title">회원가입</h1>
 </body>
 </html>
