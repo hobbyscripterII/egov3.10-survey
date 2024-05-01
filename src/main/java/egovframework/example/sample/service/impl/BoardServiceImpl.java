@@ -93,7 +93,7 @@ public class BoardServiceImpl implements BoardService {
 				int delBoardReplyRows = boardMapper.delBoardReply(code); // 답변글 삭제
 			} else {
 				// 답변글이 아닐 경우 해당 게시글에 답변글이 있는지 여부 확인
-				int boardCodeFromIboard = boardMapper.getBoardCodeFromIboard(iboard);
+				Integer boardCodeFromIboard = boardMapper.getBoardCodeFromIboard(iboard);
 				
 				if(Utils.isNotNull(boardCodeFromIboard)) {
 					delBoardFile(boardMapper.getBoardFile(boardCodeFromIboard)); // 첨부파일 리스트 가져온 후 있다면 첨부파일 삭제

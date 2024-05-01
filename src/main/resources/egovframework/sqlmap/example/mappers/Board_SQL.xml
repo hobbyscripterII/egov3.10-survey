@@ -70,7 +70,7 @@ SELECT CODE FROM board_tbl WHERE iboard = #{iboard}
 </select>
 
 <!-- 답변글 여부 -->
-<select id="getBoardCodeFromIboard" parameterType="int" resultType="int">
+<select id="getBoardCodeFromIboard" parameterType="int" resultType="integer">
 SELECT iboard FROM board_tbl WHERE CODE = #{code}
 </select>
 

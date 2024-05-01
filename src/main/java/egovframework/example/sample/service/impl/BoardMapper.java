@@ -27,7 +27,7 @@ public interface BoardMapper {
 	public BoardSelVo selBoardReply(int code); // 답변글 상세보기
 	int updBoardReplyFl(BoardReplyUpdDto dto); // 답변글 플래그 변경
 	int delBoardReply(int code); // 답변글 삭제
-	int getBoardCodeFromIboard(int code); // 답변글이 참조하는 원래 게시글의 pk 가져오기
+	Integer getBoardCodeFromIboard(int code); // 답변글이 참조하는 원래 게시글의 pk 가져오기
 	int getBoardCode(int iboard); // 답변글 식별코드 가져오기
 	
 	// 첨부파일 관련
