@@ -1,8 +1,3 @@
-<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script type="text/javascript">
-// write
 let deleteIfileList = [];
 
 document.addEventListener('click', (e) => {
@@ -19,6 +14,8 @@ document.addEventListener('click', (e) => {
 			let deleteFileId = target.dataset.ifile;
 			// 배열에 담아 저장
 			deleteIfileList.push(deleteFileId);
+			
+			console.log('deleteIfileList = ', deleteIfileList);
 		}
 	}
 	
@@ -43,6 +40,9 @@ document.addEventListener('click', (e) => {
 		        		let dto = {"iboard" : iboard, "title" : title, "contents" : contents, "deleteIfileList" : deleteIfileList };
 		        		let files = document.getElementById('input-file').files;
 			    		
+						console.log('dto = ', dto);
+						console.log('files = ', files);
+	
 			    		for(let i = 0; i < files.length; i++) {
 			    			let file = files[i];
 			    			formData.append("files", file);	
@@ -79,7 +79,7 @@ document.addEventListener('click', (e) => {
     		alert('작성이 취소되었습니다.');
     		if(NAME != undefined) { suffixUrl = 'name=' + NAME; }
     		else if(TITLE != undefined) { suffixUrl = 'title=' + TITLE; }
-    		location.href = '/winitech/board.list.do?' + suffixUrl;
+    		location.href = '/winitech/board/list.do?' + suffixUrl;
     	}
     }
     
@@ -186,4 +186,3 @@ document.addEventListener('click', (e) => {
     	}
     }
 });
-</script>

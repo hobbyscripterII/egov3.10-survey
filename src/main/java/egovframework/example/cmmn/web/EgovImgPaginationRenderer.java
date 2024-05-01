@@ -8,7 +8,6 @@ import org.springframework.web.context.ServletContextAware;
 
 public class EgovImgPaginationRenderer extends AbstractPaginationRenderer implements ServletContextAware {
 	private ServletContext servletContext;
-
 	public EgovImgPaginationRenderer() { }
 
 	public void initVariables() {

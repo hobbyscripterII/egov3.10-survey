@@ -59,12 +59,13 @@ public class BoardService {
 		try {
 			// 첨부파일 리스트 가져오기
 			List<BoardFileGetVo> list = boardMapper.getBoardFile(iboard);
+
 			// 게시글에 등록한 첨부파일이 있다면 삭제
 			if (Utils.isNotNull(list.size())) {
 				list.forEach(item -> { String fullPath = item.getSavedName() + item.getExt(); fileUtils.deleteFile(fullPath); });
 			}
 
-			// 해당 iboard 컬럼에 답변글 식별코드가 있는지 확인
+			// 해당 게시글이 답변글인지 확인(code가 있다면 답변글임)
 			int code = boardMapper.getBoardCode(iboard);
 
 			// 해당 게시글이 답변글일 경우 아래 로직 실행
@@ -74,25 +75,25 @@ public class BoardService {
 				replyUpdDto.setIboard(iboard);
 				replyUpdDto.setCode(Const.UN_REPLY_CODE);
 				replyUpdDto.setReplyFl(Const.UN_REPLY_FL);
+
 				// 예외 처리 필요
+				// 답변글 달았던 원래 글의 답변글 여부 플래그를 'N'으로 변경한다.
 				int updBoardReplyFlRows = boardMapper.updBoardReplyFl(replyUpdDto);
+				// 답변글 삭제
 				int delBoardReplyRows = boardMapper.delBoardReply(code);
 			} else {
 				// 답변글이 아닐 경우 해당 게시글에 답변글이 있는지 여부 확인
 				// 예외 처리 필요
 				int getBoardCodeCntRows = boardMapper.getBoardCodeCnt(iboard);
+				int delBoardReplyRows = boardMapper.delBoardReply(iboard);
 			}
 
 			// 2. 테이블 정보 삭제
 //			int delBoardRows = 0; // 예외 테스트용
 			int delBoardRows = boardMapper.delBoard(iboard);
 
-			if (Utils.isNotNull(delBoardRows)) {
-				return Const.SUCCESS;
-			} else {
-				return Const.FAIL;
-			}
-
+			if (Utils.isNotNull(delBoardRows)) { return Const.SUCCESS; }
+			else { return Const.FAIL; }
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Const.FAIL;
@@ -104,7 +105,6 @@ public class BoardService {
 			String hashedPwd = BCrypt.hashpw(dto.getPwd(), BCrypt.gensalt());
 
 			if (Utils.isNull(hashedPwd)) {
-				log.info("패스워드 암호화에 실패했습니다.");
 				throw new NullPointerException();
 			} else {
 				dto.setPwd(hashedPwd);
@@ -114,38 +114,27 @@ public class BoardService {
 					BoardReplyUpdDto replyUpdDto = new BoardReplyUpdDto();
 					replyUpdDto.setIboard(dto.getCode());
 					replyUpdDto.setReplyFl(Const.REPLY_FL);
-
 					int updBoardReplyFlRows = boardMapper.updBoardReplyFl(replyUpdDto);
 
 					// 답변글 업데이트 실패 시 예외 발생
-					if (Utils.isNull(updBoardReplyFlRows)) {
-						throw new RuntimeException();
-					}
+					if (Utils.isNull(updBoardReplyFlRows)) { throw new RuntimeException(); }
 				}
 
 				int insBoardRows = boardMapper.insBoard(dto); // 게시글 테이블 등록
 
 				// 게시글 테이블 등록 실패 시 예외 발생
-				if (Utils.isNull(insBoardRows)) {
-					log.info("게시글 등록에 실패했습니다.");
-					throw new NullPointerException();
-				} else {
+				if (Utils.isNull(insBoardRows)) { throw new NullPointerException(); }
+				else {
 					// 게시판 테이블에 저장 성공 시
 					if (Utils.isNotNull(dto.getFile())) {
 						insBoardFile(dto.getFile(), dto.getIboard());
 
-						if (dto.getFile().size() == boardMapper.getBoardFileCnt(dto.getIboard())) {
-							return dto.getIboard();
-						} else {
+						if (dto.getFile().size() == boardMapper.getBoardFileCnt(dto.getIboard())) { return dto.getIboard(); }
+						else {
 							// 예외 처리문 작성
-							// 첨부파일 삭제
-							int delFileRows = deleteFile(dto.getIboard());
-
-							// 게시판 테이블 및 파일 테이블 데이터 삭제
-							int delBoard = boardMapper.delBoard(dto.getIboard());
-
-							// 예외 던지기
-							throw new RuntimeException();
+							int delFileRows = deleteFile(dto.getIboard()); // 첨부파일 삭제
+							int delBoard = boardMapper.delBoard(dto.getIboard()); // 게시판 테이블 및 파일 테이블 데이터 삭제
+							throw new RuntimeException(); // 예외 던지기
 						}
 					}
 					return dto.getIboard(); // 게시글 등록 완료 시 게시글 pk를 반환함
@@ -167,14 +156,9 @@ public class BoardService {
 		if (Utils.isNotNull(dto.getDeleteIfileList().size())) {
 			dto.getDeleteIfileList().forEach(ifile -> {
 				BoardFileSelVo vo = boardMapper.selBoardFile(ifile);
-
-				// 로컬 파일 삭제
 				String path = vo.getSavedName() + vo.getExt();
-
-				fileUtils.deleteFile(path);
-
-				// 테이블 정보 삭제
-				boardMapper.delBoardFile(ifile);
+				fileUtils.deleteFile(path); // 로컬 파일 삭제
+				boardMapper.delBoardFile(ifile); // 테이블 정보 삭제
 			});
 		}
 
@@ -183,12 +167,8 @@ public class BoardService {
 
 		// 파일 테이블 등록
 		// 게시글 수정 시 첨부파일 없을 경우 예외 발생 -> 수정 완료
-		if (Utils.isNotNull(dto.getFile())) {
-			insBoardFile(dto.getFile(), dto.getIboard());
-		}
-
+		if (Utils.isNotNull(dto.getFile())) { insBoardFile(dto.getFile(), dto.getIboard()); }
 		// 예외처리 필요
-
 		// 게시글 수정 처리
 		return boardMapper.updBoard(dto) == Const.SUCCESS ? Const.SUCCESS : Const.FAIL;
 	}
@@ -202,7 +182,5 @@ public class BoardService {
 		}
 	}
 
-	public int updView(int iboard) {
-		return boardMapper.updView(iboard);
-	}
+	public int updView(int iboard) { return boardMapper.updView(iboard); }
 }

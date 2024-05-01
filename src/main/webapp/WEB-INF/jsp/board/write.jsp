@@ -62,3 +62,5 @@
 	<c:if test="${param.title != null }"><button type="button" class="btn btn-danger" id="btn-cancle" data-title="${param.title }">취소</button></c:if>
 </div>
 </html>
+
+<script src="${pageContext.request.contextPath }/js/board-write.js"></script>

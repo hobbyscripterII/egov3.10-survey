@@ -21,11 +21,7 @@
   
   <c:choose>
   	<c:when test="${fn:length(vo) == 0 }">
-	  	<tr style="text-align: center"><td colspan="5" style="font-weight: bold">
-	  	검색 결과가 없습니다. <br> 검색 키워드: &nbsp;
-	  	<c:if test="${not empty param.title }"><c:out value="'${param.title }'" /></c:if>
-	  	<c:if test="${not empty param.name }"><c:out value="'${param.name }'" /></c:if>
-	  	</td></tr>
+	  	<tr style="text-align: center"><td colspan="5" style="font-weight: bold">검색 결과가 없습니다. <br> 검색 키워드: &nbsp;<c:if test="${not empty param.title }"><c:out value="'${param.title }'" /></c:if><c:if test="${not empty param.name }"><c:out value="'${param.name }'" /></c:if></td></tr>
   	</c:when>
   	<c:otherwise>
   	  <c:forEach var="item" items="${vo }">
@@ -53,30 +49,20 @@
 </table>
 <div class="div-list-bottom-wrap">
 	<div class="div-btn-group-wrap">
-		<c:if test="${empty criteria.name && empty criteria.title }">
-			<button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do'">작성</button>
-		</c:if>
-	   	<c:if test="${not empty param.name }">
-			<button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?name=${criteria.name }'">작성</button>
-		</c:if>
-		<c:if test="${not empty param.title }">
-			<button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?title=${criteria.title }'">작성</button>
-		</c:if>
+		<c:if test="${empty criteria.name && empty criteria.title }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do'">작성</button></c:if>
+	   	<c:if test="${not empty param.name }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?name=${criteria.name }'">작성</button></c:if>
+		<c:if test="${not empty param.title }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?title=${criteria.title }'">작성</button></c:if>
 	</div>
 	
 	<c:if test="${fn:length(vo) != 0 }">
 	  	<div class="div-pagination-wrap">
   		<ul class="pagination pagination-sm">
 		  <li class="page-item"><a class="page-link" href="/winitech/board/list.do?page=1&amount=${pagination.amount }&name=${criteria.name }&title=${criteria.title }">&laquo;</a></li>
-		  <c:if test="${1 < pagination.start }">
-		  	<li class="page-item"><a class="page-link" href="/winitech/board/list.do?page=${pagination.start - pagination.pageCnt}&name=${criteria.name }&title=${criteria.title }">&lt;</a></li>
-		  </c:if>
+		  <c:if test="${1 < pagination.start }"><li class="page-item"><a class="page-link" href="/winitech/board/list.do?page=${pagination.start - pagination.pageCnt}&name=${criteria.name }&title=${criteria.title }">&lt;</a></li></c:if>
 		  <c:forEach var="num" begin="${pagination.start }" end="${pagination.end }">
 		  	<li class="page-item"><a class="page-link" href="/winitech/board/list.do?page=${num }&amount=${pagination.amount }&name=${criteria.name }&title=${criteria.title }"><c:out value="${num }" /></a></li>
 		  </c:forEach>
-		  <c:if test="${pagination.end < pagination.realEnd }">
-		  	<li class="page-item"><a class="page-link" href="/winitech/board/list.do?page=${pagination.end + 1}&name=${criteria.name }&title=${criteria.title }">&gt;</a></li>
-		  </c:if>
+		  <c:if test="${pagination.end < pagination.realEnd }"><li class="page-item"><a class="page-link" href="/winitech/board/list.do?page=${pagination.end + 1}&name=${criteria.name }&title=${criteria.title }">&gt;</a></li></c:if>
 		  <li class="page-item"><a class="page-link" href="/winitech/board/list.do?page=${pagination.realEnd }&amount=${pagination.amount }&name=${criteria.name }&title=${criteria.title }">&raquo;</a></li>
 		</ul>
   	</div>
@@ -85,37 +71,20 @@
   	<form class="d-flex">
   	<!-- 검색창 -->
     <div>
-      <select class="form-select form-control" id="select-search">
+      <select class="form-select form-control" id="select-search" style="padding: .375rem 2.25rem .375rem .75rem">
         <option value="null">검색 카테고리</option>
         <option value="name">작성자</option>
         <option value="title">제목</option>
       </select>
     </div>
     <!-- 추가 기능 - 화면 이동 시 검색어 유지 -->
-	<c:if test="${empty criteria.name && empty criteria.title }">
-    	<input class="form-control me-sm-2" id="input-search" type="search" placeholder="검색어를 입력해주세요." data-value="null" autocomplete="off">
-	</c:if>
-   	<c:if test="${not empty param.name }">
-	    <input class="form-control me-sm-2" id="input-search" type="search" value="${criteria.name }" data-value="name" autocomplete="off">
-	</c:if>
-	<c:if test="${not empty param.title }">
-	    <input class="form-control me-sm-2" id="input-search" type="search" value="${criteria.title }" data-value="title" autocomplete="off">
-	</c:if>
+	<c:if test="${empty criteria.name && empty criteria.title }"><input class="form-control me-sm-2" id="input-search" type="search" placeholder="검색어를 입력해주세요." data-value="null" autocomplete="off"></c:if>
+   	<c:if test="${not empty param.name }"><input class="form-control me-sm-2" id="input-search" type="search" value="${criteria.name }" data-value="name" autocomplete="off"></c:if>
+	<c:if test="${not empty param.title }"><input class="form-control me-sm-2" id="input-search" type="search" value="${criteria.title }" data-value="title" autocomplete="off"></c:if>
     <input class="btn btn-secondary my-2 my-sm-0" id="btn-search" type="button" value="검색">
 	</form>
 </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script type="text/javascript">
-document.addEventListener('click', (e) => {
-	if(e.target.id == 'btn-search') {
-		const category = document.getElementById('select-search');
-		const keyword = document.getElementById('input-search');
-		if(category.value == 'null') { alert('검색 카테고리를 선택해주세요.'); category.focus(); }
-		else if(keyword.value == null || keyword.value == '') { alert('검색 키워드를 입력해주세요.'); keyword.focus(); }
-		else { location.href = '/winitech/board/list.do?' + category.value + '=' + keyword.value; }
-	}
-});
-</script>
 </html>
+
+<script src="${pageContext.request.contextPath }/js/board-list.js"></script>

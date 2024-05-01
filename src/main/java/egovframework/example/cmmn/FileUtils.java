@@ -17,16 +17,16 @@ import egovframework.example.sample.service.BoardFileInsDto;
 
 @Component
 public class FileUtils {
-	private final String prefixPath;
+	private final String prefixPath = "C:/winitech";
 	Logger log = LoggerFactory.getLogger(getClass());
 
 	// application.properties에 저장된 실제 로컬의 경로를 가져옴
 	// 해당 변수는 빈 주입 시 초기화됨(생성자 주입)
-	public FileUtils(@Value("${upload.prefix.path}") String prefixPath) {
-		// this - 객체 주소값 참조
-		// 지역 변수에 있는 값을 클래스의 멤버 변수에 참조 시킴
-		this.prefixPath = prefixPath;
-	}
+//	public FileUtils(@Value("${upload.prefix.path}") String prefixPath) {
+//		// this - 객체 주소값 참조
+//		// 지역 변수에 있는 값을 클래스의 멤버 변수에 참조 시킴
+//		this.prefixPath = prefixPath;
+//	}
 
 	// 로컬에 저장될 UUID 추출
 	private String getFileName() {
@@ -109,8 +109,12 @@ public class FileUtils {
 			String fullPath = getDownloadPath(path);
 			// 파일을 삭제하기 위해 경로를 추상화시킨 File 객체 생성
 			File file = new File(fullPath);
+			// 파일 경로가 존재하지 않을 경우 예외 처리 필요
+			// ...
+			
 			// 파일 삭제
 			file.delete();
+			log.info("파일 삭제를 완료했습니다.");
 		} catch (Exception e) {
 			// 삭제에 실패할 경우 예외 발생(수정 필요)
 			e.printStackTrace();
