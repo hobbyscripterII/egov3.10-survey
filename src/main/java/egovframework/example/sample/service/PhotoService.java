@@ -13,9 +13,7 @@ public class PhotoService {
 	private final PhotoMapper photoMapper;
 	private final Logger log = LoggerFactory.getLogger(getClass());
 	
-	public PhotoService(PhotoMapper photoMapper) {
-		this.photoMapper = photoMapper;
-	}
+	public PhotoService(PhotoMapper photoMapper) { this.photoMapper = photoMapper; }
 	
 	public List<PhotoListGetVo> getPhotoBoardList() {
 		return photoMapper.getPhotoBoardList();

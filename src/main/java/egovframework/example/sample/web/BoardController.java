@@ -54,27 +54,21 @@ public class BoardController {
 	 * @param fileUtils    - 파일 업로드 및 다운로드 관련 로직 처리<br>
 	 * @apiNote - 생성자가 1개만 있을 경우에는 의존성 주입 어노테이션(@Autowired, @Resource) 생략 가능
 	 */
-	public BoardController(BoardService boardService, FileUtils fileUtils) {
-		this.boardService = boardService;
-		this.fileUtils = fileUtils;
-	}
+	public BoardController(BoardService boardService, FileUtils fileUtils) { this.boardService = boardService; this.fileUtils = fileUtils; }
 
 	/**
 	 * @param files - 게시글 등록 / 수정 시 클라이언트에서 넘겨주는 첨부파일 목록(배열)<br>
 	 *              - 게시글 등록 / 수정 시 파일 업로드 해야 할 경우가 있기 때문에 따로 메소드를 분리시켜 놓음
 	 */
 	private List<BoardFileInsDto> fileUpload(MultipartFile[] files) throws Exception {
-		// 로컬에 저장된 파일 정보를 담기위한 list 생성
-		List<BoardFileInsDto> fileDtoList = new ArrayList();
-
+		List<BoardFileInsDto> fileDtoList = new ArrayList(); // 로컬에 저장된 파일 정보를 담기위한 list 생성
 		// 반복문으로 로컬에 첨부파일 저장 후 반환된 dto(테이블에 저장할 파일 정보)를 list에 담음
 		// 배열 []은 List<>와 달리 stream 사용 불가능
 		for (MultipartFile file : files) {
 			BoardFileInsDto dto = fileUtils.fileUpload(file); // 파일 업로드 후 해당 파일의 정보를 dto에 담아서 줌
 			fileDtoList.add(dto); // 테이블에 저장하기 위해 list에 담음
 		}
-		// 테이블에 저장하기 위해 해당 List<dto>를 반환
-		return fileDtoList;
+		return fileDtoList; // 테이블에 저장하기 위해 해당 List<dto>를 반환
 	}
 
 	/**
@@ -83,17 +77,12 @@ public class BoardController {
 	@GetMapping("/download.do")
 	public void download(@RequestParam int ifile, HttpServletResponse response) throws Exception {
 		try {
-			// 클라이언트가 클릭한 첨부파일의 pk를 갖고 해당 첨부파일의 정보를 가져옴
-			BoardFileSelVo vo = boardService.selBoardFile(ifile);
-			// 리소스를 찾기 위해 실제 서버에 저장된 'UUID + 확장명'을 가져옴
-			String savedName = vo.getSavedName() + vo.getExt();
-			// 클라이언트 로컬에 저장할 때는 '원래 파일명 + 확장명'으로 다운로드 하기 위해 해당 이름을 가져옴
-			String downloadName = vo.getOriginalName() + vo.getExt();
-			// 다운로드 하기 위해 로컬의 실제 경로를 가져옴(경로/UUID.확장명)
-			String downloadPath = fileUtils.getDownloadPath(savedName);
-			// 서버에 저장된 다운로드 받을 리소스를 알려줌
-			Resource resource = new UrlResource(Paths.get(downloadPath).toUri());
-			
+			BoardFileSelVo vo = boardService.selBoardFile(ifile); // 클라이언트가 클릭한 첨부파일의 pk를 갖고 해당 첨부파일의 정보를 가져옴
+			String savedName = vo.getSavedName() + vo.getExt(); // 리소스를 찾기 위해 실제 서버에 저장된 'UUID + 확장명'을 가져옴
+			String downloadName = vo.getOriginalName() + vo.getExt(); // 클라이언트 로컬에 저장할 때는 '원래 파일명 + 확장명'으로 다운로드 하기 위해 해당 이름을 가져옴
+			String downloadPath = fileUtils.getDownloadPath(savedName); // 다운로드 하기 위해 로컬의 실제 경로를 가져옴(경로/UUID.확장명)
+			Resource resource = new UrlResource(Paths.get(downloadPath).toUri()); // 서버에 저장된 다운로드 받을 리소스를 알려줌
+
 			// 리소스 존재 시 해당 첨부파일을 다운로드 받음
 			if(resource.exists()) {
 				response.setContentType("application/octet-stream");
@@ -102,19 +91,9 @@ public class BoardController {
 				OutputStream outputStream = response.getOutputStream();
 				IOUtils.copy(inputStream, outputStream);
 				outputStream.flush();
-			} else {
-				throw new FileNotFoundException();
-			}
-			
-//			// http 상태 코드가 200이고 응답 데이터가 존재할 경우 해당 첨부파일을 다운로드 받음
-//			ResponseEntity<Resource> responseEntity =  ResponseEntity.ok()
-//																	 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + UriUtils.encode(downloadName, "UTF-8") + "\"")
-//																	 .body(resource);
-//			return responseEntity;
-		} catch (Exception e) {
-			// http 상태 코드가 200이 아닐 경우 예외 발생(수정 필요)
-			throw new RuntimeException();
-		}
+				outputStream.close(); }
+			else { throw new FileNotFoundException(); }}
+		catch (Exception e) { throw new RuntimeException(); }
 	}
 
 	/**
@@ -161,12 +140,10 @@ public class BoardController {
 	@PostMapping("/write.do")
 	@ResponseBody
 	public HashMap<String, Object> insBoard(@RequestPart(name = "dto") BoardInsDto dto, BindingResult bindingResult, @RequestPart(name = "files", required = false) MultipartFile[] files) throws Exception {
-		// ajax 반환용 map 생성
-		HashMap<String, Object> resultMap = new HashMap();
-
+		HashMap<String, Object> resultMap = new HashMap(); // ajax 반환용 map 생성
+		
 		// ===== 유효성 검증 로직 시작 =====
 		new BoardInsValidator().validate(dto, bindingResult); // 인자 값으로 검증할 객체(dto), bindingResult 객체를 담음
-
 		// 유효성 검증 시 에러가 발생하면 true를 반환
 		// -> 에러가 있을 경우 유효성 검증 에러 코드와 에러 메세지가 담긴 map을 보냄
 		if (bindingResult.hasErrors()) {
@@ -184,30 +161,20 @@ public class BoardController {
 		if (Utils.isNotNull(files.length)) {
 			// <서버에서 확장자 예외 처리>
 //				List<String> extList = new ArrayList();
-
 			// 첨부파일 확장자를 list에 담음
-//				for(MultipartFile file : files) {
-//					extList.add(fileUtils.getExt(file));
-//				}
-//				
-//				for(int i = 0; i < Const.EXT_EXCEPTION_ARR.length; i++) {
-//					log.info("{} = {}", i, Const.EXT_EXCEPTION_ARR[i]);
-//				}
+//				for(MultipartFile file : files) { extList.add(fileUtils.getExt(file)); }
+//				for(int i = 0; i < Const.EXT_EXCEPTION_ARR.length; i++) { log.info("{} = {}", i, Const.EXT_EXCEPTION_ARR[i]);}
 			// ===== 확장자 검증 로직 끝 =====
-
 			dto.setFile(fileUpload(files));
 		}
 
 		// 게시글 등록 완료 시 반환 값으로 등록된 게시글의 pk를 반환
-		// code = 게시글 등록 완료 시에는 게시글 pk가 담겨져 있으며 실패 시에는 예외 발생 플래그 값이 담겨져 있음
-		int code = boardService.insBoard(dto);
-
+		int code = boardService.insBoard(dto); // 게시글 등록 완료 시에는 게시글 pk가 담겨져 있으며 실패 시에는 예외 발생 플래그 값이 담겨져 있음
 		if (code > 0) {
 			resultMap.put(Const.MSG_KEY, Const.SUCCESS);
-			resultMap.put(Const.IBOARD_KEY, code);
-		} else {
-			resultMap.put(Const.MSG_KEY, code);
-		}
+			resultMap.put(Const.IBOARD_KEY, code); }
+		else { resultMap.put(Const.MSG_KEY, code); }
+		
 		return resultMap;
 	}
 

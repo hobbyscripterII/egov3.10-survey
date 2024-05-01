@@ -15,9 +15,7 @@ public class PhotoController {
 	private final PhotoService photoService;
 	private final Logger log = LoggerFactory.getLogger(getClass());
 	
-	public PhotoController(PhotoService photoService) {
-		this.photoService = photoService;
-	}
+	public PhotoController(PhotoService photoService) { this.photoService = photoService; }
 	
 	@GetMapping("/list.do")
 	public String getPhotoList(Model model) {

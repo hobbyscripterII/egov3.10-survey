@@ -11,8 +11,6 @@ public class BoardFileGetVo {
 	private String ext;
 	private int fileSize;
 	
-	Logger log = LoggerFactory.getLogger(getClass());
-	
 	public int getIfile() { return ifile; }
 	public void setIfile(int ifile) { this.ifile = ifile; }
 	public int getIboard() { return iboard; }
@@ -26,5 +24,5 @@ public class BoardFileGetVo {
 	public int getFileSize() { return fileSize; }
 	public void setFileSize(int fileSize) { this.fileSize = fileSize; }
 	
-	@Override public String toString() { return "BoardFileGetVo [ifile=" + ifile + ", iboard=" + iboard + ", originalName=" + originalName + ", savedName=" + savedName + ", ext=" + ext + ", fileSize=" + fileSize + ", log=" + log + "]"; }
+	@Override public String toString() { return "BoardFileGetVo [ifile=" + ifile + ", iboard=" + iboard + ", originalName=" + originalName + ", savedName=" + savedName + ", ext=" + ext + ", fileSize=" + fileSize + "]"; }
 }
