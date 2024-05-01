@@ -1,4 +1,4 @@
-package egovframework.example.sample.service;
+package egovframework.example.sample.service.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

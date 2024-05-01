@@ -34,13 +34,13 @@ import egovframework.example.cmmn.Const;
 import egovframework.example.cmmn.FileUtils;
 import egovframework.example.cmmn.Pagination;
 import egovframework.example.cmmn.Utils;
-import egovframework.example.sample.service.BoardChkPwdDto;
-import egovframework.example.sample.service.BoardFileInsDto;
-import egovframework.example.sample.service.BoardFileSelVo;
-import egovframework.example.sample.service.BoardInsDto;
 import egovframework.example.sample.service.BoardInsValidator;
 import egovframework.example.sample.service.BoardService;
-import egovframework.example.sample.service.BoardUpdDto;
+import egovframework.example.sample.service.model.BoardChkPwdDto;
+import egovframework.example.sample.service.model.BoardFileInsDto;
+import egovframework.example.sample.service.model.BoardFileSelVo;
+import egovframework.example.sample.service.model.BoardInsDto;
+import egovframework.example.sample.service.model.BoardUpdDto;
 
 @Controller
 @RequestMapping("/board")
@@ -189,19 +189,12 @@ public class BoardController {
 	public int updBoard(@RequestPart(name = "dto") BoardUpdDto dto, @RequestPart(name = "files", required = false) MultipartFile[] files) throws Exception {
 		try {
 			if (Utils.isNotNull(files.length)) { dto.setFile(fileUpload(files)); }
-			return Utils.isNotNull(boardService.updBoard(dto)) ? Const.SUCCESS : Const.FAIL;
-		} catch (Exception e) {
-			return Const.FAIL;
-		}
+			return Utils.isNotNull(boardService.updBoard(dto)) ? Const.SUCCESS : Const.FAIL; }
+		catch (Exception e) { return Const.FAIL; }
 	}
 
-	@PostMapping("/delete.do")
-	@ResponseBody
-	public int delBoard(@RequestParam int iboard) { return boardService.delBoard(iboard); }
-
-	@PostMapping("/check.do")
-	@ResponseBody
-	public int chkPwd(@RequestBody BoardChkPwdDto dto) { return boardService.chkPwd(dto); }
+	@PostMapping("/delete.do") @ResponseBody public int delBoard(@RequestParam int iboard) { return boardService.delBoard(iboard); }
+	@PostMapping("/check.do") @ResponseBody public int chkPwd(@RequestBody BoardChkPwdDto dto) { return boardService.chkPwd(dto); }
 
 	// 필드 변수명(name) -> 클라이언트 출력용 변수명(이름) 변환 메소드
 	private String fieldConverter(String field) {

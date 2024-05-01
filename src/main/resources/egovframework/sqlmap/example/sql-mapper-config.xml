@@ -3,15 +3,15 @@
 
 <configuration>
     <typeAliases>
-    	<typeAlias alias="BoardListGetVo" type="egovframework.example.sample.service.BoardListGetVo" />
-		<typeAlias alias="BoardSelVo" type="egovframework.example.sample.service.BoardSelVo" />
-		<typeAlias alias="BoardUpdDto" type="egovframework.example.sample.service.BoardUpdDto" />
+    	<typeAlias alias="BoardListGetVo" type="egovframework.example.sample.service.model.BoardListGetVo" />
+		<typeAlias alias="BoardSelVo" type="egovframework.example.sample.service.model.BoardSelVo" />
+		<typeAlias alias="BoardUpdDto" type="egovframework.example.sample.service.model.BoardUpdDto" />
 		<typeAlias alias="Criteria" type="egovframework.example.cmmn.Pagination$Criteria" /> <!-- 구조 변경 후 확인 필요 -->
-		<typeAlias alias="BoardFileGetVo" type="egovframework.example.sample.service.BoardFileGetVo" />
-		<typeAlias alias="BoardFileSelVo" type="egovframework.example.sample.service.BoardFileSelVo" />
-		<typeAlias alias="BoardReplyUpdDto" type="egovframework.example.sample.service.BoardReplyUpdDto" />
+		<typeAlias alias="BoardFileGetVo" type="egovframework.example.sample.service.model.BoardFileGetVo" />
+		<typeAlias alias="BoardFileSelVo" type="egovframework.example.sample.service.model.BoardFileSelVo" />
+		<typeAlias alias="BoardReplyUpdDto" type="egovframework.example.sample.service.model.BoardReplyUpdDto" />
 		
-		<typeAlias alias="PhotoListGetVo" type="egovframework.example.sample.service.PhotoListGetVo"/>
+		<typeAlias alias="PhotoListGetVo" type="egovframework.example.sample.service.model.PhotoListGetVo"/>
     	<!--
 		<typeAlias alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
 		<typeAlias alias="sampleVO" type="egovframework.example.sample.service.SampleVO"/>

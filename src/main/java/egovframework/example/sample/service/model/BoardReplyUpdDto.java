@@ -1,4 +1,4 @@
-package egovframework.example.sample.service;
+package egovframework.example.sample.service.model;
 
 public class BoardReplyUpdDto {
 	private int iboard;

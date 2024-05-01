@@ -7,15 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.example.sample.service.impl.PhotoMapper;
+import egovframework.example.sample.service.model.PhotoListGetVo;
 
-@Service
-public class PhotoService {
-	private final PhotoMapper photoMapper;
-	private final Logger log = LoggerFactory.getLogger(getClass());
-	
-	public PhotoService(PhotoMapper photoMapper) { this.photoMapper = photoMapper; }
-	
-	public List<PhotoListGetVo> getPhotoBoardList() {
-		return photoMapper.getPhotoBoardList();
-	}
+public interface PhotoService {
+	public List<PhotoListGetVo> getPhotoBoardList();
 }

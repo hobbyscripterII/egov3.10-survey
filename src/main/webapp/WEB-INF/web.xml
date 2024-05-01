@@ -15,6 +15,7 @@
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
     
+    <!-- utf-8 인코딩 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -37,6 +38,7 @@
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
     
+    <!-- context 파일 로드 설정 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:egovframework/spring/context-*.xml</param-value>
@@ -46,6 +48,7 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
     
+    <!-- dispatcher-servlet 파일 로드 설정 -->
 	<servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -56,6 +59,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
     
+    <!-- url 패턴 매핑 -->
 	<servlet-mapping>
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>

@@ -1,4 +1,4 @@
-package egovframework.example.sample.service;
+package egovframework.example.sample.service.model;
 
 public class BoardListGetVo {
 	private int total;

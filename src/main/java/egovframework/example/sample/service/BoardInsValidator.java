@@ -1,16 +1,15 @@
 package egovframework.example.sample.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import egovframework.example.cmmn.Const;
+import egovframework.example.sample.service.model.BoardInsDto;
 
 public class BoardInsValidator implements Validator {
-	Logger log = LoggerFactory.getLogger(getClass());
-
-	@Override public boolean supports(Class<?> clazz) { return BoardInsDto.class.isAssignableFrom(clazz); }
+	@Override public boolean supports(Class<?> clazz) {
+		return BoardInsDto.class.isAssignableFrom(clazz);
+	}
 
 	@Override
 	public void validate(Object target, Errors errors) {

@@ -35,7 +35,7 @@
 	    <c:if test="${item.reply != null }">
 		    <tr>
 		    	<td></td>
-			    <td><a href="/winitech/board/view.do?iboard=${item.iboard }" style="color: #000 !important"><strong>답변글: </strong><c:out value="${item.reply.title }" /></a></td>
+			    <td><a href="/winitech/board/view.do?iboard=${item.reply.iboard }" style="color: #000 !important"><strong>답변글: </strong><c:out value="${item.reply.title }" /></a></td>
 		    	<td class="td-style"><c:out value="${item.reply.name }" /></td>
 		    	<td class="td-style"><c:out value="${item.reply.view }" /></td>
 		    	<td class="td-style"><fmt:parseDate pattern="yyyy-MM-dd HH:mm:ss" var="createdAt" value="${item.reply.createdAt }" /><fmt:formatDate pattern="yyyy년 MM월 dd일 HH:mm" value="${createdAt }" /></td>

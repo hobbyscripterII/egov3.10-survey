@@ -1,4 +1,4 @@
-package egovframework.example.sample.service;
+package egovframework.example.sample.service.model;
 
 public class BoardFileInsDto {
 	private int iboard;

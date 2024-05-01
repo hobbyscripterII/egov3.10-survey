@@ -3,14 +3,14 @@ package egovframework.example.sample.service.impl;
 import java.util.List;
 
 import egovframework.example.cmmn.Pagination;
-import egovframework.example.sample.service.BoardFileGetVo;
-import egovframework.example.sample.service.BoardFileInsDto;
-import egovframework.example.sample.service.BoardFileSelVo;
-import egovframework.example.sample.service.BoardInsDto;
-import egovframework.example.sample.service.BoardListGetVo;
-import egovframework.example.sample.service.BoardReplyUpdDto;
-import egovframework.example.sample.service.BoardSelVo;
-import egovframework.example.sample.service.BoardUpdDto;
+import egovframework.example.sample.service.model.BoardFileGetVo;
+import egovframework.example.sample.service.model.BoardFileInsDto;
+import egovframework.example.sample.service.model.BoardFileSelVo;
+import egovframework.example.sample.service.model.BoardInsDto;
+import egovframework.example.sample.service.model.BoardListGetVo;
+import egovframework.example.sample.service.model.BoardReplyUpdDto;
+import egovframework.example.sample.service.model.BoardSelVo;
+import egovframework.example.sample.service.model.BoardUpdDto;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("boardMapper")

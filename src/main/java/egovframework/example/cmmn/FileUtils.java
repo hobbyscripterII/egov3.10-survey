@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import egovframework.example.sample.service.BoardFileInsDto;
+import egovframework.example.sample.service.model.BoardFileInsDto;
 
 @Component
 public class FileUtils {
