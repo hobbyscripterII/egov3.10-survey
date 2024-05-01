@@ -67,16 +67,17 @@ public class BoardServiceImpl implements BoardService {
 		return idx;
 	}
 	
+	// 첨부파일 삭제
+	private void delBoardFile(List<BoardFileGetVo> list) {
+		if (Utils.isNotNull(list.size())) {
+			list.forEach(item -> { String fullPath = item.getSavedName() + item.getExt(); fileUtils.deleteFile(fullPath); });
+		}
+	}
+	
 	@Override
 	public int delBoard(int iboard) {
 		try {
-			List<BoardFileGetVo> list = boardMapper.getBoardFile(iboard); // 첨부파일 리스트 가져오기
-
-			// 게시글에 등록한 첨부파일이 있다면 삭제
-			if (Utils.isNotNull(list.size())) {
-				list.forEach(item -> { String fullPath = item.getSavedName() + item.getExt(); fileUtils.deleteFile(fullPath); });
-			}
-
+			delBoardFile(boardMapper.getBoardFile(iboard)); // 첨부파일 리스트 가져온 후 있다면 첨부파일 삭제
 			int code = boardMapper.getBoardCode(iboard); // 해당 게시글이 답변글인지 확인(code가 있다면 답변글임)
 
 			// 해당 게시글이 답변글일 경우 아래 로직 실행
@@ -92,9 +93,12 @@ public class BoardServiceImpl implements BoardService {
 				int delBoardReplyRows = boardMapper.delBoardReply(code); // 답변글 삭제
 			} else {
 				// 답변글이 아닐 경우 해당 게시글에 답변글이 있는지 여부 확인
-				// 예외 처리 필요
-				int getBoardCodeCntRows = boardMapper.getBoardCodeCnt(iboard);
-				int delBoardReplyRows = boardMapper.delBoardReply(iboard);
+				int boardCodeFromIboard = boardMapper.getBoardCodeFromIboard(iboard);
+				
+				if(Utils.isNotNull(boardCodeFromIboard)) {
+					delBoardFile(boardMapper.getBoardFile(boardCodeFromIboard)); // 첨부파일 리스트 가져온 후 있다면 첨부파일 삭제
+					int delBoardReplyRows = boardMapper.delBoardReply(iboard); // 답변글 삭제
+				}
 			}
 
 			// 2. 테이블 정보 삭제
