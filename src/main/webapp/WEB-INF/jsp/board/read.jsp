@@ -4,8 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
+<style> #p-pwd-chk-msg { color: red; font-weight: bold; font-size: 13px; height: 20px; } </style>
 <body>
-<div class="modal" id="exampleModal">
+<div class="modal" id="modal-pwd-chk">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -16,17 +17,18 @@
       </div>
       <div class="modal-body">
         <p>해당 게시글의 비밀번호를 입력해주세요.</p>
-        <p><input type="password" class="form-control" id="pwd" placeholder="비밀번호 입력란" autocomplete="off"></p>
+        <p id="p-pwd-chk-msg"></p>
+        <p><input type="password" class="form-control" id="pwd" placeholder="비밀번호" autocomplete="off"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="pwdChk()">확인</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary" id="btn-success">확인</button>
+        <button type="button" class="btn btn-secondary" id="btn-modal-close">닫기</button>
       </div>
     </div>
   </div>
 </div>
 
-<h1 class="title">게시글 읽기</h1>
+<h1 class="title" data-iboard="${vo.iboard }">게시글 읽기</h1>
 <table class="table">
   <tbody>
   <tr class="tr-style"><td>작성자</td><td><c:out value="${vo.name }" /></td></tr>
@@ -54,8 +56,8 @@
 		<c:otherwise>
 		</c:otherwise>
 	</c:choose>
-	<button type="button" class="btn btn-warning btn-margin" id="btn-update" data-iboard="${vo.iboard }">수정</button>
-	<button type="button" class="btn btn-danger btn-margin" id="btn-delete" data-iboard="${vo.iboard }" >삭제</button>
+	<button type="button" class="btn btn-warning btn-margin" data-flag="update" onclick="pwdChk(this)">수정</button>
+	<button type="button" class="btn btn-danger btn-margin" data-flag="delete" onclick="pwdChk(this)">삭제</button>
 	<button type="button" class="btn btn-primary" onclick="location.href = '/winitech/board/list.do'">목록</button>
 </div>
 </body>
