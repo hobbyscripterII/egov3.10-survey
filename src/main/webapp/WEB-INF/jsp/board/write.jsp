@@ -15,7 +15,7 @@
 	  	<c:when test="${dto.iboard == 0 }"><tr><td>작성자</td><td><input type="text" class="form-control" id="name" value="${dto.name }" placeholder="닉네임을 입력해주세요." autocomplete="off"></td><td>비밀번호</td><td><input type="password" class="form-control" id="pwd" placeholder="비밀번호를 입력해주세요." autocomplete="off"></td></tr></c:when>
 	  	<c:otherwise><tr><td>작성자</td><td colspan="2"><input type="text" class="form-control" id="name" value="${dto.name }" disabled="disabled"></td></tr></c:otherwise>
 	  </c:choose>
-	  <tr><td>제목</td><td colspan="3"><input type="text" class="form-control" id="title" value="${dto.title }" placeholder="제목을 입력해주세요." autocomplete="off"></td></tr>
+	  <tr><td>제목</td><td colspan="3"><input type="text" class="form-control" id="title" maxlength="200" value="${dto.title }" placeholder="제목을 입력해주세요." autocomplete="off"></td></tr>
 	  <tr><td colspan="4" style="height: 450px"><textarea class="form-control" id="contents" maxlength="1000" style="height: 450px; resize: none"><c:out value="${dto.contents }" /></textarea></td></tr>
 	  <tr>
 	  	<td colspan="4">

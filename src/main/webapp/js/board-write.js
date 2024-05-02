@@ -7,13 +7,9 @@ document.addEventListener('click', (e) => {
 			let target = e.target;
 			let parentNode = target.parentNode.parentNode;
 			parentNode.remove();
-
 			alert('첨부파일이 삭제되었습니다.');
-			
-			// 클라이언트가 삭제한 첨부파일 pk
-			let deleteFileId = target.dataset.ifile;
-			// 배열에 담아 저장
-			deleteIfileList.push(deleteFileId);
+			let deleteFileId = target.dataset.ifile; // 클라이언트가 삭제한 첨부파일 pk
+			deleteIfileList.push(deleteFileId); // 배열에 담아 저장
 		}
 	}
 	
@@ -25,11 +21,7 @@ document.addEventListener('click', (e) => {
 			let dto = {"iboard" : iboard, "pwd" : pwd};
 			
 		    $.ajax({
-		        type: 'post',
-		        url: '/winitech/board/check.do',
-		        data: JSON.stringify(dto),
-		        dataType: 'text',
-		        contentType: 'application/json',
+		        type: 'post', url: '/winitech/board/check.do', data: JSON.stringify(dto), dataType: 'text', contentType: 'application/json',
 		        success: (data) => {
 		        	if(data == 1) {
 		        		let formData = new FormData(); // multipart/form-data
@@ -38,9 +30,6 @@ document.addEventListener('click', (e) => {
 		        		let dto = {"iboard" : iboard, "title" : title, "contents" : contents, "deleteIfileList" : deleteIfileList };
 		        		let files = document.getElementById('input-file').files;
 			    		
-						console.log('dto = ', dto);
-						console.log('files = ', files);
-	
 			    		for(let i = 0; i < files.length; i++) {
 			    			let file = files[i];
 			    			formData.append("files", file);	
@@ -50,9 +39,7 @@ document.addEventListener('click', (e) => {
 			    		
 			        	// 첨부파일 받을 수 있게 수정
 		    		    $.ajax({
-		    		        type: 'post',
-		    		        url: '/winitech/board/update.do',
-		    		        data: formData,
+		    		        type: 'post', url: '/winitech/board/update.do', data: formData,
 		        	        contentType: false, // 전달 데이터 형식 / formData로 보낼 경우 명시 필수
 		        	        processData: false, // string 변환 여부 / formData로 보낼 경우 명시 필수
 		    		        success: (data) => {
@@ -122,13 +109,17 @@ document.addEventListener('click', (e) => {
         				alert('최대 파일 크기를 초과했습니다.\n최대 파일 크기는 ' + FILE_MAX_SIZE + 'byte입니다.\n\n해당 파일명: ' + FILE_NAME + '\n해당 파일 크기: ' + FILE_SIZE + 'byte');
         				return false;
         			}
+					
+					// 파일 확장자 체크
+					const arr = ['image/*', '.pdf', '.xlsx'];
+					console.log('arr = ', arr);
         			
-	    			formData.append("files", file);	
+	    			// formData.append("files", file);	
         		}
         		
         		formData.append("dto", new Blob([JSON.stringify(dto)], {type: "application/json"}));
 //        		formData.append("file", file); // 단일 파일 업로드 시
-        		
+
         		$.ajax({
         	        type: 'post',
         	        url: '/winitech/board/write.do',
