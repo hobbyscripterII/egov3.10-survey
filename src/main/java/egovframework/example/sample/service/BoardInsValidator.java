@@ -7,9 +7,7 @@ import egovframework.example.cmmn.Const;
 import egovframework.example.sample.service.model.BoardInsDto;
 
 public class BoardInsValidator implements Validator {
-	@Override public boolean supports(Class<?> clazz) {
-		return BoardInsDto.class.isAssignableFrom(clazz);
-	}
+	@Override public boolean supports(Class<?> clazz) { return BoardInsDto.class.isAssignableFrom(clazz); }
 
 	@Override
 	public void validate(Object target, Errors errors) {

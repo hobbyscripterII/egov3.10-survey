@@ -12,6 +12,11 @@
 		<typeAlias alias="BoardReplyUpdDto" type="egovframework.example.sample.service.model.BoardReplyUpdDto" />
 		
 		<typeAlias alias="PhotoListGetVo" type="egovframework.example.sample.service.model.PhotoListGetVo"/>
+		
+		<typeAlias alias="UserSignInDto" type="egovframework.example.sample.service.model.UserSignInDto"/>
+		<typeAlias alias="UserSignUpDto" type="egovframework.example.sample.service.model.UserSignUpDto"/>
+		<typeAlias alias="UserDetailVo" type="egovframework.example.sample.service.model.UserDetailVo"/>
+		
     	<!--
 		<typeAlias alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
 		<typeAlias alias="sampleVO" type="egovframework.example.sample.service.SampleVO"/>

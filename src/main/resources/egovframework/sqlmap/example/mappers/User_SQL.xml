@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.sample.service.impl.UserMapper">
+<insert id="signUp" parameterType="UserSignUpDto">
+INSERT INTO user_tbl(id, pwd) VALUES(#{id}, #{pwd})
+</insert>
+
+<select id="signIn" parameterType="UserSignInDto" resultType="UserDetailVo">
+SELECT iuser, role FROM user_tbl WHERE id = #{id} AND pwd = #{pwd}
+</select>
+</mapper>

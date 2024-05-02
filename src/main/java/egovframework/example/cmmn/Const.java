@@ -24,7 +24,11 @@ public class Const {
 	// 확장명
 //	public static final String[] EXT_EXCEPTION_ARR = {".exe", ".gif", ".zip"};
 	
+	public static final String IUSER = "IUSER"; // 회원 pk
+	public static final String ROLE = "ROLE"; // 권한
+	
 	// 유효성 검증 - 필드 멤버명
+	public static final String FIELD_ID = "id";
 	public static final String FIELD_NAME = "name";
 	public static final String FIELD_PWD = "pwd";
 	public static final String FIELD_TITLE = "title";
