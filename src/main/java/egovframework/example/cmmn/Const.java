@@ -31,6 +31,7 @@ public class Const {
 	public static final String FIELD_ID = "id";
 	public static final String FIELD_NAME = "name";
 	public static final String FIELD_PWD = "pwd";
+	public static final String FIELD_PWD_CHK = "pwdChk";
 	public static final String FIELD_TITLE = "title";
 	public static final String FIELD_CONTENTS = "contents";
 	

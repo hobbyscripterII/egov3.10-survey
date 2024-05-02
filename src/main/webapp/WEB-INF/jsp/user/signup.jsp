@@ -33,6 +33,11 @@ input, input::placeholder { font: 13px/3 sans-serif; }
       <form:input type="password" class="form-control" path="pwd" name="pwd" id="pwd" placeholder="숫자+영문자+특수문자 조합으로 10자리 이상 사용해야 합니다.(10자리~25자리)" />
     </div>
     <div>
+      <label class="form-label mt-4">비밀번호 확인</label>
+      <p class="text-muted" id="p-pwd-chk-msg"><form:errors path="pwdChk" /></p>
+      <form:input type="password" class="form-control" path="pwdChk" name="pwdChk" id="pwdChk" placeholder="입력하신 비밀번호와 동일하게 입력해주세요" />
+    </div>
+    <div>
       <label class="form-label mt-4">이름</label>
       <p class="text-muted"><form:errors path="name" /></p>
       <form:input type="text" class="form-control" path="name" name="name" id="name" placeholder="2자 이상 입력해주세요." />
@@ -44,10 +49,26 @@ input, input::placeholder { font: 13px/3 sans-serif; }
 </html>
 
 <script type="text/javascript">
+const PWD_CHK = document.getElementById('pwdChk');
+const PWD = document.getElementById('pwd');
+const PWD_CHK_MSG_SUCCESS = "입력하신 패스워드와 일치합니다.";
+const PWD_CHK_MSG_FAIL = "입력하신 패스워드와 일치하지 않습니다.";
+let pwdChkMsgEl = document.getElementById('p-pwd-chk-msg');
+pwdChkMsgEl.innerText = PWD_CHK_MSG;
+
+PWD_CHK.addEventListener('keyup', () => {
+	console.log('PWD_CHK.value = ', PWD_CHK.value);
+	if(PWD.value == PWD_CHK.value) {
+		pwdChkMsgEl.innerHTML = '<span style="color: green">'+ PWD_CHK_MSG_SUCCESS +'</span>';
+	} else {
+		pwdChkMsgEl.innerHTML = '<span style="color: red">'+ PWD_CHK_MSG_FAIL +'</span>';
+	}
+});
+
 document.getElementById('btn-signup').addEventListener('click', () => {
 const ID = document.getElementById('id');
-const PWD = document.getElementById('pwd');
 const NAME = document.getElementById('name');
+
 if(!ID.value) { alert('아이디를 입력해주세요.'); ID.focus(); }
 else if(!PWD.value) { alert('비밀번호를 입력해주세요.'); PWD.focus(); }
 else if(!NAME.value) { alert('이름을 입력해주세요.'); NAME.focus(); }

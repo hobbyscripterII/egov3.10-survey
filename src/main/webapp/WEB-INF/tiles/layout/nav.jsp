@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
   <div class="container-fluid">
     <a class="navbar-brand" href="/winitech/home.do">실습과제 평가 프로젝트</a>
@@ -10,9 +11,25 @@
       </ul>
       
 	<div class="btn-group" role="group" aria-label="Basic example">
-	  <button type="button" class="btn btn-primary" onclick="location.href='/winitech/user/signin.do'">로그인</button>
-	  <button type="button" class="btn btn-secondary" onclick="location.href='/winitech/user/signup.do'">회원가입</button>
+	  <c:choose>
+	  	<c:when test="${empty sessionScope.IUSER }">
+	  		<button type="button" class="btn btn-primary" onclick="location.href='/winitech/user/signin.do'">로그인</button>
+	  	</c:when>
+	  	<c:otherwise>
+	  		<button type="button" class="btn btn-secondary" id="btn-signout">로그아웃</button>
+	  	</c:otherwise>
+	  </c:choose>
+	  <button type="button" class="btn btn-warning" onclick="location.href='/winitech/user/signup.do'">회원가입</button>
 	</div>
     </div>
   </div>
 </nav>
+
+<script type="text/javascript">
+document.getElementById('btn-signout').addEventListener('click', () => {
+	if(confirm('로그아웃하시겠습니까?')) {
+		alert('로그아웃이 정상적으로 완료되었습니다.');
+		location.href = '/winitech/user/signout.do';
+	}
+});
+</script>

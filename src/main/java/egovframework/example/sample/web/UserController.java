@@ -40,14 +40,16 @@ public class UserController {
 
 	@PostMapping("/signup.do")
 	public String signUp(@ModelAttribute("dto") UserSignUpDto dto, BindingResult bindingResult) {
-		log.info("dto = {}", dto);
-		
 		new UserSignUpValidator().validate(dto, bindingResult);
+		
 		if (bindingResult.hasErrors()) {
 			return "user/signup";
 		} else {
 			int signUpRows = userService.signUp(dto);
-			log.info("signUpRows = {}", signUpRows);
+			
+			// 분기문 처리
+			// ...
+			
 			return "cmmn/home";
 		}
 	}
@@ -61,7 +63,6 @@ public class UserController {
 	@PostMapping("/signin.do")
 	public String signIn(@ModelAttribute("dto") UserSignInDto dto, BindingResult bindingResult, HttpServletRequest request) {
 		UserDetailVo userDetail = userService.signIn(dto); // 아이디, 비밀번호 일치 시 회원 테이블의 pk 들고 옴
-		log.info("userDetail = {}", userDetail);
 
 		if (Utils.isNotNull(userDetail)) {
 			HttpSession session = request.getSession();
@@ -69,7 +70,7 @@ public class UserController {
 			session.setAttribute(Const.ROLE, userDetail.getRole());
 			return "cmmn/home";
 		} else {
-			bindingResult.addError(new ObjectError("id", "아이디 혹은 비밀번호가 일치하지 않습니다. 확인 후 다시 로그인해주세요."));
+			bindingResult.addError(new ObjectError("id", "아이디 혹은 비밀번호가 일치하지 않습니다. 확인 후 다시 시도해주세요."));
 			return "user/signin";
 		}
 	}
