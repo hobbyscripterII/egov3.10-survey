@@ -14,8 +14,6 @@ document.addEventListener('click', (e) => {
 			let deleteFileId = target.dataset.ifile;
 			// 배열에 담아 저장
 			deleteIfileList.push(deleteFileId);
-			
-			console.log('deleteIfileList = ', deleteIfileList);
 		}
 	}
 	
@@ -90,7 +88,7 @@ document.addEventListener('click', (e) => {
     	let contents = $('#contents');
     	let el = document.getElementById('btn-insert');
     	let code = el.dataset.iboard;
-    	
+
     	if(!name.val()) { alert('닉네임을 입력해주세요.'); name.focus(); }
     	else if(!pwd.val()) { alert('패스워드를 입력해주세요.'); pwd.focus(); }
     	else if(!title.val()) { alert('제목을 입력해주세요.'); title.focus(); }
@@ -103,7 +101,7 @@ document.addEventListener('click', (e) => {
     		
     		const LIMIT_FILE_COUNT = 3;
     		let fileLength = files.length;
-    		
+
     		if(fileLength > LIMIT_FILE_COUNT) {
     			alert('첨부파일 최대 개수는 3개입니다. 수정 후 다시 등록해주세요.\n현재 첨부파일 개수: ' + fileLength);
 				return false;
@@ -143,9 +141,6 @@ document.addEventListener('click', (e) => {
 						const INTERNAL_SERVER_ERROR = -5;
 //						const PASHED_PASSWORD_FAIL_ERROR = -1;
 						const VALIDATION_ERROR = -2;
-						
-						console.log('연결 성공');
-						console.log('data = ', data);
 						
        	        		if(MSG > 0) {
         	        			if(confirm('게시글 등록이 완료되었습니다. 등록한 글을 확인하러가시겠습니까?')) {

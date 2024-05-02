@@ -16,7 +16,7 @@
 	  	<c:otherwise><tr><td>작성자</td><td colspan="2"><input type="text" class="form-control" id="name" value="${dto.name }" disabled="disabled"></td></tr></c:otherwise>
 	  </c:choose>
 	  <tr><td>제목</td><td colspan="3"><input type="text" class="form-control" id="title" value="${dto.title }" placeholder="제목을 입력해주세요." autocomplete="off"></td></tr>
-	  <tr><td colspan="4" style="height: 450px"><textarea class="form-control" id="contents" style="height: 450px; resize: none"><c:out value="${dto.contents }" /></textarea></td></tr>
+	  <tr><td colspan="4" style="height: 450px"><textarea class="form-control" id="contents" maxlength="1000" style="height: 450px; resize: none"><c:out value="${dto.contents }" /></textarea></td></tr>
 	  <tr>
 	  	<td colspan="4">
 		  	<label class="form-label label-file-alert">첨부파일의 최대 크기는 10,485,760byte입니다.</label>
