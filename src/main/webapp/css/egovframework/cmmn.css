@@ -1,8 +1,6 @@
 @charset "UTF-8";
-/*
 @font-face { font-family: 'Freesentation-9Black'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-9Black.woff2') format('woff2'); font-weight: 900; font-style: normal; }
 @font-face { font-family: 'Pretendard-Regular'; src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff'); font-weight: 400; font-style: normal; }
-*/
 * { font-family: 'Pretendard-Regular'; margin: 0px; padding: 0px; }
 body { width: 100%; display: flex; justify-content: start; flex-wrap: wrap; }
 header { width: 100%; background-color: rgb(255,255,255); padding: 15px 0 10px 0; }
@@ -37,6 +35,6 @@ a { text-decoration: none; color: black; }
 .btn-signin { margin-top: 10px; width: 100%; }
 .text-muted { height: 20px; text-align: center; }
 .text-muted > span { color: #FF0000; font-weight: bold; }
-.img-thumbnail { object-fit: cover; width: 295px; height: 240px; }
-.div-img-thumbnail-wrap { width: 295px; height: 100%; display: flex; justify-content: flex-start; flex-wrap: wrap; }
+.img-thumbnail { object-fit: cover; width: 265px; height: 240px; }
+.div-img-thumbnail-wrap { width: 265px; height: 100%; display: flex; justify-content: flex-start; flex-wrap: wrap; margin: 10px 0 0 30px; }
 .div-photo-board-list-wrap { display: flex; width: 100%; flex-wrap: wrap; justify-content: center; }

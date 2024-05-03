@@ -11,13 +11,23 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<style>
+p { margin-bottom: 0 !important; }
+#p-img-thumbnail-title { font-weight: bold; width: 100%; margin-top: 5px; }
+</style>
 <body>
 <h1 class="title">사진 게시판 목록</h1>
 <div class="div-photo-board-list-wrap">
 	<c:forEach var="l" items="${list }">
 		<div class="div-img-thumbnail-wrap">
-			<img alt="썸네일" class="img-fluid img-thumbnail" src="/winitech/img/${l.savedName }${l.ext }">
-			<p><span>2024.05.03 </span><span>조회수: 3</span></p>
+			<a href="#"><img alt="썸네일" class="img-fluid img-thumbnail" src="/winitech/img/${l.savedName }${l.ext }"></a>
+			<p style="" id="p-img-thumbnail-title">제목</p>
+			<p style="color: #9E9E9E"><span>2024-05-03 </span><span>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+			  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+			  <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+			</svg>
+			0</span></p>
 		</div>
 	</c:forEach>
 </div>
