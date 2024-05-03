@@ -2,6 +2,8 @@
 <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui"     uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="fmt"    uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn"     uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
@@ -11,8 +13,51 @@
 </head>
 <body>
 <h1 class="title">사진 게시판 목록</h1>
-<c:forEach var="l" items="${list }">
-	<img alt="썸네일" src="/winitech/img/${l.savedName }${l.ext }">
-</c:forEach>
+<div class="div-photo-board-list-wrap">
+	<c:forEach var="l" items="${list }">
+		<div class="div-img-thumbnail-wrap">
+			<img alt="썸네일" class="img-fluid img-thumbnail" src="/winitech/img/${l.savedName }${l.ext }">
+			<p><span>2024.05.03 </span><span>조회수: 3</span></p>
+		</div>
+	</c:forEach>
+</div>
+
+<div class="div-list-bottom-wrap">
+	<div class="div-btn-group-wrap">
+		<c:if test="${empty criteria.name && empty criteria.title }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/photo/write.do'">작성</button></c:if>
+	   	<c:if test="${not empty param.name }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/photo/write.do?name=${criteria.name }'">작성</button></c:if>
+		<c:if test="${not empty param.title }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/photo/write.do?title=${criteria.title }'">작성</button></c:if>
+	</div>
+	
+	<c:if test="${fn:length(list) != 0 }">
+	  	<div class="div-pagination-wrap">
+  		<ul class="pagination pagination-sm">
+		  <li class="page-item"><a class="page-link" href="/winitech/photo/list.do?page=1&amount=${pagination.amount }&name=${criteria.name }&title=${criteria.title }">&laquo;</a></li>
+		  <c:if test="${1 < pagination.start }"><li class="page-item"><a class="page-link" href="/winitech/photo/list.do?page=${pagination.start - pagination.pageCnt}&name=${criteria.name }&title=${criteria.title }">&lt;</a></li></c:if>
+		  <c:forEach var="num" begin="${pagination.start }" end="${pagination.end }">
+		  	<li class="page-item"><a class="page-link" href="/winitech/photo/list.do?page=${num }&amount=${pagination.amount }&name=${criteria.name }&title=${criteria.title }"><c:out value="${num }" /></a></li>
+		  </c:forEach>
+		  <c:if test="${pagination.end < pagination.realEnd }"><li class="page-item"><a class="page-link" href="/winitech/photo/list.do?page=${pagination.end + 1}&name=${criteria.name }&title=${criteria.title }">&gt;</a></li></c:if>
+		  <li class="page-item"><a class="page-link" href="/winitech/photo/list.do?page=${pagination.realEnd }&amount=${pagination.amount }&name=${criteria.name }&title=${criteria.title }">&raquo;</a></li>
+		</ul>
+  	</div>
+	</c:if>
+
+  	<form class="d-flex">
+  	<!-- 검색창 -->
+    <div>
+      <select class="form-select form-control" id="select-search" style="padding: .375rem 2.25rem .375rem .75rem">
+        <option value="null">검색 카테고리</option>
+        <option value="name">작성자</option>
+        <option value="title">제목</option>
+      </select>
+    </div>
+    <!-- 추가 기능 - 화면 이동 시 검색어 유지 -->
+	<c:if test="${empty criteria.name && empty criteria.title }"><input class="form-control me-sm-2" id="input-search" type="search" placeholder="검색어를 입력해주세요." data-value="null" autocomplete="off"></c:if>
+   	<c:if test="${not empty param.name }"><input class="form-control me-sm-2" id="input-search" type="search" value="${criteria.name }" data-value="name" autocomplete="off"></c:if>
+	<c:if test="${not empty param.title }"><input class="form-control me-sm-2" id="input-search" type="search" value="${criteria.title }" data-value="title" autocomplete="off"></c:if>
+    <input class="btn btn-secondary my-2 my-sm-0" id="btn-search" type="button" value="검색">
+	</form>
+</div>
 </body>
 </html>

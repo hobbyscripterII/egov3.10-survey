@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import egovframework.example.cmmn.Pagination;
 import egovframework.example.sample.service.PhotoService;
 
 @Controller
@@ -18,8 +19,11 @@ public class PhotoController {
 	public PhotoController(PhotoService photoService) { this.photoService = photoService; }
 	
 	@GetMapping("/list.do")
-	public String getPhotoList(Model model) {
-		model.addAttribute("list", photoService.getPhotoBoardList());
+	public String getPhotoList(Pagination.Criteria criteria, Model model) {
+		Pagination pagination = new Pagination(criteria, photoService.getPhotoBoardListCnt(criteria));
+		model.addAttribute("list", photoService.getPhotoBoardList(criteria));
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("criteria", criteria);
 		return "photo/list";
 	}
 }

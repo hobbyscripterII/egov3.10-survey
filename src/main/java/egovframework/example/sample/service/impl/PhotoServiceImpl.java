@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import egovframework.example.cmmn.Pagination.Criteria;
 import egovframework.example.sample.service.PhotoService;
 import egovframework.example.sample.service.model.PhotoListGetVo;
 
@@ -17,7 +18,9 @@ public class PhotoServiceImpl implements PhotoService {
 	public PhotoServiceImpl(PhotoMapper photoMapper) { this.photoMapper = photoMapper; }
 	
 	@Override
-	public List<PhotoListGetVo> getPhotoBoardList() {
-		return photoMapper.getPhotoBoardList();
+	public List<PhotoListGetVo> getPhotoBoardList(Criteria criteria) {
+		return photoMapper.getPhotoBoardList(criteria);
 	}
+
+	@Override public int getPhotoBoardListCnt(Criteria criteria) { return photoMapper.getPhotoBoardListCnt(criteria); }
 }

@@ -33,9 +33,7 @@ public class UserController {
 	private final UserService userService;
 	Logger log = LoggerFactory.getLogger(getClass());
 
-	public UserController(UserService userService) {
-		this.userService = userService;
-	}
+	public UserController(UserService userService) { this.userService = userService; }
 
 	@PostMapping("/id-check.do")
 	@ResponseBody
@@ -45,19 +43,12 @@ public class UserController {
 		boolean idMatchers = Pattern.matches("[A-Za-z0-9]+", id); // 영문자 대소문자 / 숫자만 가능
 
 		// 유효성 검증 실패 시 플래그 값을 던져줌(화면 출력용)
-		if (!idLength) {
-			return Const.ID_LENGTH_ERROR;
-		}
-		if (!idMatchers) {
-			return Const.ID_REGEX_ERROR;
-		}
+		if (!idLength) { return Const.ID_LENGTH_ERROR; }
+		if (!idMatchers) { return Const.ID_REGEX_ERROR; }
 
 		// 유효성 검증 성공 시에만 테이블의 아이디를 찾음
 		int idChkRows = userService.idChk(id); // 1 - 중복 o / 0 - 중복 x
-		if (Utils.isNull(idChkRows)) {
-			return Const.SUCCESS;
-		}
-
+		if (Utils.isNull(idChkRows)) { return Const.SUCCESS; }
 		return Const.FAIL;
 	}
 
@@ -68,9 +59,7 @@ public class UserController {
 	}
 
 	@GetMapping("/signup-success.do")
-	public String signUpSuccess() {
-		return "user/signup-success";
-	}
+	public String signUpSuccess() { return "user/signup-success"; }
 
 	@PostMapping("/signup.do")
 	public String signUp(@ModelAttribute("dto") UserSignUpDto dto, BindingResult bindingResult) {
@@ -80,9 +69,7 @@ public class UserController {
 		} else {
 			int signUpRows = userService.signUp(dto);
 			// 회원가입 성공
-			if (Utils.isNotNull(signUpRows)) {
-				return "user/signup-success";
-			}
+			if (Utils.isNotNull(signUpRows)) { return "user/signup-success"; }
 			// 회원가입 실패
 			else {
 				bindingResult.addError(new ObjectError("id", "일시적인 오류로 회원가입에 실패했습니다. 잠시 후 다시 시도해주세요."));
