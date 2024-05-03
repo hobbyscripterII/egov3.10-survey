@@ -9,28 +9,17 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<style>
-#body { display: flex; flex-wrap: wrap; justify-content: center; }
-#div-signin-wrap { width: 30%; height: 100%; }
-#btn-signin { margin-top: 10px; width: 100%; }
-.text-muted { height: 20px; font-size: 13px; text-align: center; }
-.text-muted > span { color: #FF0000; }
-</style>
+<style> #body { display: flex; flex-wrap: wrap; justify-content: center; } </style>
 <body>
 <h1 class="title">로그인</h1>
 <div id="div-signin-wrap">
-<form:form commandName="dto" id="f" action="signin.do" method="post">
-    <p class="text-muted"><form:errors path="*" /></p>
-    <div>
-      <span class="form-label mt-4">아이디</span>
-      <form:input type="text" class="form-control" path="id" name="id" id="id" placeholder="아이디" />
-    </div>
-    <div>
-      <label class="form-label mt-4">비밀번호</label>
-      <form:input type="password" class="form-control" path="pwd" name="pwd" id="pwd" placeholder="비밀번호" />
-    </div>
-    <button type="button" class="btn btn-primary" id="btn-signin">로그인</button>
-</form:form>
+	<form:form commandName="dto" id="f" action="signin.do" method="post">
+	    <p class="text-muted"><form:errors path="*" /></p>
+	    <div><label class="form-label mt-4">아이디</label> <form:input type="text" class="form-control" path="id" name="id" id="id" placeholder="아이디" /></div>
+	    <div><label class="form-label mt-4">비밀번호</label> <form:input type="password" class="form-control" path="pwd" name="pwd" id="pwd" placeholder="비밀번호" /></div>
+	    <button type="button" class="btn btn-info btn-lg btn-signin" id="btn-signin">로그인</button>
+	    <button type="button" class="btn btn-secondary btn-lg btn-signin" onclick="location.href='/winitech/user/signup.do'">회원가입</button>
+	</form:form>
 </div>
 </body>
 </html>

@@ -38,19 +38,27 @@ public class UserController {
 		return "user/signup";
 	}
 
+	@GetMapping("/signup-success.do")
+	public String signUpSuccess() {
+		return "user/signup-success";
+	}
+
 	@PostMapping("/signup.do")
 	public String signUp(@ModelAttribute("dto") UserSignUpDto dto, BindingResult bindingResult) {
 		new UserSignUpValidator().validate(dto, bindingResult);
-		
+
 		if (bindingResult.hasErrors()) {
 			return "user/signup";
 		} else {
 			int signUpRows = userService.signUp(dto);
-			
-			// 분기문 처리
-			// ...
-			
-			return "cmmn/home";
+
+			// 회원가입 성공
+			if (Utils.isNotNull(signUpRows)) {
+				return "user/signup-success";
+				// 회원가입 실패
+			} else {
+				return "user/signup";
+			}
 		}
 	}
 
@@ -61,7 +69,8 @@ public class UserController {
 	}
 
 	@PostMapping("/signin.do")
-	public String signIn(@ModelAttribute("dto") UserSignInDto dto, BindingResult bindingResult, HttpServletRequest request) {
+	public String signIn(@ModelAttribute("dto") UserSignInDto dto, BindingResult bindingResult,
+			HttpServletRequest request) {
 		UserDetailVo userDetail = userService.signIn(dto); // 아이디, 비밀번호 일치 시 회원 테이블의 pk 들고 옴
 
 		if (Utils.isNotNull(userDetail)) {

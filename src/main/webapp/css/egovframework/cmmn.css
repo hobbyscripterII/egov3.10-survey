@@ -29,5 +29,11 @@ a { text-decoration: none; color: black; }
 .label-file-alert { font-size: 13px; font-weight: bold; color: gray; }
 .div-index-form { margin-top: 130px; background-color: white; border-radius: 20px; width: 400px; height: 250px; padding: 30px 0 20px 25px; }
 #img-icon-megaphone { width: 250px; height: 250px; }
-#div-error-form { text-align: center; }
+#div-error-form, #div-signup-success-form { text-align: center; }
 .navbar-brand { color: #000 !important; }
+#div-signin-wrap, #div-signup-wrap { width: 38%; height: 100%; }
+#btn-signin { margin-top: 10px; }
+.btn-signup { margin-top: 15px; width: 49.5%; }
+.btn-signin { margin-top: 10px; width: 100%; }
+.text-muted { height: 20px; text-align: center; }
+.text-muted > span { color: #FF0000; font-weight: bold; }
