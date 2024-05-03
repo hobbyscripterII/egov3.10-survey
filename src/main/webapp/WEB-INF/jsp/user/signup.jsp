@@ -54,7 +54,7 @@ const PWD = document.getElementById('pwd');
 const PWD_CHK_MSG_SUCCESS = "입력하신 패스워드와 일치합니다.";
 const PWD_CHK_MSG_FAIL = "입력하신 패스워드와 일치하지 않습니다.";
 let pwdChkMsgEl = document.getElementById('p-pwd-chk-msg');
-pwdChkMsgEl.innerText = PWD_CHK_MSG;
+// pwdChkMsgEl.innerText = PWD_CHK_MSG;
 
 PWD_CHK.addEventListener('keyup', () => {
 	console.log('PWD_CHK.value = ', PWD_CHK.value);
