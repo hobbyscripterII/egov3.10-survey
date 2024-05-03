@@ -8,5 +8,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper("userMapper")
 public interface UserMapper {
 	int signUp(UserSignUpDto dto);
-	UserDetailVo signIn(UserSignInDto dto);
+	UserDetailVo getUserDetail(UserSignInDto dto);
+	int idChk(String id);
+	String getUserHashedPwd(String id);
 }

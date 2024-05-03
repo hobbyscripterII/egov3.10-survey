@@ -18,8 +18,6 @@ public class UserSignUpValidator implements Validator {
 		Logger log = LoggerFactory.getLogger(getClass());
 		UserSignUpDto dto = (UserSignUpDto) target;
 		boolean idMatchers = Pattern.matches("[A-Za-z0-9]+", dto.getId()); // 영문자 대소문자 + 숫자 조합
-		log.info("dto.getId() = {}", dto.getId());
-		log.info("idMatchers = {}", idMatchers);
 		boolean pwdMatchers = Pattern.matches("^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\\W_]).{10,}$", dto.getPwd()); // 숫자, 영문자, 특수문자 조합으로 10자 이상 정규식 검증 패턴
 		boolean idLength = dto.getId().length() > 5 && dto.getId().length() < 15; // 5자 이상 15자 이하
 		boolean pwdLength = dto.getPwd().length() >= 10 && dto.getPwd().length() <= 25; // 10자 이상 25자 이하
@@ -48,8 +46,6 @@ public class UserSignUpValidator implements Validator {
 	
 	public boolean isEmptyOrWhitespace(String val) {
 		if(val == null || val.trim().length() == 0) { return true; }
-		else {
-			return false;
-		}
+		else { return false; }
 	}
 }

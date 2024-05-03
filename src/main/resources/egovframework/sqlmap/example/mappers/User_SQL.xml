@@ -2,10 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.example.sample.service.impl.UserMapper">
 <insert id="signUp" parameterType="UserSignUpDto">
-INSERT INTO user_tbl(id, pwd) VALUES(#{id}, #{pwd})
+INSERT INTO user_tbl(id, pwd, name) VALUES(#{id}, #{pwd}, #{name})
 </insert>
 
-<select id="signIn" parameterType="UserSignInDto" resultType="UserDetailVo">
-SELECT iuser, role FROM user_tbl WHERE id = #{id} AND pwd = #{pwd}
+<select id="getUserDetail" parameterType="UserSignInDto" resultType="UserDetailVo">
+SELECT iuser, pwd, NAME, ROLE FROM user_tbl WHERE id = #{id}
+</select>
+
+<select id="idChk" parameterType="string" resultType="int">
+SELECT COUNT(*) FROM user_tbl WHERE id = #{id}
+</select>
+
+<select id="getUserHashedPwd" parameterType="string" resultType="string">
+SELECT pwd FROM user_tbl WHERE id = #{id}
 </select>
 </mapper>
