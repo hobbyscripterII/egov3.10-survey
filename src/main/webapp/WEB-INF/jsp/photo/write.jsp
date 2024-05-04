@@ -6,7 +6,8 @@
 <html>
 <style>
 #div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 450px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
-.textarea-custom-form-control { width: 100%; height: 30px; border: 1px solid red; margin-top: 4px; }
+.textarea-custom-form-control { width: 100%; height: 30px; line-height: 30px; border-radius: 0.375rem; border: 1px solid #dee2e6; margin-top: 4px; }
+#icon-image-upload { margin-top: 3px; cursor: pointer; }
 </style>
 <c:choose>
 	<c:when test="${dto.iboard == 0 }"><h1 class="title">사진 게시글 등록</h1></c:when>
@@ -20,18 +21,26 @@
 	  	<c:otherwise><tr><td>작성자</td><td colspan="2"><input type="text" class="form-control" id="name" value="${dto.name }" disabled="disabled"></td></tr></c:otherwise>
 	  </c:choose>
 	  <tr><td>제목</td><td colspan="3"><input type="text" class="form-control" id="title" maxlength="200" value="${dto.title }" placeholder="제목을 입력해주세요." autocomplete="off"></td></tr>
+	  <tr><td colspan="4">
+	  <div>
+	  <img id="icon-image-upload" alt="" title="이미지 업로드 아이콘" src="${pageContext.request.contextPath }/images/egovframework/winitech/icon-image-upload.png" onchange="preview(this)">
+	  <input class="form-control" type="file" id="input-file" accept="image/*" multiple style="display: none">
+	  </div>
+	  </td>
 	  <tr><td colspan="4" style="height: 450px">
-	  <!-- custom textarea -->
+	  <!-- custom textarea <script src="${pageContext.request.contextPath }/js/board-write.js"> -->
 	  <div id="div-custom-form-control"></div>
 	  <!-- default textarea -->
 	  <!-- <textarea class="form-control" id="contents" maxlength="1000" style="height: 450px; resize: none"><c:out value="${dto.contents }" /></textarea> -->
 	  </td></tr>
+	  <!--
 	  <tr>
 	  	<td colspan="4">
 		  	<label class="form-label label-file-alert">첨부파일의 최대 크기는 10,485,760byte입니다.</label>
 			<input class="form-control" type="file" id="input-file" multiple accept="image/*, .pdf, .xlsx">
 	    </td>
 	  </tr>
+	  -->
       <!-- 
 	  <tr><td colspan="4"><label class="form-label label-file-alert">첨부파일의 최대 크기는 10,485,760byte입니다.</label><input class="form-control" type="file" id="input-file" multiple accept="image/*, .pdf, .xlsx"></td></tr>
       -->
@@ -65,8 +74,43 @@
 </html>
 <!-- <script src="${pageContext.request.contextPath }/js/board-write.js"></script> -->
 <script type="text/javascript">
-// photo/write js 함수
+// [photo/write js 함수]
 let form = document.getElementById('div-custom-form-control');
+let iconImageUpload = document.getElementById('icon-image-upload');
+let inputFile = document.getElementById('input-file');
+
+// 이미지 업로드 아이콘 클릭 시 input file이 클릭됨
+// input file 폼은 display none으로 처리
+iconImageUpload.addEventListener('click', () => { inputFile.click(); });
+
+inputFile.addEventListener('change', (e) => {
+	let reader = new FileReader();
+	let files = e.currentTarget.files; // change evnet 발생 시 첨부된 이미지 목록 배열
+	
+	for(let file of files) {
+		if(!file.type.match('image/.*')) {
+			alert('이미지 파일만 업로드 해주세요.');
+			return;
+		} else {
+			console.log('file = ', file);
+			
+			reader.readAsDataURL(file);
+			reader.onload = (e) => {
+				let newImg = document.createElement('img');
+				newImg.setAttribute('src', e.target.result);
+				newImg.setAttribute('data-file', file.name);
+				form.appendChild(newImg);
+			};
+		}
+	}
+	
+	/*
+	reader.readAsDataURL(files[0]);
+	reader.onload = (e) => {
+		
+	}
+	*/
+});
 
 // [text div 관련 이벤트 로직]
 // text div 클릭 시 새로운 textarea 폼 생성(2번 실행 x)
@@ -74,16 +118,21 @@ form.addEventListener('click', (e) => {
 	let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
 	newTextarea.classList.add('textarea-custom-form-control'); // 해당 textarea에 css 먹임
 	form.appendChild(newTextarea); // textarea를 text div의 마지막 자식 요소에 덧붙임
+	
 	// text 폼 클릭 시 input 폼 한번만 생성하기 위해 once 속성을 true로 지정
 }, {once : true});
 
-document.addEventListener('click', (e) => {
+form.addEventListener('click', (e) => {
 	// text div 어디를 클릭하더라도 마지막 textarea 폼으로 이동
 	if(e.target.id == 'div-custom-form-control') { form.lastChild.focus(); }
 });
 
 form.addEventListener('keyup', (e) => { // keyup - 키보드에서 손 뗐을 때 실행
-	
+	// textarea 자동 높이 조절
+	/*
+	let target = e.target;
+	target.style.height = target.scrollHeight + 'px';
+	*/
 });
 
 form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 실행 / 누르고 있을 때 한번만 실행됨
@@ -102,8 +151,6 @@ form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 �
 				previousSiblingNode.focus(); // 이전(마지막) 형제 노드에 포커즈 맞춤
 			}
 		}
-		
-		
 	}
 });
 
@@ -123,7 +170,7 @@ form.addEventListener('keypress', (e) => { // keypress - 키보드 눌렀을 때
 });
 
 // ==============================================================================================================
-// 기존 board/write js 함수
+// [기존 board/write js 함수]
 /*
 let deleteIfileList = [];
 
