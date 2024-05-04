@@ -29,7 +29,7 @@ a { text-decoration: none; color: black; }
 #img-icon-megaphone { width: 250px; height: 250px; }
 #div-error-form, #div-signup-success-form { text-align: center; }
 .navbar-brand { color: #000 !important; }
-#div-signin-wrap, #div-signup-wrap { width: 38%; height: 100%; }
+#div-signin-wrap, #div-signup-wrap { width: 510px; height: 100%; margin-top: 20px; }
 #btn-signin { margin-top: 10px; }
 .btn-signup { margin-top: 15px; width: 49.5%; }
 .btn-signin { margin-top: 10px; width: 100%; }

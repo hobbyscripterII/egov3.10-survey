@@ -9,7 +9,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<style> #body { display: flex; flex-wrap: wrap; justify-content: center; } </style>
+<style>
+#body { display: flex; flex-wrap: wrap; justify-content: center; }
+.text-muted > span { font-weight: 400; color: #e41b17; border: 1px solid #fcccc9; padding: 17px; text-align: center; background-color: #fceee9; border-radius: 4px; }
+</style>
 <body>
 <h1 class="title">로그인</h1>
 <div id="div-signin-wrap">
