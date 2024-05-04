@@ -5,9 +5,10 @@
 <!DOCTYPE html>
 <html>
 <style>
-#div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 450px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
+#div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 850px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
 .textarea-custom-form-control { width: 100%; height: 30px; line-height: 30px; border-radius: 0.375rem; border: 1px solid #dee2e6; margin-top: 4px; }
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
+.img-preview { cursor: pointer; }
 </style>
 <c:choose>
 	<c:when test="${dto.iboard == 0 }"><h1 class="title">사진 게시글 등록</h1></c:when>
@@ -78,38 +79,36 @@
 let form = document.getElementById('div-custom-form-control');
 let iconImageUpload = document.getElementById('icon-image-upload');
 let inputFile = document.getElementById('input-file');
+let imgPreview = document.querySelector('img-preview');
+
+document.addEventListener('click', (e) => {
+	// 이미지 프리뷰 테스트용
+	if(e.target.className == 'img-preview') {
+		e.target.style.border = '4px solid black';
+	}
+});
 
 // 이미지 업로드 아이콘 클릭 시 input file이 클릭됨
 // input file 폼은 display none으로 처리
 iconImageUpload.addEventListener('click', () => { inputFile.click(); });
 
 inputFile.addEventListener('change', (e) => {
-	let reader = new FileReader();
 	let files = e.currentTarget.files; // change evnet 발생 시 첨부된 이미지 목록 배열
 	
 	for(let file of files) {
-		if(!file.type.match('image/.*')) {
-			alert('이미지 파일만 업로드 해주세요.');
-			return;
-		} else {
-			console.log('file = ', file);
-			
+		let reader = new FileReader(); // 이미지 파일 하나당 FileReader 단일 객체 필요
+		
+		if(!file.type.match('image/.*')) { alert('이미지 파일만 업로드 해주세요.'); return; }
+		else {
 			reader.readAsDataURL(file);
 			reader.onload = (e) => {
 				let newImg = document.createElement('img');
 				newImg.setAttribute('src', e.target.result);
-				newImg.setAttribute('data-file', file.name);
+				newImg.classList.add('img-preview');
 				form.appendChild(newImg);
 			};
 		}
 	}
-	
-	/*
-	reader.readAsDataURL(files[0]);
-	reader.onload = (e) => {
-		
-	}
-	*/
 });
 
 // [text div 관련 이벤트 로직]
@@ -144,7 +143,7 @@ form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 �
 			let previousSiblingNode = e.target.previousSibling; // 이벤트 발생 타겟 이전 형제 노드
 			console.log('더 이상 입력된 텍스트가 없습니다.'); // backspace 발생한 해당 타겟에 입력된 text가 없을 경우 해당 텍스트 콘솔 출력
 			
-			if(previousSiblingNode == null) { console.log('이전 textarea 폼이 없습니다. 현재 textarea를 유지합니다.'); }
+			if(previousSiblingNode == null) { console.log('이전 textarea 폼이 없습니다. 현재 textarea를 유지합니다.'); e.target.focus(); }
 			else {
 				console.log('현재 textarea 폼을 삭제합니다.');
 				e.target.remove(); // 이벤트 발생 타겟 노드 삭제
@@ -164,9 +163,11 @@ form.addEventListener('keypress', (e) => { // keypress - 키보드 눌렀을 때
 		newInput.focus(); // 새로 생긴 textarea 창에 바로 입력할 수 있게 focus 적용
 	}
 	
+	/*
 	if(e.code == 'ControlLeft' && e.code == 'KeyA') {
 		console.log('모든 내용을 삭제합니다.');
 	}
+	*/
 });
 
 // ==============================================================================================================
