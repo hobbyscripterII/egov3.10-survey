@@ -4,6 +4,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
+<style>
+#div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 450px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
+.textarea-custom-form-control { width: 100%; height: 30px; border: 1px solid red; margin-top: 4px; }
+</style>
 <c:choose>
 	<c:when test="${dto.iboard == 0 }"><h1 class="title">사진 게시글 등록</h1></c:when>
 	<c:otherwise><h1 class="title">사진 게시글 수정</h1></c:otherwise>
@@ -16,7 +20,12 @@
 	  	<c:otherwise><tr><td>작성자</td><td colspan="2"><input type="text" class="form-control" id="name" value="${dto.name }" disabled="disabled"></td></tr></c:otherwise>
 	  </c:choose>
 	  <tr><td>제목</td><td colspan="3"><input type="text" class="form-control" id="title" maxlength="200" value="${dto.title }" placeholder="제목을 입력해주세요." autocomplete="off"></td></tr>
-	  <tr><td colspan="4" style="height: 450px"><textarea class="form-control" id="contents" maxlength="1000" style="height: 450px; resize: none"><c:out value="${dto.contents }" /></textarea></td></tr>
+	  <tr><td colspan="4" style="height: 450px">
+	  <!-- custom textarea -->
+	  <div id="div-custom-form-control"></div>
+	  <!-- default textarea -->
+	  <!-- <textarea class="form-control" id="contents" maxlength="1000" style="height: 450px; resize: none"><c:out value="${dto.contents }" /></textarea> -->
+	  </td></tr>
 	  <tr>
 	  	<td colspan="4">
 		  	<label class="form-label label-file-alert">첨부파일의 최대 크기는 10,485,760byte입니다.</label>
@@ -56,6 +65,66 @@
 </html>
 <!-- <script src="${pageContext.request.contextPath }/js/board-write.js"></script> -->
 <script type="text/javascript">
+// photo/write js 함수
+let form = document.getElementById('div-custom-form-control');
+
+// [text div 관련 이벤트 로직]
+// text div 클릭 시 새로운 textarea 폼 생성(2번 실행 x)
+form.addEventListener('click', (e) => {
+	let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
+	newTextarea.classList.add('textarea-custom-form-control'); // 해당 textarea에 css 먹임
+	form.appendChild(newTextarea); // textarea를 text div의 마지막 자식 요소에 덧붙임
+	// text 폼 클릭 시 input 폼 한번만 생성하기 위해 once 속성을 true로 지정
+}, {once : true});
+
+document.addEventListener('click', (e) => {
+	// text div 어디를 클릭하더라도 마지막 textarea 폼으로 이동
+	if(e.target.id == 'div-custom-form-control') { form.lastChild.focus(); }
+});
+
+form.addEventListener('keyup', (e) => { // keyup - 키보드에서 손 뗐을 때 실행
+	
+});
+
+form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 실행 / 누르고 있을 때 한번만 실행됨
+	// backspace 키 누를 경우 발생
+	if(e.code == 'Backspace') {
+		let thisTextValue = e.target.value; // backspace 이벤트를 발생시킨 textarea에 입력된 value
+		
+		if(!thisTextValue) {
+			let previousSiblingNode = e.target.previousSibling; // 이벤트 발생 타겟 이전 형제 노드
+			console.log('더 이상 입력된 텍스트가 없습니다.'); // backspace 발생한 해당 타겟에 입력된 text가 없을 경우 해당 텍스트 콘솔 출력
+			
+			if(previousSiblingNode == null) { console.log('이전 textarea 폼이 없습니다. 현재 textarea를 유지합니다.'); }
+			else {
+				console.log('현재 textarea 폼을 삭제합니다.');
+				e.target.remove(); // 이벤트 발생 타겟 노드 삭제
+				previousSiblingNode.focus(); // 이전(마지막) 형제 노드에 포커즈 맞춤
+			}
+		}
+		
+		
+	}
+});
+
+// text div에서 enter event 발생 시 textarea 폼 생성 이벤트 실행
+// keyup, keydown은 한글적고 enter 누르면 2번 인식(한글 조합 입력기 관련)으로 사용 x
+form.addEventListener('keypress', (e) => { // keypress - 키보드 눌렀을 때 실행 / 누르고 있을 때 계속 실행됨
+	if(e.code == 'Enter') { // text 폼에서 enter를 눌렀을 경우에만 발생 / 대소문자 구분 주의
+		let newInput = document.createElement('textarea');
+		newInput.classList.add('textarea-custom-form-control');
+		form.appendChild(newInput);
+		newInput.focus(); // 새로 생긴 textarea 창에 바로 입력할 수 있게 focus 적용
+	}
+	
+	if(e.code == 'ControlLeft' && e.code == 'KeyA') {
+		console.log('모든 내용을 삭제합니다.');
+	}
+});
+
+// ==============================================================================================================
+// 기존 board/write js 함수
+/*
 let deleteIfileList = [];
 
 document.addEventListener('click', (e) => {
@@ -230,4 +299,5 @@ document.addEventListener('click', (e) => {
     	}
     }
 });
+*/
 </script>

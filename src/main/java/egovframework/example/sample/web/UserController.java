@@ -94,6 +94,10 @@ public class UserController {
 			HttpSession session = request.getSession();
 			session.setAttribute(Const.IUSER, userDetail.getIuser());
 			session.setAttribute(Const.ROLE, userDetail.getRole());
+			
+			log.info("session.getAttribute(Const.IUSER) = {}", session.getAttribute(Const.IUSER));
+			log.info("session.getAttribute(Const.ROLE) = {}", session.getAttribute(Const.ROLE));
+			
 			return "cmmn/home";
 		} else {
 			if (msgKey == Const.NOT_FOUND_USER_ID) { bindingResult.addError(new ObjectError("id", "존재하지 않는 아이디입니다. 다시 한번 확인해주세요.")); }
