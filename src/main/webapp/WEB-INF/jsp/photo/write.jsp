@@ -96,18 +96,17 @@ btnInsert.addEventListener('click', (e) => {
 	let textareas = $('textarea');
 	let contents = ''; // 빈 값 초기화(null, undefined) 안나오게 처리하기 위함
 	let maxLength = imgPreviews.length > textareas.length ? imgPreviews.length : textareas.length;
-	console.log('maxLength = ', maxLength);
 	
    for (let i = 0; i < maxLength; i++) {
         if (imgPreviews[i]) {
-            let img = imgPreviews[i].outerHTML;
+            let img = imgPreviews[i].outerHTML; // outerHTML - 요소 전체를 html 문자열로 반환 / [object HTMLImageElement] 출력 방지
             contents += img;
         }
         
         if (textareas[i]) {
-            let text = textareas[i].value.trim();
-            let pTagWrap = '<p>' + text + '</p>';
-            contents += pTagWrap;
+            let text = textareas[i].value.trim(); // trim - 앞 뒤 공백 제거
+            let pTagWrap = '<p>' + text + '</p>'; // 웹에디터 로직과 비슷하게 p 태그로 한번 감쌈
+            contents += pTagWrap; // contents 컬럼에 저장하기 위한 html 코드
         }
     }
 	
@@ -116,6 +115,7 @@ btnInsert.addEventListener('click', (e) => {
     form.innerHTML = contents; // 테스트
 });
 
+// >>>>> 작성했다가 반복문 돌리면서 html 코드로 변환할 때 순서 안맞아서 주석 처리해놓음
 /*
 btnInsert.addEventListener('click', (e) => {
 	let contents = ''; // 빈 값 초기화(null, undefined) 안나오게 처리하기 위함
