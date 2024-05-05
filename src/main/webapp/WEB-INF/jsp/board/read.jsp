@@ -48,9 +48,9 @@
   </tbody>
 </table>
 <div class="div-btn-group-wrap">
-	<!-- 답변글 여부가 'Y'가 아니거나 답변글 식별코드가 '0'인 경우에는 답변글 버튼을 출력한다.  -->
+	<!-- 답변글 여부가 'Y'가 아니거나 답변글 식별코드가 '0'이 아니거나 session에 저장된 회원 pk가 있을 경우에만 답변글 버튼을 출력한다.  -->
 	<c:choose>
-		<c:when test="${vo.replyFl eq 'N' && vo.code == 0 }">
+		<c:when test="${vo.replyFl eq 'N' && vo.code == 0 && not empty sessionScope.IUSER }">
 			<button type="button" class="btn btn-success btn-margin" id="btn-reply" data-iboard="${vo.iboard }">답글</button>
 		</c:when>
 		<c:otherwise>

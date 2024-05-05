@@ -90,7 +90,7 @@ let previousSiblingNode = e.target.previousSibling;
 	
 	// 다음 노드가 이미지이며 이전 노드 이름이 textarea이거나 null일 때 새로운 textarea 요소를 추가함
 	if(nextSiblingNode.className == 'img-preview') {
-		let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
+		let newTextarea = document.createElement('input'); // text div에 새로 삽입하기 위한 textarea 생성
 		newTextarea.classList.add('textarea-custom-form-control'); // 해당 textarea에 css 먹임
 		e.target.after(newTextarea); // textarea를 현재 이벤트 타겟의 바로 뒤에 붙임
 	}	
@@ -105,22 +105,61 @@ btnInsert.addEventListener('click', (e) => {
 iconImageUpload.addEventListener('click', () => { inputFile.click(); });
 
 inputFile.addEventListener('change', (e) => {
+	let formData = new FormData();
 	let files = e.currentTarget.files; // change evnet 발생 시 첨부된 이미지 목록 배열
+	let fileLength = files.length;
 	
-	for(let file of files) {
-		let reader = new FileReader(); // 이미지 파일 하나당 FileReader 단일 객체 필요
+	for(let i = 0; i < fileLength; i++) {
+		let file = files[i];
 		
-		if(!file.type.match('image/.*')) { alert('이미지 파일만 업로드 해주세요.'); return; }
-		else {
-			reader.readAsDataURL(file);
-			reader.onload = (e) => {
+		if(!file.type.match('image/.*')) {
+			alert('이미지 파일만 업로드 해주세요.');
+			return;
+		}
+		
+		/*
+		// 예외처리
+		const FILE = file;
+		const FILE_NAME = file.name;
+		const FILE_SIZE = file.size;
+		const FILE_MAX_SIZE = 10 * 1024 * 1024;
+		const FILE_TYPE = file.type;
+		
+		// console.log('FILE_SIZE = ', FILE_SIZE, 'FILE_MAX_SIZE = ', FILE_MAX_SIZE);
+		
+		if(FILE_SIZE > FILE_MAX_SIZE) {
+			alert('최대 파일 크기를 초과했습니다.\n최대 파일 크기는 ' + FILE_MAX_SIZE + 'byte입니다.\n\n해당 파일명: ' + FILE_NAME + '\n해당 파일 크기: ' + FILE_SIZE + 'byte');
+			return false;
+		}
+		
+		// 파일 확장자 체크
+		const arr = ['image/*', '.pdf', '.xlsx'];
+		console.log('arr = ', arr);
+		*/
+		
+		formData.append("files", file);
+	}
+	
+	let iboard = document.getElementById('btn-insert').dataset.iboard;
+	formData.append("iboard", new Blob([JSON.stringify(iboard)], {type: "application/json"}));
+	
+	$.ajax({
+        type: 'post',
+        url: '/winitech/photo/fileupload.do',
+        contentType: false, // 전달 데이터 형식 / formData로 보낼 경우 명시 필수
+        processData: false, // string 변환 여부 / formData로 보낼 경우 명시 필수
+        data: formData,
+        success: (data) => {
+        	for(let file of data) {
+	        	let src = '/winitech/img/' + file.savedName + file.ext;
 				let newImg = document.createElement('img');
-				newImg.setAttribute('src', e.target.result);
+				newImg.setAttribute('src', src);
 				newImg.classList.add('img-preview');
 				form.appendChild(newImg);
-			};
-		}
-	}
+        	}
+        }, 
+        error: (x) => { console.log(x); }
+     })
 });
 
 // [text div 관련 이벤트 로직]

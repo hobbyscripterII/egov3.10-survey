@@ -48,11 +48,13 @@
   </tbody>
 </table>
 <div class="div-list-bottom-wrap">
-	<div class="div-btn-group-wrap">
-		<c:if test="${empty criteria.name && empty criteria.title }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?category=1'">작성</button></c:if>
-	   	<c:if test="${not empty param.name }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?category=1&name=${criteria.name }'">작성</button></c:if>
-		<c:if test="${not empty param.title }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?category=1&title=${criteria.title }'">작성</button></c:if>
-	</div>
+	<c:if test="${not empty sessionScope.IUSER }">
+		<div class="div-btn-group-wrap">
+			<c:if test="${empty criteria.name && empty criteria.title }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?category=1'">작성</button></c:if>
+		   	<c:if test="${not empty param.name }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?category=1&name=${criteria.name }'">작성</button></c:if>
+			<c:if test="${not empty param.title }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?category=1&title=${criteria.title }'">작성</button></c:if>
+		</div>
+	</c:if>
 	
 	<c:if test="${fn:length(vo) != 0 }">
 	  	<div class="div-pagination-wrap">

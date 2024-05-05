@@ -32,6 +32,6 @@ ORDER BY iboard DESC
 </select>
 
 <insert id="insPhotoBoardNull" parameterType="PhotoInsNullDto" useGeneratedKeys="true" keyProperty="iboard">
-INSERT INTO board_tbl(iuser, category, CODE, title, contents) VALUES(#{iuser}, #{category}, 0, , '', '', '')
+INSERT INTO board_tbl(iuser, category, CODE, title, contents) VALUES(#{iuser}, #{category}, 0, '', '')
 </insert>
 </mapper>
