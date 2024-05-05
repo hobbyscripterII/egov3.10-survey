@@ -92,11 +92,13 @@ public class UserController {
 		if (msgKey == Const.SUCCESS) {
 			UserDetailVo userDetail = (UserDetailVo) resultMap.get(Const.VO_KEY);
 			HttpSession session = request.getSession();
-			session.setAttribute(Const.IUSER, userDetail.getIuser());
-			session.setAttribute(Const.ROLE, userDetail.getRole());
+			session.setAttribute(Const.USER_IUSER, userDetail.getIuser());
+			session.setAttribute(Const.USER_NAME, userDetail.getName());
+			session.setAttribute(Const.USER_ROLE, userDetail.getRole());
 			
-			log.info("session.getAttribute(Const.IUSER) = {}", session.getAttribute(Const.IUSER));
-			log.info("session.getAttribute(Const.ROLE) = {}", session.getAttribute(Const.ROLE));
+			log.info("session.getAttribute(Const.USER_IUSER) = {}", session.getAttribute(Const.USER_IUSER));
+			log.info("session.getAttribute(Const.USER_NAME) = {}", session.getAttribute(Const.USER_NAME));
+			log.info("session.getAttribute(Const.USER_ROLE) = {}", session.getAttribute(Const.USER_ROLE));
 			
 			return "cmmn/home";
 		} else {

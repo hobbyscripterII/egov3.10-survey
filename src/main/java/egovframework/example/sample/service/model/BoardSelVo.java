@@ -5,6 +5,7 @@ import java.util.List;
 
 public class BoardSelVo {
 	private int iboard;
+	private int iuser;
 	private int code;
 	private String name;
 	private String title;
@@ -16,6 +17,8 @@ public class BoardSelVo {
 	
 	public int getIboard() { return iboard; }
 	public void setIboard(int iboard) { this.iboard = iboard; }
+	public int getIuser() { return iuser; }
+	public void setIuser(int iuser) { this.iuser = iuser; }
 	public int getCode() { return code; }
 	public void setCode(int code) { this.code = code; }
 	public String getName() { return name; }
@@ -32,6 +35,6 @@ public class BoardSelVo {
 	public void setView(int view) { this.view = view; }
 	public String getCreatedAt() { return createdAt; }
 	public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
-
-	@Override public String toString() { return "BoardSelVo [iboard=" + iboard + ", code=" + code + ", name=" + name + ", title=" + title + ", contents=" + contents + ", files=" + files + ", replyFl=" + replyFl + ", view=" + view + ", createdAt=" + createdAt + "]"; }
+	
+	@Override public String toString() { return "BoardSelVo [iboard=" + iboard + ", iuser=" + iuser + ", code=" + code + ", name=" + name + ", title=" + title + ", contents=" + contents + ", files=" + files + ", replyFl=" + replyFl + ", view=" + view + ", createdAt=" + createdAt + "]"; }
 }

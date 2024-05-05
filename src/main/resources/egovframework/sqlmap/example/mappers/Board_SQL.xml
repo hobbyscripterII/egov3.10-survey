@@ -2,26 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.example.sample.service.impl.BoardMapper">
 <select id="getBoardList" parameterType="Criteria" resultType="BoardListGetVo">
-SELECT iboard, title, name, VIEW, created_at createdAt
-FROM board_tbl
+SELECT a.iboard, a.title, b.NAME, a.VIEW, a.created_at createdAt
+FROM board_tbl a
+INNER JOIN user_tbl b
+ON a.iuser = b.iuser
 <where>
+a.category = #{category}
 	<choose>
 		<when test="name != null and name != '' || title != null and title != ''">
 		<!-- 검색할 경우 -->
 		</when>
 		<otherwise>
 		<!-- 검색이 아닌 경우 -->
-		code = 0
+		AND a.code = 0
 		</otherwise>
 	</choose>
 	<if test="name != null and name != ''">
-	AND name LIKE '%${name}%'
+	AND a.name LIKE '%${name}%'
 	</if>
 	<if test="title != null and title != ''">
-	AND title LIKE '%${title}%'
+	AND a.title LIKE '%${title}%'
 	</if>
 </where>
-ORDER BY iboard DESC
+ORDER BY a.iboard DESC
 LIMIT #{pageStart}, #{amount}
 </select>
 
@@ -41,7 +44,11 @@ ORDER BY iboard DESC
 
 <!-- 게시글 상세보기 -->
 <select id="selBoard" resultType="BoardSelVo">
-SELECT iboard, code, name, title, contents, reply_fl replyFl, created_at createdAt FROM board_tbl WHERE iboard = #{iboard}
+SELECT a.iboard, b.iuser, a.code, b.name, a.title, a.contents, a.reply_fl replyFl, a.created_at createdAt
+FROM board_tbl a
+INNER JOIN user_tbl b
+ON a.iuser = b.iuser
+WHERE a.iboard = #{iboard}
 </select>
 
 <!-- 답변글 상세보기 -->
@@ -51,7 +58,7 @@ SELECT iboard, name, title, contents, VIEW, created_at createdAt FROM board_tbl 
 
 <!-- 게시글 작성 -->
 <insert id="insBoard" useGeneratedKeys="true" keyProperty="iboard">
-INSERT INTO board_tbl(code, NAME, pwd, title, contents) VALUES(#{code}, #{name}, #{pwd}, #{title}, #{contents})
+INSERT INTO board_tbl(iuser, category, code, title, contents) VALUES(#{iuser}, #{category}, #{code}, #{title}, #{contents})
 </insert>
 
 <!-- 게시글 삭제 -->

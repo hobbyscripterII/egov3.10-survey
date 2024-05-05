@@ -20,6 +20,7 @@ public class BoardInsValidator implements Validator {
 		 * 내용 - 공백 x, 10자 이상
 		 */
 		
+		/*
 		// 이름에 값이 비어있거나 공백이면 필수 입력란 에러 메세지를 출력한다.
 		if (isEmptyOrWhitespace(dto.getName())) { errors.rejectValue(Const.FIELD_NAME, "errors.required", null, "필수 입력란입니다."); }
 		// 이름이 2자 이하일 경우 에러 메세지를 출력한다.
@@ -29,6 +30,7 @@ public class BoardInsValidator implements Validator {
 		if (isEmptyOrWhitespace(dto.getPwd())) { errors.rejectValue(Const.FIELD_PWD, "errors.required", null, "필수 입력란입니다."); }
 		// 패스워드가 3자 이하일 경우 에러 메세지를 출력한다.
 		if (dto.getPwd().length() <= 3) { errors.rejectValue(Const.FIELD_PWD, "errors.lengthsize", new Object[] { 3 }, "3자 이상 입력해야 합니다."); }
+		*/
 		
 		// 제목에 값이 비어있거나 공백이면 필수 입력란 에러 메세지를 출력한다.
 		if (isEmptyOrWhitespace(dto.getTitle())) { errors.rejectValue(Const.FIELD_TITLE, "errors.required", null, "필수 입력란입니다."); }
@@ -41,8 +43,5 @@ public class BoardInsValidator implements Validator {
 		if (dto.getContents().length() <= 10) { errors.rejectValue(Const.FIELD_CONTENTS, "errors.lengthsize", new Object[] { 10 }, "10자 이상 입력해야 합니다."); }
 	}
 	
-	public boolean isEmptyOrWhitespace(String val) {
-		if(val == null || val.trim().length() == 0) { return true; }
-		else { return false; }
-	}
+	public boolean isEmptyOrWhitespace(String val) { if(val == null || val.trim().length() == 0) { return true; } else { return false; } }
 }

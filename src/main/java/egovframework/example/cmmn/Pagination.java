@@ -70,6 +70,8 @@ public class Pagination {
         // 검색 기능
         private String name;
         private String title;
+        // 카테고리 선택
+        private int category;
 
         // 기본값 설정
         public Criteria() { page = 1; amount = 10; }
@@ -86,7 +88,9 @@ public class Pagination {
 		public void setName(String name) { this.name = name; }
 		public String getTitle() { return title; }
 		public void setTitle(String title) { this.title = title; }
-
-		@Override public String toString() { return "Criteria [page=" + page + ", amount=" + amount + ", name=" + name + ", title=" + title + "]"; }
+		public int getCategory() { return category; }
+		public void setCategory(int category) { this.category = category; }
+		
+		@Override public String toString() { return "Criteria [page=" + page + ", amount=" + amount + ", name=" + name + ", title=" + title + ", category=" + category + "]"; }
     }
 }

@@ -6,7 +6,7 @@
 <html>
 <style>
 #div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 850px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
-.textarea-custom-form-control { width: 100%; height: 30px; line-height: 30px; border-radius: 0.375rem; border: 1px solid #dee2e6; margin-top: 4px; }
+.textarea-custom-form-control { width: 100%; height: 30px; line-height: 30px; /* border: none; */ border: 1px solid gray; margin-top: 4px; outline: none; resize: none; }
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
 .img-preview { cursor: pointer; }
 </style>
@@ -17,10 +17,7 @@
 <form id="f" enctype="multipart/form-data">
 	<table class="table">
 	  <tbody>
-	  <c:choose>
-	  	<c:when test="${dto.iboard == 0 }"><tr><td>작성자</td><td><input type="text" class="form-control" id="name" value="${dto.name }" placeholder="닉네임을 입력해주세요." autocomplete="off"></td><td>비밀번호</td><td><input type="password" class="form-control" id="pwd" placeholder="비밀번호를 입력해주세요." autocomplete="off"></td></tr></c:when>
-	  	<c:otherwise><tr><td>작성자</td><td colspan="2"><input type="text" class="form-control" id="name" value="${dto.name }" disabled="disabled"></td></tr></c:otherwise>
-	  </c:choose>
+	  <tr><td>작성자</td><td colspan="3"><label class="col-form-label"><c:out value="${dto.name }" /></label></td></tr>
 	  <tr><td>제목</td><td colspan="3"><input type="text" class="form-control" id="title" maxlength="200" value="${dto.title }" placeholder="제목을 입력해주세요." autocomplete="off"></td></tr>
 	  <tr><td colspan="4">
 	  <div>
@@ -80,12 +77,27 @@ let form = document.getElementById('div-custom-form-control');
 let iconImageUpload = document.getElementById('icon-image-upload');
 let inputFile = document.getElementById('input-file');
 let imgPreview = document.querySelector('img-preview');
+let btnInsert = document.getElementById('btn-insert');
 
 document.addEventListener('click', (e) => {
+let nextSiblingNode = e.target.nextSibling;
+let previousSiblingNode = e.target.previousSibling;
+
 	// 이미지 프리뷰 테스트용
 	if(e.target.className == 'img-preview') {
-		e.target.style.border = '4px solid black';
+		// console.log('이미지 프리 뷰 클릭 이벤트 테스트');
 	}
+	
+	// 다음 노드가 이미지이며 이전 노드 이름이 textarea이거나 null일 때 새로운 textarea 요소를 추가함
+	if(nextSiblingNode.className == 'img-preview') {
+		let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
+		newTextarea.classList.add('textarea-custom-form-control'); // 해당 textarea에 css 먹임
+		e.target.after(newTextarea); // textarea를 현재 이벤트 타겟의 바로 뒤에 붙임
+	}	
+});
+
+btnInsert.addEventListener('click', (e) => {
+	console.log('form =', form);
 });
 
 // 이미지 업로드 아이콘 클릭 시 input file이 클릭됨
@@ -156,6 +168,8 @@ form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 �
 // text div에서 enter event 발생 시 textarea 폼 생성 이벤트 실행
 // keyup, keydown은 한글적고 enter 누르면 2번 인식(한글 조합 입력기 관련)으로 사용 x
 form.addEventListener('keypress', (e) => { // keypress - 키보드 눌렀을 때 실행 / 누르고 있을 때 계속 실행됨
+	console.log('e.target = ', e.target);
+	
 	if(e.code == 'Enter') { // text 폼에서 enter를 눌렀을 경우에만 발생 / 대소문자 구분 주의
 		let newInput = document.createElement('textarea');
 		newInput.classList.add('textarea-custom-form-control');

@@ -115,6 +115,37 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int insBoard(BoardInsDto dto) {
 		try {
+			// 답변글 등록이라면 해당 코드를 참조하는 게시글의 '답변글 여부' 플래그를 수정
+			if (Utils.isNotNull(dto.getCode())) {
+				BoardReplyUpdDto replyUpdDto = new BoardReplyUpdDto();
+				replyUpdDto.setIboard(dto.getCode());
+				replyUpdDto.setReplyFl(Const.REPLY_FL);
+				int updBoardReplyFlRows = boardMapper.updBoardReplyFl(replyUpdDto);
+
+				if (Utils.isNull(updBoardReplyFlRows)) { throw new RuntimeException(); } // 답변글 업데이트 실패 시 예외 발생
+			}
+
+			int insBoardRows = boardMapper.insBoard(dto); // 게시글 테이블 등록
+
+			// 게시글 테이블 등록 실패 시 예외 발생
+			if (Utils.isNull(insBoardRows)) { throw new NullPointerException(); }
+			else {
+				// 게시판 테이블에 저장 성공 시
+				if (Utils.isNotNull(dto.getFile())) {
+					insBoardFile(dto.getFile(), dto.getIboard());
+
+					if (dto.getFile().size() == boardMapper.getBoardFileCnt(dto.getIboard())) { return dto.getIboard(); }
+					else {
+						// 예외 처리문 작성
+						int delFileRows = deleteFile(dto.getIboard()); // 첨부파일 삭제
+						int delBoard = boardMapper.delBoard(dto.getIboard()); // 게시판 테이블 및 파일 테이블 데이터 삭제
+						throw new RuntimeException(); // 예외 던지기
+					}
+				}
+				return dto.getIboard(); // 게시글 등록 완료 시 게시글 pk를 반환함
+			}
+			
+			/*
 			String hashedPwd = BCrypt.hashpw(dto.getPwd(), BCrypt.gensalt());
 
 			if (Utils.isNull(hashedPwd)) { throw new NullPointerException(); }
@@ -151,6 +182,7 @@ public class BoardServiceImpl implements BoardService {
 					return dto.getIboard(); // 게시글 등록 완료 시 게시글 pk를 반환함
 				}
 			}
+			*/
 		} catch (NullPointerException e) {
 			return Const.NULL_POINTER_EXCEPTION;
 		} catch (RuntimeException e) {

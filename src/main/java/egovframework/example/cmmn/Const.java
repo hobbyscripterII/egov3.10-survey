@@ -26,8 +26,9 @@ public class Const {
 	public static final int UN_REPLY_CODE = 0;
 	
 	// [회원 로그인 시 세션 저장용 상수]
-	public static final String IUSER = "IUSER"; // 회원 pk
-	public static final String ROLE = "ROLE"; // 권한
+	public static final String USER_IUSER = "IUSER"; // 회원 pk
+	public static final String USER_NAME = "NAME"; // 이름
+	public static final String USER_ROLE = "ROLE"; // 권한
 
 	// [유효성 검증]
 	// 필드 멤버명

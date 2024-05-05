@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.HttpHeaders;
 
 import org.apache.commons.io.IOUtils;
@@ -124,8 +126,12 @@ public class BoardController {
 	 *               - 게시판 테이블의 답변글 식별코드를 게시글의 pk로 받아 저장 중
 	 */
 	@GetMapping("/write.do")
-	public String insBoard(@RequestParam(required = false, defaultValue = "0") int iboard, Model model) {
-		model.addAttribute("dto", new BoardInsDto()); // write.jsp를 게시글 작성 / 수정 시 재사용하기 위해 jsp 파일에 새로운 dto를 보냄
+	public String insBoard(@RequestParam(required = false, defaultValue = "0") int iboard, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String name = (String) session.getAttribute(Const.USER_NAME);
+		BoardInsDto dto = new BoardInsDto();
+		dto.setName(name);
+		model.addAttribute("dto", dto); // write.jsp를 게시글 작성 / 수정 시 재사용하기 위해 jsp 파일에 새로운 dto를 보냄
 		model.addAttribute("iboard", iboard); // 쿼리 스트링으로 게시글의 pk를 보냄('0'이라면 게시글 / '0'이 아니라면 답변글로 인식)
 		return "board/write";
 	}
@@ -139,7 +145,7 @@ public class BoardController {
 	 */
 	@PostMapping("/write.do")
 	@ResponseBody
-	public HashMap<String, Object> insBoard(@RequestPart(name = "dto") BoardInsDto dto, BindingResult bindingResult, @RequestPart(name = "files", required = false) MultipartFile[] files) throws Exception {
+	public HashMap<String, Object> insBoard(@RequestPart(name = "dto") BoardInsDto dto, BindingResult bindingResult, @RequestPart(name = "files", required = false) MultipartFile[] files, HttpServletRequest request) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap(); // ajax 반환용 map 생성
 		
 		// ===== 유효성 검증 로직 시작 =====
@@ -167,7 +173,10 @@ public class BoardController {
 			// ===== 확장자 검증 로직 끝 =====
 			dto.setFile(fileUpload(files));
 		}
-
+		
+		HttpSession session = request.getSession();
+		int iuser = (int) session.getAttribute(Const.USER_IUSER);
+		dto.setIuser(iuser);
 		// 게시글 등록 완료 시 반환 값으로 등록된 게시글의 pk를 반환
 		int code = boardService.insBoard(dto); // 게시글 등록 완료 시에는 게시글 pk가 담겨져 있으며 실패 시에는 예외 발생 플래그 값이 담겨져 있음
 		if (code > 0) {

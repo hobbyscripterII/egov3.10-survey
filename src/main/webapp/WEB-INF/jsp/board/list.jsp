@@ -49,21 +49,21 @@
 </table>
 <div class="div-list-bottom-wrap">
 	<div class="div-btn-group-wrap">
-		<c:if test="${empty criteria.name && empty criteria.title }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do'">작성</button></c:if>
-	   	<c:if test="${not empty param.name }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?name=${criteria.name }'">작성</button></c:if>
-		<c:if test="${not empty param.title }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?title=${criteria.title }'">작성</button></c:if>
+		<c:if test="${empty criteria.name && empty criteria.title }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?category=1'">작성</button></c:if>
+	   	<c:if test="${not empty param.name }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?category=1&name=${criteria.name }'">작성</button></c:if>
+		<c:if test="${not empty param.title }"><button type="button" class="btn btn-primary" onclick="location.href='/winitech/board/write.do?category=1&title=${criteria.title }'">작성</button></c:if>
 	</div>
 	
 	<c:if test="${fn:length(vo) != 0 }">
 	  	<div class="div-pagination-wrap">
   		<ul class="pagination pagination-sm">
-		  <li class="page-item"><a class="page-link" href="/winitech/board/list.do?page=1&amount=${pagination.amount }&name=${criteria.name }&title=${criteria.title }">&laquo;</a></li>
-		  <c:if test="${1 < pagination.start }"><li class="page-item"><a class="page-link" href="/winitech/board/list.do?page=${pagination.start - pagination.pageCnt}&name=${criteria.name }&title=${criteria.title }">&lt;</a></li></c:if>
+		  <li class="page-item"><a class="page-link" href="/winitech/board/list.do?category=${param.category }&page=1&amount=${pagination.amount }&name=${criteria.name }&title=${criteria.title }">&laquo;</a></li>
+		  <c:if test="${1 < pagination.start }"><li class="page-item"><a class="page-link" href="/winitech/board/list.do?category=${param.category }&page=${pagination.start - pagination.pageCnt}&name=${criteria.name }&title=${criteria.title }">&lt;</a></li></c:if>
 		  <c:forEach var="num" begin="${pagination.start }" end="${pagination.end }">
-		  	<li class="page-item"><a class="page-link" href="/winitech/board/list.do?page=${num }&amount=${pagination.amount }&name=${criteria.name }&title=${criteria.title }"><c:out value="${num }" /></a></li>
+		  	<li class="page-item"><a class="page-link" href="/winitech/board/list.do?category=${param.category }&page=${num }&amount=${pagination.amount }&name=${criteria.name }&title=${criteria.title }"><c:out value="${num }" /></a></li>
 		  </c:forEach>
 		  <c:if test="${pagination.end < pagination.realEnd }"><li class="page-item"><a class="page-link" href="/winitech/board/list.do?page=${pagination.end + 1}&name=${criteria.name }&title=${criteria.title }">&gt;</a></li></c:if>
-		  <li class="page-item"><a class="page-link" href="/winitech/board/list.do?page=${pagination.realEnd }&amount=${pagination.amount }&name=${criteria.name }&title=${criteria.title }">&raquo;</a></li>
+		  <li class="page-item"><a class="page-link" href="/winitech/board/list.do?category=${param.category }&page=${pagination.realEnd }&amount=${pagination.amount }&name=${criteria.name }&title=${criteria.title }">&raquo;</a></li>
 		</ul>
   	</div>
 	</c:if>
