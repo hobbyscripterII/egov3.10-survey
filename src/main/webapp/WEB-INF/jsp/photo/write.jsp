@@ -82,22 +82,34 @@ let btnInsert = document.getElementById('btn-insert');
 document.addEventListener('click', (e) => {
 let nextSiblingNode = e.target.nextSibling;
 let previousSiblingNode = e.target.previousSibling;
-
-	// 이미지 프리뷰 테스트용
-	if(e.target.className == 'img-preview') {
-		// console.log('이미지 프리 뷰 클릭 이벤트 테스트');
-	}
 	
 	// 다음 노드가 이미지이며 이전 노드 이름이 textarea이거나 null일 때 새로운 textarea 요소를 추가함
 	if(nextSiblingNode.className == 'img-preview') {
-		let newTextarea = document.createElement('input'); // text div에 새로 삽입하기 위한 textarea 생성
+		let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
 		newTextarea.classList.add('textarea-custom-form-control'); // 해당 textarea에 css 먹임
 		e.target.after(newTextarea); // textarea를 현재 이벤트 타겟의 바로 뒤에 붙임
 	}	
 });
 
 btnInsert.addEventListener('click', (e) => {
-	console.log('form =', form);
+	let contents = ''; // 빈 값 초기화(null, undefined) 안나오게 처리하기 위함
+	
+    $('.img-preview').each((idx, img) => {
+    	console.log(img);
+    	contents += img;
+    });
+	
+    $('textarea').each((idx, textarea) => {
+    	let text = textarea.value.trim(); // trim - 앞 뒤 공백 제거
+    	let pTagWrap = '<p>' + text + '</p>'; // 웹에디터 로직과 비슷하게 p 태그로 한번 감쌈
+    	console.log(pTagWrap); // 확인용
+    	contents += pTagWrap;
+    });
+	
+    contents = contents.trim(); // 값 제대입 / 앞에 빈 값 초기화했던 공백 제거
+    
+    console.log(contents); // 테스트
+    /* form.innerHTML = contents; */ // 테스트
 });
 
 // 이미지 업로드 아이콘 클릭 시 input file이 클릭됨
@@ -140,6 +152,8 @@ inputFile.addEventListener('change', (e) => {
 		formData.append("files", file);
 	}
 	
+	// 테스트 완료
+	/*
 	let iboard = document.getElementById('btn-insert').dataset.iboard;
 	formData.append("iboard", new Blob([JSON.stringify(iboard)], {type: "application/json"}));
 	
@@ -160,6 +174,7 @@ inputFile.addEventListener('change', (e) => {
         }, 
         error: (x) => { console.log(x); }
      })
+	*/
 });
 
 // [text div 관련 이벤트 로직]
@@ -207,8 +222,6 @@ form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 �
 // text div에서 enter event 발생 시 textarea 폼 생성 이벤트 실행
 // keyup, keydown은 한글적고 enter 누르면 2번 인식(한글 조합 입력기 관련)으로 사용 x
 form.addEventListener('keypress', (e) => { // keypress - 키보드 눌렀을 때 실행 / 누르고 있을 때 계속 실행됨
-	console.log('e.target = ', e.target);
-	
 	if(e.code == 'Enter') { // text 폼에서 enter를 눌렀을 경우에만 발생 / 대소문자 구분 주의
 		let newInput = document.createElement('textarea');
 		newInput.classList.add('textarea-custom-form-control');
