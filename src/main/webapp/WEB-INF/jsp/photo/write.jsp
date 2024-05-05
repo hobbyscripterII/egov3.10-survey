@@ -92,25 +92,52 @@ let previousSiblingNode = e.target.previousSibling;
 });
 
 btnInsert.addEventListener('click', (e) => {
+	let imgPreviews = $('.img-preview');
+	let textareas = $('textarea');
+	let contents = ''; // 빈 값 초기화(null, undefined) 안나오게 처리하기 위함
+	let maxLength = imgPreviews.length > textareas.length ? imgPreviews.length : textareas.length;
+	console.log('maxLength = ', maxLength);
+	
+   for (let i = 0; i < maxLength; i++) {
+        if (imgPreviews[i]) {
+            let img = imgPreviews[i].outerHTML;
+            contents += img;
+        }
+        
+        if (textareas[i]) {
+            let text = textareas[i].value.trim();
+            let pTagWrap = '<p>' + text + '</p>';
+            contents += pTagWrap;
+        }
+    }
+	
+    contents = contents.trim(); // 값 제대입 / 앞에 빈 값 초기화했던 공백 제거
+    console.log(contents); // 테스트
+    form.innerHTML = contents; // 테스트
+});
+
+/*
+btnInsert.addEventListener('click', (e) => {
 	let contents = ''; // 빈 값 초기화(null, undefined) 안나오게 처리하기 위함
 	
-    $('.img-preview').each((idx, img) => {
-    	console.log(img);
+    $('.img-preview').each((idx, item) => {
+    	let img = item.outerHTML; // outerHTML - 요소 전체를 html 문자열로 반환 / [object HTMLImageElement] 출력 방지
     	contents += img;
     });
 	
-    $('textarea').each((idx, textarea) => {
-    	let text = textarea.value.trim(); // trim - 앞 뒤 공백 제거
+    contents = contents.trim();
+	
+    $('textarea').each((idx, item) => {
+    	let text = item.value.trim(); // trim - 앞 뒤 공백 제거
     	let pTagWrap = '<p>' + text + '</p>'; // 웹에디터 로직과 비슷하게 p 태그로 한번 감쌈
-    	console.log(pTagWrap); // 확인용
-    	contents += pTagWrap;
+    	contents += pTagWrap; // contents 컬럼에 저장하기 위한 html 코드
     });
 	
     contents = contents.trim(); // 값 제대입 / 앞에 빈 값 초기화했던 공백 제거
-    
     console.log(contents); // 테스트
-    /* form.innerHTML = contents; */ // 테스트
+    form.innerHTML = contents; // 테스트
 });
+ */
 
 // 이미지 업로드 아이콘 클릭 시 input file이 클릭됨
 // input file 폼은 display none으로 처리
@@ -124,10 +151,8 @@ inputFile.addEventListener('change', (e) => {
 	for(let i = 0; i < fileLength; i++) {
 		let file = files[i];
 		
-		if(!file.type.match('image/.*')) {
-			alert('이미지 파일만 업로드 해주세요.');
-			return;
-		}
+		// 이미지 첨부 시 image 유효성 검증
+		if(!file.type.match('image/.*')) { alert('이미지 파일만 업로드 해주세요.'); return; }
 		
 		/*
 		// 예외처리
@@ -153,8 +178,7 @@ inputFile.addEventListener('change', (e) => {
 	}
 	
 	// 테스트 완료
-	/*
-	let iboard = document.getElementById('btn-insert').dataset.iboard;
+	let iboard = document.getElementById('btn-insert').dataset.iboard; // 게시글 등록 버튼 눌렀을 때 생기는 pk
 	formData.append("iboard", new Blob([JSON.stringify(iboard)], {type: "application/json"}));
 	
 	$.ajax({
@@ -165,16 +189,15 @@ inputFile.addEventListener('change', (e) => {
         data: formData,
         success: (data) => {
         	for(let file of data) {
-	        	let src = '/winitech/img/' + file.savedName + file.ext;
-				let newImg = document.createElement('img');
-				newImg.setAttribute('src', src);
+	        	let src = '/winitech/img/' + file.savedName + file.ext; // html 태그로 출력하기 위함
+				let newImg = document.createElement('img'); // img 요소 새로 생성
+				newImg.setAttribute('src', src); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
 				newImg.classList.add('img-preview');
 				form.appendChild(newImg);
         	}
         }, 
         error: (x) => { console.log(x); }
      })
-	*/
 });
 
 // [text div 관련 이벤트 로직]
