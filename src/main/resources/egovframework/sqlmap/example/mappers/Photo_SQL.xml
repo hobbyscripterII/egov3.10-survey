@@ -48,7 +48,7 @@ ON a.iuser = b.iuser
 WHERE a.iboard = #{iboard}
 </select>
 
-<insert id="insPhotoBoardFile" parameterType="BoardFileInsDto">
+<insert id="insPhotoBoardFile" parameterType="BoardFileInsDto" useGeneratedKeys="true" keyProperty="ifile">
 INSERT INTO file_tbl(iboard, original_name, saved_name, ext, file_size) VALUES(#{iboard}, #{originalName}, #{savedName}, #{ext}, #{fileSize})
 </insert>
 

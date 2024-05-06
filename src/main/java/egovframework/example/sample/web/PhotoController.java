@@ -1,7 +1,9 @@
 package egovframework.example.sample.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +41,7 @@ public class PhotoController {
 	
 	@PostMapping("/fileupload.do")
 	@ResponseBody
-	private List<String> fileUpload(@RequestPart(name = "iboard") int iboard, @RequestPart(name = "files") MultipartFile[] files) throws Exception {
+	private Map<Integer, String> fileUpload(@RequestPart(name = "iboard") int iboard, @RequestPart(name = "files") MultipartFile[] files) throws Exception {
 		List<BoardFileInsDto> fileDtoList = new ArrayList(); // 로컬에 저장된 파일 정보를 담기위한 list 생성
 		// 반복문으로 로컬에 첨부파일 저장 후 반환된 dto(테이블에 저장할 파일 정보)를 list에 담음
 		// 배열 []은 List<>와 달리 stream 사용 불가능
@@ -50,10 +52,11 @@ public class PhotoController {
 			fileDtoList.add(dto); // 반환 값으로 경로 추출하기 위해 list에 담음
 		}
 		
-		// stream 사용하여 list 순회하면서 dto에 담겨있던 파일명 + 확장자를 문자열로 반환해 list에 담음
+		// stream 사용하여 list 순회하면서 dto에 담겨있던 파일명 + 확장자를 문자열로 반환해 map으로 반환함
+		// key: BoardFileInsDto::getIfile - file_tbl에 insert 후 반환된 pk 값
+		// value: dto.getSavedName() + dto.getExt() - '로컬에 저장된 실제 이미지 파일명 + 확장자' 문자열
 		return fileDtoList.stream()
-				.map(dto -> { return dto.getSavedName() + dto.getExt(); })
-				.collect(Collectors.toList());
+				          .collect(Collectors.toMap(BoardFileInsDto::getIfile, dto -> dto.getSavedName() + dto.getExt()));
 	}
 	
 	@GetMapping("/list.do")
@@ -106,7 +109,7 @@ public class PhotoController {
 		
 		if(Utils.isNotNull(updPhotoBoardRows)) {
 			return Const.SUCCESS;
-			}
+		}
 		
 		return Const.FAIL;
 	}

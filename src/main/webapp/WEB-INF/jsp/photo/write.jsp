@@ -171,11 +171,14 @@ inputFile.addEventListener('change', (e) => {
         contentType: false, // 전달 데이터 형식 / formData로 보낼 경우 명시 필수
         processData: false, // string 변환 여부 / formData로 보낼 경우 명시 필수
         data: formData,
-        success: (data) => { // data - 이미지 업로드 후 반환된 이미지 경로 list
-        	for(let file of data) {
-	        	let src = '/winitech/img/' + file; // html 태그로 출력하기 위함 / /winitech/img/ - 실제 경로
+        success: (data) => { // data - 이미지 업로드 후 반환된 이미지 pk, src map
+        	let map = new Map(Object.entries(data));
+        
+        	for(let [key, value] of map) {
+	        	let src = '/winitech/img/' + value; // html 태그로 출력하기 위함 / /winitech/img/ - 실제 경로
 				let newImg = document.createElement('img'); // img 요소 새로 생성
 				newImg.setAttribute('src', src); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
+				newImg.setAttribute('data-ifile', key);
 				newImg.classList.add('img-preview');
 				form.appendChild(newImg);
         	}
@@ -225,8 +228,6 @@ form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 �
 		let thisTextValue = e.target.value; // backspace 이벤트를 발생시킨 textarea에 입력된 value
 		
 		// 제일 앞에 textarea를 지우고 싶을 때
-		console.log(previousSiblingNode);
-		console.log(nextSiblingNode.nodeName);
 		if(!previousSiblingNode && nextSiblingNode.nodeName == 'TEXTAREA') { // nodeName은 무조건 대문자
 			targetNode.remove();
 		}
