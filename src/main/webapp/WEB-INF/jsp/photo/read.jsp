@@ -34,8 +34,6 @@ let iboard = document.querySelector('.title').dataset.iboard;
 let contents = document.getElementById('contents');
 contents.innerHTML = `${vo.contents }`; // 내용은 따로 출력 / `` 백틱키로 감싸주지 않으면 태그 자체로 인식하므로 감싸주기
 
-console.log('iboard = ', iboard);
-
 btnUpdate.addEventListener('click', () => { location.href = '/winitech/photo/update.do?iboard=' + iboard; });
 
 btnDelete.addEventListener('click', () => {
