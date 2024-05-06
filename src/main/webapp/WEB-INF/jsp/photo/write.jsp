@@ -10,7 +10,7 @@
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
 .img-preview { cursor: pointer; }
 </style>
-<h1 class="title" data-category="${param.category }">사진 게시글 등록</h1>
+<h1 class="title" data-category="${param.category }" >사진 게시글 등록</h1>
 <form id="f" enctype="multipart/form-data">
 	<table class="table">
 	  <tbody>
@@ -35,8 +35,8 @@
 <div class="div-btn-group-wrap">
 	<!-- 등록 버튼 클릭 후 목록으로 돌아갈 시 파라미터로 값을 넘겨주기 위해(검색어 유지) 분기문 처리 -->
 	<c:if test="${param.name == null && param.title == null }"><button type="button" class="btn btn-primary btn-margin" id="btn-insert" data-iboard="${dto.iboard }">등록</button></c:if>
-   	<c:if test="${param.name != null }"><button type="button" class="btn btn-primary btn-margin" id="btn-insert" data-iboard="${iboard }" data-name="${param.name }">등록</button></c:if>
-	<c:if test="${param.title != null }"><button type="button" class="btn btn-primary btn-margin" id="btn-insert" data-iboard="${iboard }" data-title="${param.title }">등록</button></c:if>
+   	<c:if test="${param.name != null }"><button type="button" class="btn btn-primary btn-margin" id="btn-insert" data-iboard="${dto.iboard }" data-name="${param.name }">등록</button></c:if>
+	<c:if test="${param.title != null }"><button type="button" class="btn btn-primary btn-margin" id="btn-insert" data-iboard="${dto.iboard }" data-title="${param.title }">등록</button></c:if>
 	
 	<!-- 취소 버튼 클릭 시 파라미터로 값을 넘겨주기 위해(검색어 유지) 분기문 처리 -->
 	<c:if test="${param.name == null && param.title == null }"><button type="button" class="btn btn-danger" id="btn-cancle">취소</button></c:if>

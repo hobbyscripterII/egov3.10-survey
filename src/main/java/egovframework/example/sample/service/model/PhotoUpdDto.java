@@ -17,4 +17,6 @@ public class PhotoUpdDto {
 	public void setTitle(String title) { this.title = title; }
 	public String getContents() { return contents; }
 	public void setContents(String contents) { this.contents = contents; }
+	
+	@Override public String toString() { return "PhotoUpdDto [iboard=" + iboard + ", iuser=" + iuser + ", name=" + name + ", title=" + title + ", contents=" + contents + "]"; }
 }

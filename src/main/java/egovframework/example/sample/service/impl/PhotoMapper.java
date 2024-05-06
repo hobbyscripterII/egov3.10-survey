@@ -18,4 +18,5 @@ public interface PhotoMapper {
 	int updPhotoBoard(PhotoUpdDto dto);
 	PhotoSelVo selPhotoBoard(int iboard);
 	int insPhotoBoardFile(BoardFileInsDto dto);
+	List<String> getPhotoBoardFileNameList(int iboard);
 }

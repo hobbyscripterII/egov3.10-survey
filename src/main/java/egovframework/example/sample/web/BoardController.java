@@ -202,8 +202,17 @@ public class BoardController {
 		catch (Exception e) { return Const.FAIL; }
 	}
 
-	@PostMapping("/delete.do") @ResponseBody public int delBoard(@RequestParam int iboard) { return boardService.delBoard(iboard); }
-	@PostMapping("/check.do") @ResponseBody public int chkPwd(@RequestBody BoardChkPwdDto dto) { return boardService.chkPwd(dto); }
+	@PostMapping("/delete.do")
+	@ResponseBody
+	public int delBoard(@RequestParam int iboard) {
+		return boardService.delBoard(iboard);
+	}
+	
+//	@PostMapping("/check.do")
+//	@ResponseBody
+//	public int chkPwd(@RequestBody BoardChkPwdDto dto) {
+//		return boardService.chkPwd(dto);
+//	}
 
 	// 필드 변수명(name) -> 클라이언트 출력용 변수명(이름) 변환 메소드
 	private String fieldConverter(String field) {

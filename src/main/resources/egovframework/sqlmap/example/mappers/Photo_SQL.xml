@@ -5,14 +5,12 @@
 SELECT a.iboard, a.title, a.created_at createdAt, a.VIEW
 FROM board_tbl a
 WHERE category = 2 AND a.title != '' AND a.contents != ''
-<!--
 <if test="name != null and name != ''">
 AND name LIKE '%${name}%'
 </if>
 <if test="title != null and title != ''">
 AND title LIKE '%${title}%'
 </if>
--->
 ORDER BY iboard DESC
 LIMIT #{pageStart}, #{amount}
 </select>
@@ -50,4 +48,8 @@ WHERE a.iboard = #{iboard}
 <insert id="insPhotoBoardFile" parameterType="BoardFileInsDto">
 INSERT INTO file_tbl(iboard, original_name, saved_name, ext, file_size) VALUES(#{iboard}, #{originalName}, #{savedName}, #{ext}, #{fileSize})
 </insert>
+
+<select id="getPhotoBoardFileNameList" parameterType="int" resultType="list">
+SELECT CONCAT(saved_name, ext) savedName FROM file_tbl WHERE iboard = #{iboard}
+</select>
 </mapper>

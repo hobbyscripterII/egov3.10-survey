@@ -85,6 +85,7 @@ public class PhotoController {
 			PhotoUpdDto dto = new PhotoUpdDto();
 			dto.setName(getUserName(request)); // 작성자 칸에 로그인한 회원 이름을 보여주기 위해 setter로 값을 초기화함
 			dto.setIboard(insNullDto.getIboard());
+			log.info("dto = {}", dto);
 			model.addAttribute("dto", dto);
 			return "photo/write";
 		} else {
@@ -101,6 +102,13 @@ public class PhotoController {
 		if(Utils.isNotNull(updPhotoBoardRows)) { return Const.SUCCESS; }
 		
 		return Const.FAIL;
+	}
+	
+	@PostMapping("/delete.do")
+	@ResponseBody
+	public int delBoard(@RequestParam int iboard) {
+		log.info("iboard = ", iboard);
+		return photoService.delBoard(iboard);
 	}
 	
 	// 로그인 시 session에 저장했던 회원 이름

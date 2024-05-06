@@ -16,4 +16,6 @@ public interface PhotoService {
 	int updPhotoBoard(PhotoUpdDto dto);
 	PhotoSelVo selPhotoBoard(int iboard);
 	int insPhotoBoardFile(BoardFileInsDto dto);
+	List<String> getPhotoBoardFileNameList(int iboard);
+	int delBoard(int iboard);
 }
