@@ -84,12 +84,18 @@ public class PhotoController {
 		if (Utils.isNotNull(insPhotoBoardNullRows)) {
 			PhotoUpdDto dto = new PhotoUpdDto();
 			dto.setName(getUserName(request)); // 작성자 칸에 로그인한 회원 이름을 보여주기 위해 setter로 값을 초기화함
-			dto.setIboard(insNullDto.getIboard());
+			dto.setIboard(insNullDto.getIboard()); // 이미지 업로드 시 파일 테이블에 fk로 넣어주기 위함
 			model.addAttribute("dto", dto);
 			return "photo/write";
 		} else {
 			throw new RuntimeException();
 		}
+	}
+	
+	@GetMapping("/update.do")
+	public String updBoard(@RequestParam int iboard, Model model) {
+		model.addAttribute("dto", photoService.selPhotoBoard(iboard));
+		return "photo/write";
 	}
 	
 	@PostMapping("/update.do")

@@ -182,7 +182,7 @@ public class BoardController {
 		if (code > 0) {
 			resultMap.put(Const.MSG_KEY, Const.SUCCESS);
 			resultMap.put(Const.IBOARD_KEY, code); }
-		else { resultMap.put(Const.MSG_KEY, code); }
+		else {resultMap.put(Const.MSG_KEY, code); }
 		
 		return resultMap;
 	}

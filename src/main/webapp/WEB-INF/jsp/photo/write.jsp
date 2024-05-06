@@ -10,7 +10,14 @@
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
 .img-preview { cursor: pointer; }
 </style>
-<h1 class="title" data-category="${param.category }" >사진 게시글 등록</h1>
+<c:choose>
+	<c:when test="${empty dto.contents }">
+		<h1 class="title" data-category="${param.category }" >사진 게시글 등록</h1>
+	</c:when>
+	<c:otherwise>
+		<h1 class="title" data-category="${param.category }" >사진 게시글 수정</h1>
+	</c:otherwise>
+</c:choose>
 <form id="f" enctype="multipart/form-data">
 	<table class="table">
 	  <tbody>
@@ -52,6 +59,10 @@ let inputFile = document.getElementById('input-file');
 let imgPreview = document.querySelector('img-preview');
 let btnInsert = document.getElementById('btn-insert');
 let iboard = document.getElementById('btn-insert').dataset.iboard; // 게시글 등록 버튼 눌렀을 때 생기는 pk
+let contents = `${dto.contents }`;
+
+// dto contents가 빈 문자열이 아니라면 이미 작성한 게시글이므로 form div에 해당 게시글 출력(수정 작업)
+if(contents != '') { form.innerHTML = contents; }
 
 document.addEventListener('click', (e) => {
 let targetNode = e.target;
@@ -66,6 +77,9 @@ let previousSiblingNode = e.target.previousSibling;
 	}	
 });
 
+
+// 게시글 '등록' 버튼 누를 때 이미 insert 되었으므로 이후 작업들은 다 update임
+// 따라서 아래 로직을 재사용함
 btnInsert.addEventListener('click', (e) => {
 	let title = $('#title'); // 제목
 	let imgPreviews = $('.img-preview');
@@ -85,18 +99,15 @@ btnInsert.addEventListener('click', (e) => {
 	        }
 	        
 	        if (textareas[i]) {
-	            let text = textareas[i].value.trim(); // trim - 앞 뒤 공백 제거
-	            let pTagWrap = '<p>' + text + '</p>'; // 웹에디터 로직과 비슷하게 p 태그로 한번 감쌈
+	            let textarea = textareas[i].value.trim(); // trim - 앞 뒤 공백 제거
+	            let pTagWrap = '<p>' + textarea + '</p>'; // 웹에디터 로직과 비슷하게 p 태그로 한번 감쌈
 	            contents += pTagWrap; // contents 컬럼에 저장하기 위한 html 코드
 	        }
 	        
-	        /*
 	        if (ps[i]) {
-	        	console.log('ps[i].value = ', ps[i].value); // undefined
-	            let text = ps[i].value.trim(); // * trim 때문에 에러 뜨는데 나중에 고치기
-	            contents += text; // contents 컬럼에 저장하기 위한 html 코드
+	            let p = ps[i].outerHTML; // * trim 때문에 에러 뜨는데 나중에 고치기
+	            contents += p; // contents 컬럼에 저장하기 위한 html 코드
 	        }
-	        */
 	    }
 	    
 	    // >>>>> 작성했다가 반복문 돌리면서 html 코드로 변환할 때 순서 안맞아서 주석 처리해놓음
@@ -132,6 +143,7 @@ btnInsert.addEventListener('click', (e) => {
 	    } else {
 			let dto = {iboard : iboard, title : title.val(), contents : contents};
 			
+			/*
 			$.ajax({
 		        type: 'post',
 		        url: '/winitech/photo/update.do',
@@ -151,6 +163,8 @@ btnInsert.addEventListener('click', (e) => {
 		        }, 
 		        error: (x) => { console.log(x); }
 		     })
+			*/
+		     
 	    }
 	}
 });
