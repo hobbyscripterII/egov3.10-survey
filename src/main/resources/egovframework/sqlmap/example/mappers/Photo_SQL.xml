@@ -49,7 +49,11 @@ WHERE a.iboard = #{iboard}
 INSERT INTO file_tbl(iboard, original_name, saved_name, ext, file_size) VALUES(#{iboard}, #{originalName}, #{savedName}, #{ext}, #{fileSize})
 </insert>
 
-<select id="getPhotoBoardFileNameList" parameterType="int" resultType="list">
-SELECT CONCAT(saved_name, ext) savedName FROM file_tbl WHERE iboard = #{iboard}
+<select id="getPhotoBoardFileNameList" parameterType="int" resultType="PhotoBoardFileNameVo">
+SELECT CONCAT(saved_name, ext) fileName FROM file_tbl WHERE iboard = #{iboard}
 </select>
+
+<delete id="delPhotoBoard" parameterType="int">
+DELETE FROM board_tbl WHERE iboard = #{iboard}
+</delete>
 </mapper>

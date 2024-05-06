@@ -16,6 +16,7 @@
 		<typeAlias alias="PhotoInsNullDto" type="egovframework.example.sample.service.model.PhotoInsNullDto"/>
 		<typeAlias alias="PhotoUpdDto" type="egovframework.example.sample.service.model.PhotoUpdDto"/>
 		<typeAlias alias="PhotoSelVo" type="egovframework.example.sample.service.model.PhotoSelVo"/>
+		<typeAlias alias="PhotoBoardFileNameVo" type="egovframework.example.sample.service.model.PhotoBoardFileNameVo"/>
 		
 		<typeAlias alias="UserSignInDto" type="egovframework.example.sample.service.model.UserSignInDto"/>
 		<typeAlias alias="UserSignUpDto" type="egovframework.example.sample.service.model.UserSignUpDto"/>

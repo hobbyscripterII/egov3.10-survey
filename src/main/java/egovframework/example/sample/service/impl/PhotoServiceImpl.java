@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import egovframework.example.cmmn.Const;
 import egovframework.example.cmmn.FileUtils;
+import egovframework.example.cmmn.Utils;
 import egovframework.example.cmmn.Pagination.Criteria;
 import egovframework.example.sample.service.PhotoService;
 import egovframework.example.sample.service.model.BoardFileInsDto;
+import egovframework.example.sample.service.model.PhotoBoardFileNameVo;
 import egovframework.example.sample.service.model.PhotoInsNullDto;
 import egovframework.example.sample.service.model.PhotoListGetVo;
 import egovframework.example.sample.service.model.PhotoSelVo;
@@ -28,13 +30,20 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	public int delBoard(int iboard) {
-		List<String> getPhotoBoardFileNameList = getPhotoBoardFileNameList(iboard);
-		log.info("getPhotoBoardFileNameList = {}", getPhotoBoardFileNameList);
-		getPhotoBoardFileNameList.forEach(fileName -> {
-			fileUtils.deleteFile(fileName);
+		List<PhotoBoardFileNameVo> getPhotoBoardFileNameList = getPhotoBoardFileNameList(iboard);
+		// 로컬 파일 삭제
+		getPhotoBoardFileNameList.forEach(vo -> {
+			fileUtils.deleteFile(vo.getFileName());
 		});
 		
-		return Const.SUCCESS;
+		// 게시글 삭제
+		int delPhotoBoardRows = photoMapper.delPhotoBoard(iboard);
+		
+		if(Utils.isNotNull(delPhotoBoardRows)) {
+			return Const.SUCCESS;
+		}
+		
+		return Const.FAIL;
 	}
 	
 	@Override
@@ -68,7 +77,12 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
-	public List<String> getPhotoBoardFileNameList(int iboard) {
+	public List<PhotoBoardFileNameVo> getPhotoBoardFileNameList(int iboard) {
 		return photoMapper.getPhotoBoardFileNameList(iboard);
+	}
+
+	@Override
+	public int delPhotoBoard(int iboard) {
+		return photoMapper.delPhotoBoard(iboard);
 	}
 }

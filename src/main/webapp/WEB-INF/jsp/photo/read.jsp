@@ -38,7 +38,7 @@ btnUpdate.addEventListener('click', () => { location.href = '/winitech/photo/upd
 btnDelete.addEventListener('click', () => {
 	if (confirm('게시글을 삭제하시겠습니까?')) {
 		$.ajax({
-			type: 'post', url: '/winitech/photo/delete.do', data: {iboard : iboard},
+			type: 'post', url: '/winitech/photo/delete.do', data: { "iboard": iboard },
 			success: (data) => {
 				if (data == 1) { alert('게시글 삭제가 완료되었습니다. 게시글 목록으로 이동합니다.'); location.href = '/winitech/photo/list.do?category=2'; }
 				else { alert('게시글 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.'); return false; }},

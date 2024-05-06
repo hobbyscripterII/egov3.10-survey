@@ -4,6 +4,7 @@ import java.util.List;
 
 import egovframework.example.cmmn.Pagination.Criteria;
 import egovframework.example.sample.service.model.BoardFileInsDto;
+import egovframework.example.sample.service.model.PhotoBoardFileNameVo;
 import egovframework.example.sample.service.model.PhotoInsNullDto;
 import egovframework.example.sample.service.model.PhotoListGetVo;
 import egovframework.example.sample.service.model.PhotoSelVo;
@@ -18,5 +19,6 @@ public interface PhotoMapper {
 	int updPhotoBoard(PhotoUpdDto dto);
 	PhotoSelVo selPhotoBoard(int iboard);
 	int insPhotoBoardFile(BoardFileInsDto dto);
-	List<String> getPhotoBoardFileNameList(int iboard);
+	List<PhotoBoardFileNameVo> getPhotoBoardFileNameList(int iboard);
+	int delPhotoBoard(int iboard);
 }
