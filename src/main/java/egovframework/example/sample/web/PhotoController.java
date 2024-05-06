@@ -69,14 +69,14 @@ public class PhotoController {
 	}
 	
 	@GetMapping("/view.do")
-	public String selBoard(@RequestParam int iboard, Model model) {
+	public String selPhotoBoard(@RequestParam int iboard, Model model) {
 //		boardService.updView(iboard); // 조회수 증가(수정 필요)
 		model.addAttribute("vo", photoService.selPhotoBoard(iboard));
 		return "photo/read";
 	}
 
 	@GetMapping("/write.do")
-	public String insBoard(@RequestParam int category, Model model, HttpServletRequest request) throws RuntimeException {
+	public String insPhotoBoard(@RequestParam int category, Model model, HttpServletRequest request) throws RuntimeException {
 		// 이미지 업로드 시 해당 게시글의 pk를 참조해서 insert하기 위해 제목, 내용을 '' 빈 값으로 초기화해서 insert 함
 		PhotoInsNullDto insNullDto = new PhotoInsNullDto();
 		insNullDto.setCategory(category);
@@ -96,14 +96,14 @@ public class PhotoController {
 	}
 	
 	@GetMapping("/update.do")
-	public String updBoard(@RequestParam int iboard, Model model) {
+	public String updPhotoBoard(@RequestParam int iboard, Model model) {
 		model.addAttribute("dto", photoService.selPhotoBoard(iboard));
 		return "photo/write";
 	}
 	
 	@PostMapping("/update.do")
 	@ResponseBody
-	public int updBoard(@RequestBody PhotoUpdDto dto, HttpServletRequest request) {
+	public int updPhotoBoard(@RequestBody PhotoUpdDto dto, HttpServletRequest request) {
 		dto.setIuser(getIuser(request));
 		int updPhotoBoardRows = photoService.updPhotoBoard(dto);
 		
@@ -116,7 +116,16 @@ public class PhotoController {
 	
 	@PostMapping("/delete.do")
 	@ResponseBody
-	public int delBoard(@RequestParam int iboard) {
+	public int delPhotoBoard(@RequestParam int iboard, @RequestParam String src) {
+		// 로컬 파일 삭제
+//		fileUtils.deleteFile(src);
+//		return photoService.delPhotoBoardFile(iboard);
+		return Const.FAIL;
+	}
+
+	@PostMapping("/file-delete.do")
+	@ResponseBody
+	public int delPhotoBoardFile(@RequestParam int iboard) {
 		return photoService.delBoard(iboard);
 	}
 	

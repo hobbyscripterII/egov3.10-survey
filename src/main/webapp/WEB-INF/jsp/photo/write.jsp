@@ -6,7 +6,7 @@
 <html>
 <style>
 #div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 850px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
-textarea { width: 100%; height: 30px; line-height: 30px; /* border: none; */ border: 1px solid red; margin-top: 4px; outline: none; resize: none; }
+textarea { width: 100%; height: 30px; line-height: 30px; border: none; border-bottom: 1px dotted #000; margin-top: 4px; outline: none; resize: none; overflow: hidden; }
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
 .img-preview { cursor: pointer; }
 </style>
@@ -114,7 +114,10 @@ btnInsert.addEventListener('click', (e) => {
 			let dto = {iboard : iboard, title : title.val(), contents : contents};
 			
 			$.ajax({
-		        type: 'post', url: '/winitech/photo/update.do', data :  JSON.stringify(dto), contentType : 'application/json',
+		        type: 'post',
+		        url: '/winitech/photo/update.do',
+		        data :  JSON.stringify(dto),
+		        contentType : 'application/json',
 		        success: (data) => {
 		        	const SUCCESS = 1;
 		        	if(data == SUCCESS) { if(confirm('게시글 등록에 성공했습니다. 등록한 글을 확인하러 가시겠습니까?')) { location.href ='/winitech/photo/view.do?iboard=' + iboard; } } 
@@ -171,9 +174,11 @@ inputFile.addEventListener('change', (e) => {
         contentType: false, // 전달 데이터 형식 / formData로 보낼 경우 명시 필수
         processData: false, // string 변환 여부 / formData로 보낼 경우 명시 필수
         data: formData,
-        success: (data) => { // data - 이미지 업로드 후 반환된 이미지 pk, src map
+        success: (data) => {
         	let map = new Map(Object.entries(data));
         
+        	// key - insert 후 반환된 이미지 pk
+        	// value - 실제 업로드 경로에있는 UUID + 확장자
         	for(let [key, value] of map) {
 	        	let src = '/winitech/img/' + value; // html 태그로 출력하기 위함 / /winitech/img/ - 실제 경로
 				let newImg = document.createElement('img'); // img 요소 새로 생성
@@ -213,19 +218,32 @@ form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 �
 	let previousSiblingNode = e.target.previousSibling;
 	let nextSiblingNode = e.target.nextSibling;
 
-	if(previousSiblingNode) {
-		if(previousSiblingNode.className == 'img-preview') {
-			console.log('이미지를 삭제합니다.');
-			previousSiblingNode.remove();
-			
-			// 삭제된 이미지의 pk 배열에 담아두면 좋을 듯..
-			// ...
-		}
-	}
+
 	
 	// backspace 키 누를 경우 발생
 	if(e.code == 'Backspace') {
 		let thisTextValue = e.target.value; // backspace 이벤트를 발생시킨 textarea에 입력된 value
+		
+		if(previousSiblingNode) {
+			if(previousSiblingNode.className == 'img-preview') {
+				console.log('이미지를 삭제합니다.');
+				
+				let ifile = previousSiblingNode.getAttribute('data-ifile');
+				let src = previousSiblingNode.getAttribute('src').replace('/winitech/img/', '');
+				
+				// 사용자가 이미지 삭제할 경우 서버 / 테이블에서 미리 삭제
+				$.ajax({
+					type: 'post',
+					url: '/winitech/photo/file-delete.do',
+					data: { "iboard": iboard, "src": src },
+					success: (data) => {
+						if (data == 1) { previousSiblingNode.remove(); }
+						// 수정 필요
+						else { console.log('이미지 삭제에 실패했습니다.'); }},
+					error: (x) => { console.log(x); }
+				});
+			}
+		}
 		
 		// 제일 앞에 textarea를 지우고 싶을 때
 		if(!previousSiblingNode && nextSiblingNode.nodeName == 'TEXTAREA') { // nodeName은 무조건 대문자
