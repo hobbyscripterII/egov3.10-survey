@@ -6,7 +6,7 @@
 <html>
 <style>
 #div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 850px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
-.textarea-custom-form-control { width: 100%; height: 30px; line-height: 30px; /* border: none; */ border: 1px solid gray; margin-top: 4px; outline: none; resize: none; }
+.textarea-custom-form-control { width: 100%; height: 30px; line-height: 30px; /* border: none; */ border: 1px solid red; margin-top: 4px; outline: none; resize: none; }
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
 .img-preview { cursor: pointer; }
 </style>
@@ -203,15 +203,15 @@ inputFile.addEventListener('change', (e) => {
         contentType: false, // 전달 데이터 형식 / formData로 보낼 경우 명시 필수
         processData: false, // string 변환 여부 / formData로 보낼 경우 명시 필수
         data: formData,
-        success: (data) => {
+        success: (data) => { // data - 이미지 업로드 후 반환된 이미지 경로 list
         	for(let file of data) {
-	        	let src = '/winitech/img/' + file.savedName + file.ext; // html 태그로 출력하기 위함
+	        	let src = '/winitech/img/' + file; // html 태그로 출력하기 위함 / /winitech/img/ - 실제 경로
 				let newImg = document.createElement('img'); // img 요소 새로 생성
 				newImg.setAttribute('src', src); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
 				newImg.classList.add('img-preview');
 				form.appendChild(newImg);
         	}
-        }, 
+        },
         error: (x) => { console.log(x); }
      })
 });

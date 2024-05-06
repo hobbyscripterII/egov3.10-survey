@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.example.cmmn.Pagination.Criteria;
 import egovframework.example.sample.service.PhotoService;
+import egovframework.example.sample.service.model.BoardFileInsDto;
 import egovframework.example.sample.service.model.PhotoInsNullDto;
 import egovframework.example.sample.service.model.PhotoListGetVo;
 import egovframework.example.sample.service.model.PhotoSelVo;
@@ -45,5 +46,10 @@ public class PhotoServiceImpl implements PhotoService {
 	@Override
 	public PhotoSelVo selPhotoBoard(int iboard) {
 		return photoMapper.selPhotoBoard(iboard);
+	}
+
+	@Override
+	public int insPhotoBoardFile(BoardFileInsDto dto) {
+		return photoMapper.insPhotoBoardFile(dto);
 	}
 }

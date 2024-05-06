@@ -2,9 +2,9 @@ package egovframework.example.sample.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,6 @@ import egovframework.example.cmmn.Pagination;
 import egovframework.example.cmmn.Utils;
 import egovframework.example.sample.service.PhotoService;
 import egovframework.example.sample.service.model.BoardFileInsDto;
-import egovframework.example.sample.service.model.BoardInsDto;
 import egovframework.example.sample.service.model.PhotoInsNullDto;
 import egovframework.example.sample.service.model.PhotoUpdDto;
 
@@ -40,23 +39,21 @@ public class PhotoController {
 	
 	@PostMapping("/fileupload.do")
 	@ResponseBody
-	private List<BoardFileInsDto> fileUpload(@RequestPart(name = "iboard") int iboard, @RequestPart(name = "files") MultipartFile[] files) throws Exception {
+	private List<String> fileUpload(@RequestPart(name = "iboard") int iboard, @RequestPart(name = "files") MultipartFile[] files) throws Exception {
 		List<BoardFileInsDto> fileDtoList = new ArrayList(); // 로컬에 저장된 파일 정보를 담기위한 list 생성
 		// 반복문으로 로컬에 첨부파일 저장 후 반환된 dto(테이블에 저장할 파일 정보)를 list에 담음
 		// 배열 []은 List<>와 달리 stream 사용 불가능
 		for (MultipartFile file : files) {
 			BoardFileInsDto dto = fileUtils.fileUpload(file); // 파일 업로드 후 해당 파일의 정보를 dto에 담아서 줌
 			dto.setIboard(iboard);
-			fileDtoList.add(dto); // 테이블에 저장하기 위해 list에 담음
+			photoService.insPhotoBoardFile(dto); // 파일 테이블에 insert
+			fileDtoList.add(dto); // 반환 값으로 경로 추출하기 위해 list에 담음
 		}
 		
-		// 파일 테이블에 insert 필요
-		// ...
-		
-		// 넘겨 줄 때는 List<String> 해서 이미지 path만 넘겨주면 될 듯
-		// ...
-		
-		return fileDtoList; // 일단 임시 방편
+		// stream 사용하여 list 순회하면서 dto에 담겨있던 파일명 + 확장자를 문자열로 반환해 list에 담음
+		return fileDtoList.stream()
+				.map(dto -> { return dto.getSavedName() + dto.getExt(); })
+				.collect(Collectors.toList());
 	}
 	
 	@GetMapping("/list.do")
@@ -101,9 +98,8 @@ public class PhotoController {
 		dto.setIuser(getIuser(request));
 		int updPhotoBoardRows = photoService.updPhotoBoard(dto);
 		
-		if(Utils.isNotNull(updPhotoBoardRows)) {
-			return Const.SUCCESS;
-		}
+		if(Utils.isNotNull(updPhotoBoardRows)) { return Const.SUCCESS; }
+		
 		return Const.FAIL;
 	}
 	

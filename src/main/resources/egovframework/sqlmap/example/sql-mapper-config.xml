@@ -10,6 +10,7 @@
 		<typeAlias alias="BoardFileGetVo" type="egovframework.example.sample.service.model.BoardFileGetVo" />
 		<typeAlias alias="BoardFileSelVo" type="egovframework.example.sample.service.model.BoardFileSelVo" />
 		<typeAlias alias="BoardReplyUpdDto" type="egovframework.example.sample.service.model.BoardReplyUpdDto" />
+		<typeAlias alias="BoardFileInsDto" type="egovframework.example.sample.service.model.BoardFileInsDto" />
 		
 		<typeAlias alias="PhotoListGetVo" type="egovframework.example.sample.service.model.PhotoListGetVo"/>
 		<typeAlias alias="PhotoInsNullDto" type="egovframework.example.sample.service.model.PhotoInsNullDto"/>

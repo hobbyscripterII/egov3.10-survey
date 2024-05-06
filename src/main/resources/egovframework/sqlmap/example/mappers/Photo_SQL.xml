@@ -46,4 +46,8 @@ INNER JOIN user_tbl b
 ON a.iuser = b.iuser
 WHERE a.iboard = #{iboard}
 </select>
+
+<insert id="insPhotoBoardFile" parameterType="BoardFileInsDto">
+INSERT INTO file_tbl(iboard, original_name, saved_name, ext, file_size) VALUES(#{iboard}, #{originalName}, #{savedName}, #{ext}, #{fileSize})
+</insert>
 </mapper>

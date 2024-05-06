@@ -3,6 +3,7 @@ package egovframework.example.sample.service.impl;
 import java.util.List;
 
 import egovframework.example.cmmn.Pagination.Criteria;
+import egovframework.example.sample.service.model.BoardFileInsDto;
 import egovframework.example.sample.service.model.PhotoInsNullDto;
 import egovframework.example.sample.service.model.PhotoListGetVo;
 import egovframework.example.sample.service.model.PhotoSelVo;
@@ -16,4 +17,5 @@ public interface PhotoMapper {
 	int insPhotoBoardNull(PhotoInsNullDto dto);
 	int updPhotoBoard(PhotoUpdDto dto);
 	PhotoSelVo selPhotoBoard(int iboard);
+	int insPhotoBoardFile(BoardFileInsDto dto);
 }
