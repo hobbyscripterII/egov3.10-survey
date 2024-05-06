@@ -20,6 +20,7 @@ p { margin-bottom: 0 !important; }
 <div class="div-photo-board-list-wrap">
 	<c:forEach var="l" items="${list }">
 		<div class="div-img-thumbnail-wrap">
+			<a href="/winitech/photo/view.do?iboard=${l.iboard }"><img alt="썸네일" class="img-fluid img-thumbnail" src="/winitech/img/${l.thumbnail }"></a>
 			<p id="p-img-thumbnail-title"><a href="/winitech/photo/view.do?iboard=${l.iboard }" style="color: #000 !important"><c:out value="${l.title }" /></a></p>
 			<p style="color: #9E9E9E"><span><c:out value="${l.createdAt }" /></span><span>
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">

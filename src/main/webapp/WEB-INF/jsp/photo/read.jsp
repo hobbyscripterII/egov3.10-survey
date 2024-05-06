@@ -4,6 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
+<style>
+#body { height: auto; }
+</style>
 <body>
 <h1 class="title" data-iboard="${vo.iboard }">사진 게시글 읽기</h1>
 <table class="table">
