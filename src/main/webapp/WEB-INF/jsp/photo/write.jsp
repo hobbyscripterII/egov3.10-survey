@@ -10,59 +10,33 @@
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
 .img-preview { cursor: pointer; }
 </style>
-<c:choose>
-	<c:when test="${dto.iboard == 0 }"><h1 class="title">사진 게시글 등록</h1></c:when>
-	<c:otherwise><h1 class="title">사진 게시글 수정</h1></c:otherwise>
-</c:choose>
+<h1 class="title" data-category="${param.category }">사진 게시글 등록</h1>
 <form id="f" enctype="multipart/form-data">
 	<table class="table">
 	  <tbody>
 	  <tr><td>작성자</td><td colspan="3"><label class="col-form-label"><c:out value="${dto.name }" /></label></td></tr>
 	  <tr><td>제목</td><td colspan="3"><input type="text" class="form-control" id="title" maxlength="200" value="${dto.title }" placeholder="제목을 입력해주세요." autocomplete="off"></td></tr>
-	  <tr><td colspan="4">
-	  <div>
-	  <img id="icon-image-upload" alt="" title="이미지 업로드 아이콘" src="${pageContext.request.contextPath }/images/egovframework/winitech/icon-image-upload.png" onchange="preview(this)">
-	  <input class="form-control" type="file" id="input-file" accept="image/*" multiple style="display: none">
-	  </div>
-	  </td>
-	  <tr><td colspan="4" style="height: 450px">
-	  <!-- custom textarea <script src="${pageContext.request.contextPath }/js/board-write.js"> -->
-	  <div id="div-custom-form-control"></div>
-	  <!-- default textarea -->
-	  <!-- <textarea class="form-control" id="contents" maxlength="1000" style="height: 450px; resize: none"><c:out value="${dto.contents }" /></textarea> -->
-	  </td></tr>
-	  <!--
 	  <tr>
-	  	<td colspan="4">
-		  	<label class="form-label label-file-alert">첨부파일의 최대 크기는 10,485,760byte입니다.</label>
-			<input class="form-control" type="file" id="input-file" multiple accept="image/*, .pdf, .xlsx">
-	    </td>
+		  <td colspan="4">
+			  <div>
+				  <img id="icon-image-upload" alt="" title="이미지 업로드 아이콘" src="${pageContext.request.contextPath }/images/egovframework/winitech/icon-image-upload.png" onchange="preview(this)">
+				  <input class="form-control" type="file" id="input-file" accept="image/*" multiple style="display: none">
+			  </div>
+		  </td>
+	  <tr>
+		  <td colspan="4" style="height: 450px">
+		  	<div id="div-custom-form-control"></div>
+		  </td>
 	  </tr>
-	  -->
-      <!-- 
-	  <tr><td colspan="4"><label class="form-label label-file-alert">첨부파일의 최대 크기는 10,485,760byte입니다.</label><input class="form-control" type="file" id="input-file" multiple accept="image/*, .pdf, .xlsx"></td></tr>
-      -->
-	  <c:if test="${dto.iboard != 0 }">
-		  <c:if test="${fn:length(dto.files) != 0 }">
-			  <c:forEach var="item" items="${dto.files }">
-			  <tr><td colspan="4"><c:out value="${item.originalName }${item.ext } " /><span class="span-byte-text"><fmt:formatNumber value="${item.fileSize }" pattern="[#,### byte]" /></span><button type="button" class="btn btn-info btn-sm btn-file-delete" id="btn-file-delete" data-ifile="${item.ifile }">삭제</button></td></tr>
-			  </c:forEach>
-		  </c:if>
-	  </c:if>
 	  </tbody>
 	</table>
 </form>
 
 <div class="div-btn-group-wrap">
-	<c:choose>
-		<c:when test="${dto.iboard == 0 }">
-			<!-- 등록 버튼 클릭 후 목록으로 돌아갈 시 파라미터로 값을 넘겨주기 위해(검색어 유지) 분기문 처리 -->
-			<c:if test="${param.name == null && param.title == null }"><button type="button" class="btn btn-primary btn-margin" id="btn-insert" data-iboard="${iboard }">등록</button></c:if>
-		   	<c:if test="${param.name != null }"><button type="button" class="btn btn-primary btn-margin" id="btn-insert" data-iboard="${iboard }" data-name="${param.name }">등록</button></c:if>
-			<c:if test="${param.title != null }"><button type="button" class="btn btn-primary btn-margin" id="btn-insert" data-iboard="${iboard }" data-title="${param.title }">등록</button></c:if>
-		</c:when>
-		<c:otherwise><button type="button" class="btn btn-warning btn-margin" id="btn-update" data-iboard="${dto.iboard }">수정</button></c:otherwise>
-	</c:choose>
+	<!-- 등록 버튼 클릭 후 목록으로 돌아갈 시 파라미터로 값을 넘겨주기 위해(검색어 유지) 분기문 처리 -->
+	<c:if test="${param.name == null && param.title == null }"><button type="button" class="btn btn-primary btn-margin" id="btn-insert" data-iboard="${dto.iboard }">등록</button></c:if>
+   	<c:if test="${param.name != null }"><button type="button" class="btn btn-primary btn-margin" id="btn-insert" data-iboard="${iboard }" data-name="${param.name }">등록</button></c:if>
+	<c:if test="${param.title != null }"><button type="button" class="btn btn-primary btn-margin" id="btn-insert" data-iboard="${iboard }" data-title="${param.title }">등록</button></c:if>
 	
 	<!-- 취소 버튼 클릭 시 파라미터로 값을 넘겨주기 위해(검색어 유지) 분기문 처리 -->
 	<c:if test="${param.name == null && param.title == null }"><button type="button" class="btn btn-danger" id="btn-cancle">취소</button></c:if>
@@ -70,7 +44,6 @@
 	<c:if test="${param.title != null }"><button type="button" class="btn btn-danger" id="btn-cancle" data-title="${param.title }">취소</button></c:if>
 </div>
 </html>
-<!-- <script src="${pageContext.request.contextPath }/js/board-write.js"></script> -->
 <script type="text/javascript">
 // [photo/write js 함수]
 let form = document.getElementById('div-custom-form-control');
@@ -78,13 +51,15 @@ let iconImageUpload = document.getElementById('icon-image-upload');
 let inputFile = document.getElementById('input-file');
 let imgPreview = document.querySelector('img-preview');
 let btnInsert = document.getElementById('btn-insert');
+let iboard = document.getElementById('btn-insert').dataset.iboard; // 게시글 등록 버튼 눌렀을 때 생기는 pk
 
 document.addEventListener('click', (e) => {
+let targetNode = e.target;
 let nextSiblingNode = e.target.nextSibling;
 let previousSiblingNode = e.target.previousSibling;
 	
 	// 다음 노드가 이미지이며 이전 노드 이름이 textarea이거나 null일 때 새로운 textarea 요소를 추가함
-	if(nextSiblingNode.className == 'img-preview') {
+	if(targetNode.className == 'img-preview') {
 		let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
 		newTextarea.classList.add('textarea-custom-form-control'); // 해당 textarea에 css 먹임
 		e.target.after(newTextarea); // textarea를 현재 이벤트 타겟의 바로 뒤에 붙임
@@ -92,56 +67,99 @@ let previousSiblingNode = e.target.previousSibling;
 });
 
 btnInsert.addEventListener('click', (e) => {
+	let title = $('#title'); // 제목
 	let imgPreviews = $('.img-preview');
 	let textareas = $('textarea');
+	let ps = $('p');
 	let contents = ''; // 빈 값 초기화(null, undefined) 안나오게 처리하기 위함
 	let maxLength = imgPreviews.length > textareas.length ? imgPreviews.length : textareas.length;
 	
-   for (let i = 0; i < maxLength; i++) {
-        if (imgPreviews[i]) {
-            let img = imgPreviews[i].outerHTML; // outerHTML - 요소 전체를 html 문자열로 반환 / [object HTMLImageElement] 출력 방지
-            contents += img;
-        }
-        
-        if (textareas[i]) {
-            let text = textareas[i].value.trim(); // trim - 앞 뒤 공백 제거
-            let pTagWrap = '<p>' + text + '</p>'; // 웹에디터 로직과 비슷하게 p 태그로 한번 감쌈
-            contents += pTagWrap; // contents 컬럼에 저장하기 위한 html 코드
-        }
-    }
-	
-    contents = contents.trim(); // 값 제대입 / 앞에 빈 값 초기화했던 공백 제거
-    console.log(contents); // 테스트
-    form.innerHTML = contents; // 테스트
+	if(!title.val()) {
+		alert('제목을 입력해주세요.');
+		title.focus();
+	} else {
+	    for (let i = 0; i < maxLength; i++) {
+	        if (imgPreviews[i]) {
+	            let img = imgPreviews[i].outerHTML; // outerHTML - 요소 전체를 html 문자열로 반환 / [object HTMLImageElement] 출력 방지
+	            contents += img;
+	        }
+	        
+	        if (textareas[i]) {
+	            let text = textareas[i].value.trim(); // trim - 앞 뒤 공백 제거
+	            let pTagWrap = '<p>' + text + '</p>'; // 웹에디터 로직과 비슷하게 p 태그로 한번 감쌈
+	            contents += pTagWrap; // contents 컬럼에 저장하기 위한 html 코드
+	        }
+	        
+	        /*
+	        if (ps[i]) {
+	        	console.log('ps[i].value = ', ps[i].value); // undefined
+	            let text = ps[i].value.trim(); // * trim 때문에 에러 뜨는데 나중에 고치기
+	            contents += text; // contents 컬럼에 저장하기 위한 html 코드
+	        }
+	        */
+	    }
+	    
+	    // >>>>> 작성했다가 반복문 돌리면서 html 코드로 변환할 때 순서 안맞아서 주석 처리해놓음
+	    /*
+	    btnInsert.addEventListener('click', (e) => {
+	    	let contents = ''; // 빈 값 초기화(null, undefined) 안나오게 처리하기 위함
+	    	
+	        $('.img-preview').each((idx, item) => {
+	        	let img = item.outerHTML; // outerHTML - 요소 전체를 html 문자열로 반환 / [object HTMLImageElement] 출력 방지
+	        	contents += img;
+	        });
+	    	
+	        contents = contents.trim();
+	    	
+	        $('textarea').each((idx, item) => {
+	        	let text = item.value.trim(); // trim - 앞 뒤 공백 제거
+	        	let pTagWrap = '<p>' + text + '</p>'; // 웹에디터 로직과 비슷하게 p 태그로 한번 감쌈
+	        	contents += pTagWrap; // contents 컬럼에 저장하기 위한 html 코드
+	        });
+	    	
+	        contents = contents.trim(); // 값 제대입 / 앞에 빈 값 초기화했던 공백 제거
+	        console.log(contents); // 테스트
+	        form.innerHTML = contents; // 테스트
+	    });
+	     */
+		
+	    contents = contents.trim(); // 값 제대입 / 앞에 빈 값 초기화했던 공백 제거
+	    console.log(contents); // 테스트용
+	    form.innerHTML = contents; // 테스트용
+	     
+	    if(contents == '') {
+	    	alert('내용을 입력해주세요.');
+	    } else {
+			let dto = {iboard : iboard, title : title.val(), contents : contents};
+			
+			$.ajax({
+		        type: 'post',
+		        url: '/winitech/photo/update.do',
+		        data :  JSON.stringify(dto),
+		        contentType : 'application/json',
+		        success: (data) => {
+		        	const SUCCESS = 1;
+		        	const FAIL = 0;
+		        	
+		        	if(data == SUCCESS) {
+		        		if(confirm('게시글 등록에 성공했습니다. 등록한 글을 확인하러 가시겠습니까?')) {
+		        			location.href ='/winitech/photo/view.do?iboard=' + iboard;
+		        		} else {
+		        			alert('게시글 등록에 실패하였습니다. 잠시 후 다시 시도해주세요.');
+		        		}
+		        	}
+		        }, 
+		        error: (x) => { console.log(x); }
+		     })
+	    }
+	}
 });
-
-// >>>>> 작성했다가 반복문 돌리면서 html 코드로 변환할 때 순서 안맞아서 주석 처리해놓음
-/*
-btnInsert.addEventListener('click', (e) => {
-	let contents = ''; // 빈 값 초기화(null, undefined) 안나오게 처리하기 위함
-	
-    $('.img-preview').each((idx, item) => {
-    	let img = item.outerHTML; // outerHTML - 요소 전체를 html 문자열로 반환 / [object HTMLImageElement] 출력 방지
-    	contents += img;
-    });
-	
-    contents = contents.trim();
-	
-    $('textarea').each((idx, item) => {
-    	let text = item.value.trim(); // trim - 앞 뒤 공백 제거
-    	let pTagWrap = '<p>' + text + '</p>'; // 웹에디터 로직과 비슷하게 p 태그로 한번 감쌈
-    	contents += pTagWrap; // contents 컬럼에 저장하기 위한 html 코드
-    });
-	
-    contents = contents.trim(); // 값 제대입 / 앞에 빈 값 초기화했던 공백 제거
-    console.log(contents); // 테스트
-    form.innerHTML = contents; // 테스트
-});
- */
 
 // 이미지 업로드 아이콘 클릭 시 input file이 클릭됨
 // input file 폼은 display none으로 처리
-iconImageUpload.addEventListener('click', () => { inputFile.click(); });
+iconImageUpload.addEventListener('click', () => {
+	inputFile.click();
+});
 
 inputFile.addEventListener('change', (e) => {
 	let formData = new FormData();
@@ -174,11 +192,9 @@ inputFile.addEventListener('change', (e) => {
 		console.log('arr = ', arr);
 		*/
 		
-		formData.append("files", file);
+		formData.append("files", file); // 반복문 돌릴 때 마다 files에 이미지를 담음 / 서버에서는 @RequestPart MultipartFile[] 배열로 받을 수 있음
 	}
 	
-	// 테스트 완료
-	let iboard = document.getElementById('btn-insert').dataset.iboard; // 게시글 등록 버튼 눌렀을 때 생기는 pk
 	formData.append("iboard", new Blob([JSON.stringify(iboard)], {type: "application/json"}));
 	
 	$.ajax({
@@ -206,9 +222,7 @@ form.addEventListener('click', (e) => {
 	let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
 	newTextarea.classList.add('textarea-custom-form-control'); // 해당 textarea에 css 먹임
 	form.appendChild(newTextarea); // textarea를 text div의 마지막 자식 요소에 덧붙임
-	
-	// text 폼 클릭 시 input 폼 한번만 생성하기 위해 once 속성을 true로 지정
-}, {once : true});
+}, {once : true}); // text 폼 클릭 시 input 폼 한번만 생성하기 위해 once 속성을 true로 지정
 
 form.addEventListener('click', (e) => {
 	// text div 어디를 클릭하더라도 마지막 textarea 폼으로 이동

@@ -13,6 +13,7 @@
 		
 		<typeAlias alias="PhotoListGetVo" type="egovframework.example.sample.service.model.PhotoListGetVo"/>
 		<typeAlias alias="PhotoInsNullDto" type="egovframework.example.sample.service.model.PhotoInsNullDto"/>
+		<typeAlias alias="PhotoUpdDto" type="egovframework.example.sample.service.model.PhotoUpdDto"/>
 		
 		<typeAlias alias="UserSignInDto" type="egovframework.example.sample.service.model.UserSignInDto"/>
 		<typeAlias alias="UserSignUpDto" type="egovframework.example.sample.service.model.UserSignUpDto"/>

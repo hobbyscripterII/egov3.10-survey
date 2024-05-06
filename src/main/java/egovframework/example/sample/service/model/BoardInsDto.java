@@ -10,8 +10,8 @@ public class BoardInsDto {
 	private int iuser; // 회원 pk (2차 과제 때 추가)
 	private int category; // 게시판 카테고리 식별코드
 	private int code; // 답변글 식별코드(게시글 pk)
-	private String name; // Validation 적용
-//	private String pwd; // Validation 적용
+	private String name; // Validation 적용 
+//	private String pwd; // Validation 적용 / 회원 테이블 pk 참조 후 필요 x
 	private String title; // Validation 적용
 	private String contents; // Validation 적용
 	private String replyFl; // 답변글 여부

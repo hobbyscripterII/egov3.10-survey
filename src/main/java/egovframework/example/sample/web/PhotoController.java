@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -26,6 +27,7 @@ import egovframework.example.sample.service.PhotoService;
 import egovframework.example.sample.service.model.BoardFileInsDto;
 import egovframework.example.sample.service.model.BoardInsDto;
 import egovframework.example.sample.service.model.PhotoInsNullDto;
+import egovframework.example.sample.service.model.PhotoUpdDto;
 
 @Controller
 @RequestMapping("/photo")
@@ -34,10 +36,7 @@ public class PhotoController {
 	private final FileUtils fileUtils;
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	public PhotoController(PhotoService photoService, FileUtils fileUtils) {
-		this.photoService = photoService;
-		this.fileUtils = fileUtils;
-	}
+	public PhotoController(PhotoService photoService, FileUtils fileUtils) { this.photoService = photoService; this.fileUtils = fileUtils; }
 	
 	@PostMapping("/fileupload.do")
 	@ResponseBody
@@ -50,7 +49,14 @@ public class PhotoController {
 			dto.setIboard(iboard);
 			fileDtoList.add(dto); // 테이블에 저장하기 위해 list에 담음
 		}
-		return fileDtoList; // 테이블에 저장하기 위해 해당 List<dto>를 반환
+		
+		// 파일 테이블에 insert 필요
+		// ...
+		
+		// 넘겨 줄 때는 List<String> 해서 이미지 path만 넘겨주면 될 듯
+		// ...
+		
+		return fileDtoList; // 일단 임시 방편
 	}
 	
 	@GetMapping("/list.do")
@@ -64,26 +70,39 @@ public class PhotoController {
 
 	@GetMapping("/write.do")
 	public String insBoard(@RequestParam int category, Model model, HttpServletRequest request) throws RuntimeException {
-		HttpSession session = request.getSession(); // request에 있는 session을 들고 옴
-		String name = (String) session.getAttribute(Const.USER_NAME); // 로그인 시 session에 저장했던 회원 이름
-		int iuser = (int) session.getAttribute(Const.USER_IUSER); // 로그인 시 session에 저장했던 회원 pk
-		
-		// 업로드 시 해당 게시글의 pk를 참조해서 insert하기 위해 제목, 내용을 '' 빈 값으로 초기화해서 넣기 위함
+		// 이미지 업로드 시 해당 게시글의 pk를 참조해서 insert하기 위해 제목, 내용을 '' 빈 값으로 초기화해서 insert 함
 		PhotoInsNullDto insNullDto = new PhotoInsNullDto();
 		insNullDto.setCategory(category);
-		insNullDto.setIuser(iuser);
-		int insPhotoBoardNullRows = photoService.insPhotoBoardNull(insNullDto); // mybatis에서 반환 값으로 게시글 pk를 들고오게 함
-		log.info("insNullDto = {}", insNullDto);
+		insNullDto.setIuser(getIuser(request)); // 로그인 시 session에 저장했던 회원 pk
+		int insPhotoBoardNullRows = photoService.insPhotoBoardNull(insNullDto); // mybatis에서 반환 값으로 게시글 pk를 들고 옴(insNullDto.getIboard())
 		
 		// 빈 값으로 초기화한 데이터가 insert 되고 반환 값으로 pk를 들고왔다면 아래 로직을 실행함
 		if (Utils.isNotNull(insPhotoBoardNullRows)) {
-			BoardInsDto dto = new BoardInsDto();
-			dto.setName(name); // 작성자 칸에 로그인한 회원 이름을 보여주기 위해 setter로 값을 초기화함
+			PhotoUpdDto dto = new PhotoUpdDto();
+			dto.setName(getUserName(request)); // 작성자 칸에 로그인한 회원 이름을 보여주기 위해 setter로 값을 초기화함
+			dto.setIboard(insNullDto.getIboard());
 			model.addAttribute("dto", dto);
-			model.addAttribute("iboard", insNullDto.getIboard()); // ${iboard }
 			return "photo/write";
 		} else {
 			throw new RuntimeException();
 		}
 	}
+	
+	@PostMapping("/update.do")
+	@ResponseBody
+	public int updBoard(@RequestBody PhotoUpdDto dto, HttpServletRequest request) {
+		dto.setIuser(getIuser(request));
+		int updPhotoBoardRows = photoService.updPhotoBoard(dto);
+		
+		if(Utils.isNotNull(updPhotoBoardRows)) {
+			return Const.SUCCESS;
+		}
+		return Const.FAIL;
+	}
+	
+	// 로그인 시 session에 저장했던 회원 이름
+	public String getUserName(HttpServletRequest request) { return (String) request.getSession().getAttribute(Const.USER_NAME); }
+	
+	// 로그인 시 session에 저장했던 회원 pk
+	public int getIuser(HttpServletRequest request) { return (int) request.getSession().getAttribute(Const.USER_IUSER); }
 }
