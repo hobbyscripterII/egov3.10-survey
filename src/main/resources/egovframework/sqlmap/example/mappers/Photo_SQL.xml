@@ -38,4 +38,12 @@ INSERT INTO board_tbl(iuser, category, CODE, title, contents) VALUES(#{iuser}, #
 <update id="updPhotoBoard" parameterType="PhotoUpdDto">
 UPDATE board_tbl SET title = #{title}, contents = #{contents} WHERE iboard = #{iboard}
 </update>
+
+<select id="selPhotoBoard" parameterType="int" resultType="PhotoSelVo">
+SELECT a.iboard, b.iuser, b.name, a.title, a.contents, a.created_at createdAt
+FROM board_tbl a
+INNER JOIN user_tbl b
+ON a.iuser = b.iuser
+WHERE a.iboard = #{iboard}
+</select>
 </mapper>

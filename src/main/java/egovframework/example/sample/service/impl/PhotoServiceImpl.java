@@ -10,6 +10,7 @@ import egovframework.example.cmmn.Pagination.Criteria;
 import egovframework.example.sample.service.PhotoService;
 import egovframework.example.sample.service.model.PhotoInsNullDto;
 import egovframework.example.sample.service.model.PhotoListGetVo;
+import egovframework.example.sample.service.model.PhotoSelVo;
 import egovframework.example.sample.service.model.PhotoUpdDto;
 
 @Service
@@ -39,5 +40,10 @@ public class PhotoServiceImpl implements PhotoService {
 	@Override
 	public int updPhotoBoard(PhotoUpdDto dto) {
 		return photoMapper.updPhotoBoard(dto);
+	}
+
+	@Override
+	public PhotoSelVo selPhotoBoard(int iboard) {
+		return photoMapper.selPhotoBoard(iboard);
 	}
 }

@@ -67,6 +67,13 @@ public class PhotoController {
 		model.addAttribute("criteria", criteria);
 		return "photo/list";
 	}
+	
+	@GetMapping("/view.do")
+	public String selBoard(@RequestParam int iboard, Model model) {
+//		boardService.updView(iboard); // 조회수 증가(수정 필요)
+		model.addAttribute("vo", photoService.selPhotoBoard(iboard));
+		return "photo/read";
+	}
 
 	@GetMapping("/write.do")
 	public String insBoard(@RequestParam int category, Model model, HttpServletRequest request) throws RuntimeException {

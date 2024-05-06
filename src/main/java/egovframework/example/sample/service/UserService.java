@@ -2,6 +2,7 @@ package egovframework.example.sample.service;
 
 import java.util.Map;
 
+import egovframework.example.sample.service.model.PhotoSelVo;
 import egovframework.example.sample.service.model.UserSignInDto;
 import egovframework.example.sample.service.model.UserSignUpDto;
 
