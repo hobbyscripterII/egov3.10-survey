@@ -7,22 +7,34 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
 	<!-- interceptor -->
-	<!-- 수정 필요 -->
-	<!--
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
-			<mvc:exclude-mapping path="/"/>
-			<mvc:exclude-mapping path="/winitech/user/id-check.do"/>
-			<mvc:exclude-mapping path="/winitech/user/signup.do"/>
-			<mvc:exclude-mapping path="/winitech/user/signin.do"/>
-			<mvc:exclude-mapping path="/winitech/user/signout.do"/>
-			<mvc:exclude-mapping path="/winitech/home.do"/>
+			<!-- mapping - 인터셉터 적용 url -->
+			<mvc:mapping path="/board/write.do/**"/>
+			<mvc:mapping path="/board/update.do/**"/>
+			<mvc:mapping path="/board/delete.do/**"/>
+			<mvc:mapping path="/photo/write.do/**"/>
+			<mvc:mapping path="/photo/update.do/**"/>
+			<mvc:mapping path="/photo/delete.do/**"/>
+
+			<!-- 제외할 url이 적용할 url 개수보다 많으므로 mapping path로 구성함 -->
+			<!-- exclude-mapping - 인터셉터 제외 url -->
+			<!-- 
 			<mvc:exclude-mapping path="/resources/css/**"/>
+			<mvc:exclude-mapping path="/home.do"/>
+			<mvc:exclude-mapping path="/user/id-check.do"/>
+			<mvc:exclude-mapping path="/user/signup.do"/>
+			<mvc:exclude-mapping path="/user/signup-success.do"/>
+			<mvc:exclude-mapping path="/user/signin.do"/>
+			<mvc:exclude-mapping path="/user/signout.do"/>
+			<mvc:exclude-mapping path="/board/list.do/**"/>
+			<mvc:exclude-mapping path="/board/view.do/**"/>
+			<mvc:exclude-mapping path="/photo/list.do/**"/>
+			<mvc:exclude-mapping path="/photo/view.do/**"/>
+			-->
 			<bean class="egovframework.example.cmmn.web.EgovInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-	-->
 	
 	<!-- json -->
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">

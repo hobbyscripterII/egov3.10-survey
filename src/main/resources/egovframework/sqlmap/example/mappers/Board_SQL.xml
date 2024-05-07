@@ -122,4 +122,9 @@ SELECT COUNT(*) FROM file_tbl WHERE iboard = #{iboard}
 <update id="updView" parameterType="int">
 UPDATE board_tbl SET VIEW = (SELECT VIEW FROM board_tbl WHERE iboard = #{iboard}) + 1 WHERE iboard = #{iboard}
 </update>
+
+<!-- 인터셉터 호출 전용(수정 / 삭제 접근 시 작성한 회원과 비교하기 위함 -->
+<select id="getBoardByIuser" parameterType="int" resultType="int">
+SELECT iuser FROM board_tbl WHERE iboard = #{iboard}
+</select>
 </mapper>

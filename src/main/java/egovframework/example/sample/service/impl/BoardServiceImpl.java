@@ -233,4 +233,9 @@ public class BoardServiceImpl implements BoardService {
 	public int updView(int iboard) {
 		return boardMapper.updView(iboard);
 	}
+
+	@Override
+	public int getBoardByIuser(int iboard) {
+		return boardMapper.getBoardByIuser(iboard);
+	}
 }

@@ -40,4 +40,6 @@ public interface BoardMapper {
 	String getHashedPwd(int iboard); // 해시화된 암호 가져오기
 
 	int updView(int iboard); // 조회수++
+	
+	int getBoardByIuser(int iboard); // 인터셉터 호출 전용(수정 / 삭제 접근 시 작성한 회원과 비교하기 위함
 }

@@ -29,6 +29,7 @@ public class Const {
 	public static final String USER_IUSER = "IUSER"; // 회원 pk
 	public static final String USER_NAME = "NAME"; // 이름
 	public static final String USER_ROLE = "ROLE"; // 권한
+	public static final String USER_IP = "IP"; // 접속 ip
 
 	// [유효성 검증]
 	// 필드 멤버명

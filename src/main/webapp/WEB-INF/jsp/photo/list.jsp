@@ -7,10 +7,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
 <style>
 p { margin-bottom: 0 !important; }
 #p-img-thumbnail-title, #p-img-thumbnail-name { width: 100%; margin-top: 5px; }

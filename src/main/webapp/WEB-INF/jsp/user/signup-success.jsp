@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <style>
-#body { display: flex; flex-wrap: wrap; justify-content: center; height: 100%; }
+#body { display: flex; flex-wrap: wrap; justify-content: center; height: 67vh; }
 #div-signup-wrap { width: 30%; height: 100%; }
 #btn-login { margin-top: 10px; width: 100%; }
 .text-muted { font-size: 13px; }

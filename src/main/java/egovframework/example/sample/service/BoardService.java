@@ -23,4 +23,5 @@ public interface BoardService {
 	public int updBoard(BoardUpdDto dto);
 	public int chkPwd(BoardChkPwdDto dto);
 	public int updView(int iboard);
+	public int getBoardByIuser(int iboard);
 }
