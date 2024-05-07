@@ -20,4 +20,5 @@ public interface PhotoService {
 	List<PhotoBoardFileNameVo> getPhotoBoardFileNameList(int iboard);
 	int delBoard(int iboard);
 	int delPhotoBoard(int iboard);
+	int updPhotoBoardFileThumbnailFl(int ifile);
 }

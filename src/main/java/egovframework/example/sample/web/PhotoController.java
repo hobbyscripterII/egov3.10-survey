@@ -48,7 +48,8 @@ public class PhotoController {
 		for (MultipartFile file : files) {
 			BoardFileInsDto dto = fileUtils.fileUpload(file); // 파일 업로드 후 해당 파일의 정보를 dto에 담아서 줌
 			dto.setIboard(iboard);
-			photoService.insPhotoBoardFile(dto); // 파일 테이블에 insert
+			int insPhotoBoardFileRows = photoService.insPhotoBoardFile(dto); // 파일 테이블에 insert
+			log.info("insPhotoBoardFileRows = {}", insPhotoBoardFileRows);
 			fileDtoList.add(dto); // 반환 값으로 경로 추출하기 위해 list에 담음
 		}
 		
@@ -126,7 +127,7 @@ public class PhotoController {
 	@PostMapping("/file-delete.do")
 	@ResponseBody
 	public int delPhotoBoardFile(@RequestParam int iboard) {
-		return photoService.delBoard(iboard);
+		return Const.FAIL;
 	}
 	
 	// 로그인 시 session에 저장했던 회원 이름

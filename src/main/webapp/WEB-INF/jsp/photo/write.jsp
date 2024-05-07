@@ -8,8 +8,10 @@
 #div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 850px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
 textarea { width: 100%; height: 30px; line-height: 30px; border: none; border-bottom: 1px dotted #000; margin-top: 4px; outline: none; resize: none; overflow: hidden; }
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
-.img-preview { cursor: pointer; }
+.img-preview {  }
+.div-thumbnail-chioce-form { padding: 6px; background-color: white; cursor: pointer; position: relative; width: 125px; bottom: 36px; }
 </style>
+<div style="display: none" class="div-thumbnail-chioce-form"></div>
 <c:choose>
 	<c:when test="${empty dto.contents }">
 		<h1 class="title" data-category="${param.category }" >사진 게시글 등록</h1>
@@ -60,6 +62,7 @@ let imgPreview = document.querySelector('img-preview');
 let btnInsert = document.getElementById('btn-insert');
 let iboard = document.getElementById('btn-insert').dataset.iboard; // 게시글 등록 버튼 눌렀을 때 생기는 pk
 let contents = `${dto.contents }`;
+let thumbnail = 0; // 대표 썸네일 pk 초기화
 
 // dto contents가 빈 문자열이 아니라면 이미 작성한 게시글이므로 form div에 해당 게시글 출력(수정 작업)
 if(contents != '') {
@@ -69,18 +72,46 @@ if(contents != '') {
 	form.innerHTML = suffixReplace;
 	}
 
-document.addEventListener('click', (e) => {
-let targetNode = e.target;
-let nextSiblingNode = e.target.nextSibling;
-let previousSiblingNode = e.target.previousSibling;
-
-	// 다음 노드가 이미지이며 이전 노드 이름이 textarea이거나 null일 때 새로운 textarea 요소를 추가함
+form.addEventListener('click', (e) => {
+	let targetNode = e.target;
+	let nextSiblingNode = e.target.nextSibling;
+	let previousSiblingNode = e.target.previousSibling;
+	let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
+		
+	if(targetNode.className == 'div-thumbnail-chioce-form') {
+		let divThumbnailChioceForms = document.getElementsByClassName('div-thumbnail-chioce-form');
+		
+		for(let i = 0; i < divThumbnailChioceForms.length; i++) {
+			divThumbnailChioceForms[i].style.backgroundColor = 'white';
+		}
+		
+		console.log('대표 이미지를 선택합니다.');
+		targetNode.style.backgroundColor = '#80FF00';
+		thumbnail = previousSiblingNode.getAttribute('data-ifile');
+		console.log('thumbnail = ', thumbnail);
+	}
+	
+	// 앞 뒤로 이미지만 있을 때 / 다음 형제 노드가 없을 때 새로운 textarea 생성
+	if((targetNode.className == 'img-preview' && nextSiblingNode.className == 'img-preview') || !nextSiblingNode) {
+		targetNode.after(newTextarea);
+	}
+	
 	if(targetNode.className == 'img-preview') {
-		let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
-		targetNode.after(newTextarea); // textarea를 현재 이벤트 타겟의 바로 뒤에 붙임
-	}	
+		console.log('이미지를 클릭했습니다.');
+		
+		/*
+		targetNode.addEventListener('keypress', (e) => {
+			if(e.code == 'Backspace') {
+				// 이미지 삭제 로직
+				// ...
+				targetNode.remove();
+				console.log('이미지를 삭제합니다.');
+			}
+		});
+		*/
+		
+	}
 });
-
 
 // 게시글 '등록' 버튼 누를 때 이미 insert 되었으므로 이후 작업들은 다 update임
 // 따라서 아래 로직을 재사용함
@@ -89,6 +120,21 @@ btnInsert.addEventListener('click', (e) => {
 	let imgPreviews = $('.img-preview');
 	let textareas = $('textarea');
 	let contents = ''; // 빈 값 초기화(null, undefined) 안나오게 처리하기 위함
+	
+	/*
+	let textForm = document.getElementById('div-custom-form-control').outerHTML;
+	console.log('textForm = ',textForm);
+	
+	let prefixDivRemove = textForm.replace('<div id="div-custom-form-control">', '');
+	console.log('prefixDivRemove = ', prefixDivRemove);
+	let suffixDivRemove = prefixDivRemove.replace('</div>', '');
+	console.log('suffixDivRemove = ', suffixDivRemove);
+	let prefixTextareaReplace = suffixDivRemove.replaceAll('<textarea', '<p');
+	console.log('prefixTextareaReplace = ', prefixTextareaReplace);
+	let suffixTextareaReplace = prefixTextareaReplace.replaceAll('</textarea>', '</p>');
+	console.log('suffixTextareaReplace = ', suffixTextareaReplace);
+	*/
+	
 	let length = imgPreviews.length + textareas.length; // 작성한 게시글 내용을 다 처리하기 위해서 배열을 img 태그 개수 + textarea 개수로 계산
 	
 	if(!title.val()) { alert('제목을 입력해주세요.'); title.focus(); }
@@ -111,7 +157,7 @@ btnInsert.addEventListener('click', (e) => {
 	     
 	    if(contents == '') { alert('내용을 입력해주세요.'); }
 	    else {
-			let dto = {iboard : iboard, title : title.val(), contents : contents};
+			let dto = {iboard : iboard, title : title.val(), contents : contents, thumbnail : thumbnail};
 			
 			$.ajax({
 		        type: 'post',
@@ -141,7 +187,7 @@ inputFile.addEventListener('change', (e) => {
 		let file = files[i];
 		
 		// 이미지 첨부 시 image 유효성 검증
-		if(!file.type.match('image/.*')) { alert('이미지 파일만 업로드 해주세요.'); return; }
+		if(!file.type.match('image/.*')) { alert('이미지 파일만 업로드 가능합니다.'); return; }
 		
 		/*
 		// 예외처리
@@ -181,11 +227,18 @@ inputFile.addEventListener('change', (e) => {
         	// value - 실제 업로드 경로에있는 UUID + 확장자
         	for(let [key, value] of map) {
 	        	let src = '/winitech/img/' + value; // html 태그로 출력하기 위함 / /winitech/img/ - 실제 경로
+	        	let newWrapDiv = document.createElement('div');
+	        	let newThumbnailChioceForm = document.createElement('div');
+	        	let newThumbnailChioceText = document.createTextNode('대표 이미지 선택');
+	        	newThumbnailChioceForm.classList.add('div-thumbnail-chioce-form');
+	        	newThumbnailChioceForm.appendChild(newThumbnailChioceText);
 				let newImg = document.createElement('img'); // img 요소 새로 생성
 				newImg.setAttribute('src', src); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
 				newImg.setAttribute('data-ifile', key);
 				newImg.classList.add('img-preview');
-				form.appendChild(newImg);
+				newWrapDiv.appendChild(newImg);
+				newWrapDiv.appendChild(newThumbnailChioceForm);
+				form.appendChild(newWrapDiv);
         	}
         },
         error: (x) => { console.log(x); }
@@ -206,11 +259,31 @@ form.addEventListener('click', (e) => {
 });
 
 form.addEventListener('keyup', (e) => { // keyup - 키보드에서 손 뗐을 때 실행
+	let targetNode = e.target;
+	let previousSiblingNode = e.target.previousSibling;
+	let nextSiblingNode = e.target.nextSibling;
+	
+	// console.log('★ [keyup] e.code = ', e.code);
+	
+	// textarea 키보드 커서 제일 마지막에 위치하기 위한 작업
+	// 방향키에 따라 포커즈 이동(노드 이동) // 방향키는 keyup, keydown만 가능
+	/*
+	let target;
+	if(e.code == 'ArrowDown' || e.code == 'ArrowRight') {
+		target = nextSiblingNode;
+		target.focus();
+	} else if(e.code == 'ArrowUp' || e.code == 'ArrowLeft') {
+		target = previousSiblingNode;
+		target.focus();
+	}
+	*/
+	
 	// textarea 자동 높이 조절
 	/*
 	let target = e.target;
 	target.style.height = target.scrollHeight + 'px';
 	*/
+	
 });
 
 form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 실행 / 누르고 있을 때 한번만 실행됨
@@ -218,20 +291,24 @@ form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 �
 	let previousSiblingNode = e.target.previousSibling;
 	let nextSiblingNode = e.target.nextSibling;
 
-
+	// console.log('★ [keydown] e.code = ', e.code);
 	
 	// backspace 키 누를 경우 발생
 	if(e.code == 'Backspace') {
 		let thisTextValue = e.target.value; // backspace 이벤트를 발생시킨 textarea에 입력된 value
+		console.log('thisTextValue = ', thisTextValue);
 		
 		if(previousSiblingNode) {
 			if(previousSiblingNode.className == 'img-preview') {
-				console.log('이미지를 삭제합니다.');
-				
 				let ifile = previousSiblingNode.getAttribute('data-ifile');
 				let src = previousSiblingNode.getAttribute('src').replace('/winitech/img/', '');
+				console.log('ifile = ', ifile);
+				console.log('src = ', src);
+				console.log('이미지를 삭제합니다.');
+				previousSiblingNode.remove();
 				
 				// 사용자가 이미지 삭제할 경우 서버 / 테이블에서 미리 삭제
+				/*
 				$.ajax({
 					type: 'post',
 					url: '/winitech/photo/file-delete.do',
@@ -242,6 +319,7 @@ form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 �
 						else { console.log('이미지 삭제에 실패했습니다.'); }},
 					error: (x) => { console.log(x); }
 				});
+				*/
 			}
 		}
 		
@@ -273,13 +351,18 @@ form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 �
 // text div에서 enter event 발생 시 textarea 폼 생성 이벤트 실행
 // keyup, keydown은 한글적고 enter 누르면 2번 인식(한글 조합 입력기 관련)으로 사용 x
 form.addEventListener('keypress', (e) => { // keypress - 키보드 눌렀을 때 실행 / 누르고 있을 때 계속 실행됨
+	let targetNode = e.target;
+	let previousSiblingNode = e.target.previousSibling;
+	let nextSiblingNode = e.target.nextSibling;
+	
+	// console.log('★ [keypress] e.code = ', e.code);
+	
 	if(e.code == 'Enter') { // text 폼에서 enter를 눌렀을 경우에만 발생 / 대소문자 구분 주의
-		let targetNode = e.target;
 		let newTextarea = document.createElement('textarea');
 		targetNode.after(newTextarea);
 		newTextarea.focus(); // 새로 생긴 textarea 창에 바로 입력할 수 있게 focus 적용
 	}
-	
+		
 	/*
 	if(e.code == 'ControlLeft' && e.code == 'KeyA') {
 		console.log('모든 내용을 삭제합니다.');

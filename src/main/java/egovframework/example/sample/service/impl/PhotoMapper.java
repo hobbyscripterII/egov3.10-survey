@@ -21,4 +21,5 @@ public interface PhotoMapper {
 	int insPhotoBoardFile(BoardFileInsDto dto);
 	List<PhotoBoardFileNameVo> getPhotoBoardFileNameList(int iboard);
 	int delPhotoBoard(int iboard);
+	int updPhotoBoardFileThumbnailFl(int ifile);
 }

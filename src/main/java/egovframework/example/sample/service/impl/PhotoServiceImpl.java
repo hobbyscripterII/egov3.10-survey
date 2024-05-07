@@ -24,24 +24,16 @@ public class PhotoServiceImpl implements PhotoService {
 	private final FileUtils fileUtils;
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	public PhotoServiceImpl(PhotoMapper photoMapper, FileUtils fileUtils) {
-		this.photoMapper = photoMapper;
-		this.fileUtils = fileUtils;
-	}
+	public PhotoServiceImpl(PhotoMapper photoMapper, FileUtils fileUtils) { this.photoMapper = photoMapper; this.fileUtils = fileUtils; }
 
 	public int delBoard(int iboard) {
 		List<PhotoBoardFileNameVo> getPhotoBoardFileNameList = getPhotoBoardFileNameList(iboard);
 		// 로컬 파일 삭제
-		getPhotoBoardFileNameList.forEach(vo -> {
-			fileUtils.deleteFile(vo.getFileName());
-		});
-		
+		getPhotoBoardFileNameList.forEach(vo -> { fileUtils.deleteFile(vo.getFileName()); });
 		// 게시글 삭제
 		int delPhotoBoardRows = photoMapper.delPhotoBoard(iboard);
 		
-		if(Utils.isNotNull(delPhotoBoardRows)) {
-			return Const.SUCCESS;
-		}
+		if(Utils.isNotNull(delPhotoBoardRows)) { return Const.SUCCESS; }
 		
 		return Const.FAIL;
 	}
@@ -63,6 +55,7 @@ public class PhotoServiceImpl implements PhotoService {
 
 	@Override
 	public int updPhotoBoard(PhotoUpdDto dto) {
+		photoMapper.updPhotoBoardFileThumbnailFl(dto.getThumbnail());
 		return photoMapper.updPhotoBoard(dto);
 	}
 
@@ -84,5 +77,10 @@ public class PhotoServiceImpl implements PhotoService {
 	@Override
 	public int delPhotoBoard(int iboard) {
 		return photoMapper.delPhotoBoard(iboard);
+	}
+
+	@Override
+	public int updPhotoBoardFileThumbnailFl(int ifile) {
+		return photoMapper.updPhotoBoardFileThumbnailFl(ifile);
 	}
 }
