@@ -2,23 +2,12 @@ package egovframework.example.sample.service;
 
 import java.util.List;
 
-import org.mindrot.jbcrypt.BCrypt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
-import egovframework.example.cmmn.Const;
-import egovframework.example.cmmn.FileUtils;
 import egovframework.example.cmmn.Pagination;
-import egovframework.example.cmmn.Utils;
-import egovframework.example.sample.service.impl.BoardMapper;
 import egovframework.example.sample.service.model.BoardChkPwdDto;
-import egovframework.example.sample.service.model.BoardFileGetVo;
 import egovframework.example.sample.service.model.BoardFileInsDto;
 import egovframework.example.sample.service.model.BoardFileSelVo;
 import egovframework.example.sample.service.model.BoardInsDto;
 import egovframework.example.sample.service.model.BoardListGetVo;
-import egovframework.example.sample.service.model.BoardReplyUpdDto;
 import egovframework.example.sample.service.model.BoardSelVo;
 import egovframework.example.sample.service.model.BoardUpdDto;
 

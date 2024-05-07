@@ -17,6 +17,7 @@ import egovframework.example.sample.service.model.PhotoInsNullDto;
 import egovframework.example.sample.service.model.PhotoListGetVo;
 import egovframework.example.sample.service.model.PhotoSelVo;
 import egovframework.example.sample.service.model.PhotoUpdDto;
+import egovframework.example.sample.service.model.UpdPhotoBoardFileThumbnailUnFlDto;
 
 @Service
 public class PhotoServiceImpl implements PhotoService {
@@ -26,7 +27,7 @@ public class PhotoServiceImpl implements PhotoService {
 
 	public PhotoServiceImpl(PhotoMapper photoMapper, FileUtils fileUtils) { this.photoMapper = photoMapper; this.fileUtils = fileUtils; }
 
-	public int delBoard(int iboard) {
+	public int delPhotoBoard(int iboard) {
 		List<PhotoBoardFileNameVo> getPhotoBoardFileNameList = getPhotoBoardFileNameList(iboard);
 		// 로컬 파일 삭제
 		getPhotoBoardFileNameList.forEach(vo -> { fileUtils.deleteFile(vo.getFileName()); });
@@ -56,6 +57,7 @@ public class PhotoServiceImpl implements PhotoService {
 	@Override
 	public int updPhotoBoard(PhotoUpdDto dto) {
 		photoMapper.updPhotoBoardFileThumbnailFl(dto.getThumbnail());
+		updPhotoBoardFileThumbnailUnFl(new UpdPhotoBoardFileThumbnailUnFlDto(dto.getIboard(), dto.getThumbnail()));
 		return photoMapper.updPhotoBoard(dto);
 	}
 
@@ -75,12 +77,12 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
-	public int delPhotoBoard(int iboard) {
-		return photoMapper.delPhotoBoard(iboard);
+	public int updPhotoBoardFileThumbnailFl(int ifile) {
+		return photoMapper.updPhotoBoardFileThumbnailFl(ifile);
 	}
 
 	@Override
-	public int updPhotoBoardFileThumbnailFl(int ifile) {
-		return photoMapper.updPhotoBoardFileThumbnailFl(ifile);
+	public int updPhotoBoardFileThumbnailUnFl(UpdPhotoBoardFileThumbnailUnFlDto dto) {
+		return photoMapper.updPhotoBoardFileThumbnailUnFl(dto);
 	}
 }

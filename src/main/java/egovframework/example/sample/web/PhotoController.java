@@ -117,16 +117,13 @@ public class PhotoController {
 	
 	@PostMapping("/delete.do")
 	@ResponseBody
-	public int delPhotoBoard(@RequestParam int iboard, @RequestParam String src) {
-		// 로컬 파일 삭제
-//		fileUtils.deleteFile(src);
-//		return photoService.delPhotoBoardFile(iboard);
-		return Const.FAIL;
+	public int delPhotoBoard(@RequestParam int iboard) {
+		return photoService.delPhotoBoard(iboard);
 	}
 
 	@PostMapping("/file-delete.do")
 	@ResponseBody
-	public int delPhotoBoardFile(@RequestParam int iboard) {
+	public int delPhotoBoardFile(@RequestParam int iboard, @RequestParam String src) {
 		return Const.FAIL;
 	}
 	

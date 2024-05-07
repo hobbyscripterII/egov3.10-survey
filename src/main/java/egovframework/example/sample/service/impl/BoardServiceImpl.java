@@ -21,6 +21,7 @@ import egovframework.example.sample.service.model.BoardListGetVo;
 import egovframework.example.sample.service.model.BoardReplyUpdDto;
 import egovframework.example.sample.service.model.BoardSelVo;
 import egovframework.example.sample.service.model.BoardUpdDto;
+import egovframework.example.sample.service.model.UpdPhotoBoardFileThumbnailUnFlDto;
 
 @Service
 public class BoardServiceImpl implements BoardService {

@@ -6,10 +6,10 @@
 <html>
 <style>
 #div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 850px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
-textarea { width: 100%; height: 30px; line-height: 30px; border: none; border-bottom: 1px dotted #000; margin-top: 4px; outline: none; resize: none; overflow: hidden; }
+textarea { width: 100%; height: 30px; line-height: 30px; border: none; margin-top: 4px; outline: none; resize: none; overflow: hidden; } /* border-bottom: 1px dotted #000; */
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
 .img-preview {  }
-.div-thumbnail-chioce-form { padding: 6px; background-color: white; cursor: pointer; position: relative; width: 125px; bottom: 36px; }
+.div-thumbnail-chioce-form { padding: 5px 5px 5px 10px; cursor: pointer; position: relative; width: 126px; bottom: 34px; background-color: white; }
 </style>
 <div style="display: none" class="div-thumbnail-chioce-form"></div>
 <c:choose>
@@ -70,7 +70,19 @@ if(contents != '') {
 	let prefixReplace = contents.replaceAll('<p>', '<textarea>'); // replaceAll - 왼쪽 인자 값에 해당하는 모든 문자열을 오른쪽 인자 값으로 변경 / 제일 앞에있는 거 변경할 때는 replace
 	let suffixReplace = prefixReplace.replaceAll('</p>', '</textarea>');
 	form.innerHTML = suffixReplace;
-	}
+	
+	// item - img-preview 클래스를 가진 요소 배열
+	$('.img-preview').each((idx, item) => {
+    	let newWrapDiv = document.createElement('div'); // 이미지 / 대표 이미지 선택 폼 감싸줄 wrap용 div 생성
+    	let newThumbnailChioceForm = document.createElement('div'); // 대표 이미지 선택 폼 전용 div 생성
+    	let newThumbnailChioceText = document.createTextNode('대표 이미지 선택'); // 대표 이미지 선택 폼에 넣을 텍스트 노드 추가
+    	newThumbnailChioceForm.classList.add('div-thumbnail-chioce-form'); // wrap div에 css 먹인 class 추가
+    	newThumbnailChioceForm.appendChild(newThumbnailChioceText); // wrap div에 텍스트 노드 추가
+		newWrapDiv.appendChild(item); // 이미지 class를 wrap div로 이동
+		newWrapDiv.appendChild(newThumbnailChioceForm); // 대표 이미지 선택 폼 div를 wrap div로 이동
+		form.appendChild(newWrapDiv); // text div로 wrap div를 이동시킴 
+	});
+}
 
 form.addEventListener('click', (e) => {
 	let targetNode = e.target;
@@ -86,9 +98,8 @@ form.addEventListener('click', (e) => {
 		}
 		
 		console.log('대표 이미지를 선택합니다.');
-		targetNode.style.backgroundColor = '#80FF00';
+		targetNode.style.backgroundColor = '#03C04A';
 		thumbnail = previousSiblingNode.getAttribute('data-ifile');
-		console.log('thumbnail = ', thumbnail);
 	}
 	
 	// 앞 뒤로 이미지만 있을 때 / 다음 형제 노드가 없을 때 새로운 textarea 생성
@@ -117,25 +128,11 @@ form.addEventListener('click', (e) => {
 // 따라서 아래 로직을 재사용함
 btnInsert.addEventListener('click', (e) => {
 	let title = $('#title'); // 제목
-	let imgPreviews = $('.img-preview');
+	let imgPreview = $('.img-preview');
 	let textareas = $('textarea');
 	let contents = ''; // 빈 값 초기화(null, undefined) 안나오게 처리하기 위함
 	
-	/*
-	let textForm = document.getElementById('div-custom-form-control').outerHTML;
-	console.log('textForm = ',textForm);
-	
-	let prefixDivRemove = textForm.replace('<div id="div-custom-form-control">', '');
-	console.log('prefixDivRemove = ', prefixDivRemove);
-	let suffixDivRemove = prefixDivRemove.replace('</div>', '');
-	console.log('suffixDivRemove = ', suffixDivRemove);
-	let prefixTextareaReplace = suffixDivRemove.replaceAll('<textarea', '<p');
-	console.log('prefixTextareaReplace = ', prefixTextareaReplace);
-	let suffixTextareaReplace = prefixTextareaReplace.replaceAll('</textarea>', '</p>');
-	console.log('suffixTextareaReplace = ', suffixTextareaReplace);
-	*/
-	
-	let length = imgPreviews.length + textareas.length; // 작성한 게시글 내용을 다 처리하기 위해서 배열을 img 태그 개수 + textarea 개수로 계산
+	let length = imgPreview.length + textareas.length; // 작성한 게시글 내용을 다 처리하기 위해서 배열을 img 태그 개수 + textarea 개수로 계산
 	
 	if(!title.val()) { alert('제목을 입력해주세요.'); title.focus(); }
 	else {
@@ -144,7 +141,7 @@ btnInsert.addEventListener('click', (e) => {
 		
 		for (let i = 0; i < length; i++) {
 			// outerHTML - 요소 전체를 html 문자열로 반환 / [object HTMLImageElement] 출력 방지
-		    if (imgPreviews[i]) { contentsTempArr.push(imgPreviews[i].outerHTML);}
+		    if (imgPreview[i]) { contentsTempArr.push(imgPreview[i].outerHTML);}
 		 	// textarea 문자열만 추출 -> p 태그로 감싸서 처리
 		    if (textareas[i]) { contentsTempArr.push('<p>' + textareas[i].value.trim() + '</p>'); }
 		}
@@ -154,7 +151,7 @@ btnInsert.addEventListener('click', (e) => {
 		
 	    contents = contents.trim(); // 값 제대입 / 앞에 빈 값 초기화했던 공백 제거
 		// >>>>> 게시글 내용 담는 작업 종료
-	     
+		
 	    if(contents == '') { alert('내용을 입력해주세요.'); }
 	    else {
 			let dto = {iboard : iboard, title : title.val(), contents : contents, thumbnail : thumbnail};

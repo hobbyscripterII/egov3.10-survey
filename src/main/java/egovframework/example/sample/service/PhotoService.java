@@ -9,6 +9,7 @@ import egovframework.example.sample.service.model.PhotoInsNullDto;
 import egovframework.example.sample.service.model.PhotoListGetVo;
 import egovframework.example.sample.service.model.PhotoSelVo;
 import egovframework.example.sample.service.model.PhotoUpdDto;
+import egovframework.example.sample.service.model.UpdPhotoBoardFileThumbnailUnFlDto;
 
 public interface PhotoService {
 	public List<PhotoListGetVo> getPhotoBoardList(Criteria criteria);
@@ -18,7 +19,7 @@ public interface PhotoService {
 	PhotoSelVo selPhotoBoard(int iboard);
 	int insPhotoBoardFile(BoardFileInsDto dto);
 	List<PhotoBoardFileNameVo> getPhotoBoardFileNameList(int iboard);
-	int delBoard(int iboard);
 	int delPhotoBoard(int iboard);
 	int updPhotoBoardFileThumbnailFl(int ifile);
+	int updPhotoBoardFileThumbnailUnFl(UpdPhotoBoardFileThumbnailUnFlDto dto);
 }

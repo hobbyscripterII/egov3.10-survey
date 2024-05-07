@@ -63,4 +63,8 @@ DELETE FROM board_tbl WHERE iboard = #{iboard}
 <update id="updPhotoBoardFileThumbnailFl" parameterType="int">
 UPDATE file_tbl SET thumbnail_fix = 'Y' WHERE ifile = #{ifile}
 </update>
+
+<update id="updPhotoBoardFileThumbnailUnFl" parameterType="UpdPhotoBoardFileThumbnailUnFlDto">
+UPDATE file_tbl SET thumbnail_fix = 'N' WHERE iboard = #{iboard} AND  ifile != #{ifile}
+</update>
 </mapper>
