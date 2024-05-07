@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +38,7 @@ public class PhotoController {
 	private final PhotoService photoService;
 	private final FileUtils fileUtils;
 	private final Logger log = LoggerFactory.getLogger(getClass());
+    @Autowired DefaultTransactionDefinition txManager;
 
 	public PhotoController(PhotoService photoService, FileUtils fileUtils) { this.photoService = photoService; this.fileUtils = fileUtils; }
 	

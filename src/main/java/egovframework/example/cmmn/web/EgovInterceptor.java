@@ -37,8 +37,8 @@ public class EgovInterceptor implements HandlerInterceptor {
 			response.sendRedirect("/winitech/user/signin.do"); // sendRedirect - 로그인 페이지로 리다이렉트 시킴(forward랑 다르게 값을
 			return false; // false를 반환할 경우 리다이렉트 후 종료됨 / 남은 인터셉터, 컨트롤러 실행 x
 		} else if (boardIuser != sessionIuser) {
-			response.sendRedirect("/winitech/exception/403.do"); // tiles 레이아웃 적용위해 컨트롤러로 따로 뺌
-//			response.sendRedirect("/winitech/common/403.jsp"); // 'webapp/common' 경로에 jsp 바로 넣고 접근할 경우 tiles 적용 안됨
+			response.sendRedirect("/winitech/exception/403.do");
+//			response.sendRedirect("/winitech/common/403.jsp"); // 'webapp/common' 경로에 jsp 바로 넣고 접근할 경우 tiles 적용 안됨 / tiles 적용 경로 내에 넣어놔도 .jsp로 접근할 경우 레이아웃 적용 x
 			return false; // 게시글을 작성한 회원이 아닌 경우
 		}
 		

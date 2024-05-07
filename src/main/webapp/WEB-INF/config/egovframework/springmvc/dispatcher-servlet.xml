@@ -17,8 +17,8 @@
 			<mvc:mapping path="/photo/update.do/**"/>
 			<mvc:mapping path="/photo/delete.do/**"/>
 
-			<!-- 제외할 url이 적용할 url 개수보다 많으므로 mapping path로 구성함 -->
 			<!-- exclude-mapping - 인터셉터 제외 url -->
+			<!-- 제외할 url이 적용할 url 개수보다 많으므로 mapping path로 구성함 -->
 			<!-- 
 			<mvc:exclude-mapping path="/resources/css/**"/>
 			<mvc:exclude-mapping path="/home.do"/>
@@ -69,7 +69,8 @@
     <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
         <property name="paramName" value="language" />
     </bean>
-
+	
+	<!-- 예외 처리 페이지 설정(경로 - src/webapp/WEB-INF/jsp/cmmn/**) -->
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="defaultErrorView" value="cmmn/egovError"/>
         <property name="exceptionMappings">
