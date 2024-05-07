@@ -1,7 +1,6 @@
 package egovframework.example.sample.web;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,15 +48,13 @@ public class PhotoController {
 			BoardFileInsDto dto = fileUtils.fileUpload(file); // 파일 업로드 후 해당 파일의 정보를 dto에 담아서 줌
 			dto.setIboard(iboard);
 			int insPhotoBoardFileRows = photoService.insPhotoBoardFile(dto); // 파일 테이블에 insert
-			log.info("insPhotoBoardFileRows = {}", insPhotoBoardFileRows);
 			fileDtoList.add(dto); // 반환 값으로 경로 추출하기 위해 list에 담음
 		}
 		
 		// stream 사용하여 list 순회하면서 dto에 담겨있던 파일명 + 확장자를 문자열로 반환해 map으로 반환함
 		// key: BoardFileInsDto::getIfile - file_tbl에 insert 후 반환된 pk 값
 		// value: dto.getSavedName() + dto.getExt() - '로컬에 저장된 실제 이미지 파일명 + 확장자' 문자열
-		return fileDtoList.stream()
-				          .collect(Collectors.toMap(BoardFileInsDto::getIfile, dto -> dto.getSavedName() + dto.getExt()));
+		return fileDtoList.stream().collect(Collectors.toMap(BoardFileInsDto::getIfile, dto -> dto.getSavedName() + dto.getExt()));
 	}
 	
 	@GetMapping("/list.do")

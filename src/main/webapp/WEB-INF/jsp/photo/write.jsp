@@ -6,11 +6,14 @@
 <html>
 <style>
 #div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 850px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
-textarea { width: 100%; height: 30px; line-height: 30px; border: none; margin-top: 4px; outline: none; resize: none; overflow: hidden; } /* border-bottom: 1px dotted #000; */
+textarea { width: 100%; height: 30px; line-height: 30px; border-bottom: 1px dotted #000; margin-top: 4px; outline: none; resize: none; overflow: hidden; } /* border-bottom: 1px dotted #000; */
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
-.img-preview {  }
-.div-thumbnail-chioce-form { padding: 5px 5px 5px 10px; cursor: pointer; position: relative; width: 126px; bottom: 34px; background-color: white; }
+.div-thumbnail-chioce-form { padding: 5px 5px 5px 10px; cursor: pointer; position: relative; width: 126px; top: 34px; background-color: white; }
+.icon-thumbnail-delete { cursor: pointer; position: relative; bottom: 17rem; right: 17px; }
 </style>
+
+<div class="icon-thumbnail-delete"></div>
+
 <div style="display: none" class="div-thumbnail-chioce-form"></div>
 <c:choose>
 	<c:when test="${empty dto.contents }">
@@ -63,6 +66,7 @@ let btnInsert = document.getElementById('btn-insert');
 let iboard = document.getElementById('btn-insert').dataset.iboard; // 게시글 등록 버튼 눌렀을 때 생기는 pk
 let contents = `${dto.contents }`;
 let thumbnail = 0; // 대표 썸네일 pk 초기화
+let imgArr = [];
 
 // dto contents가 빈 문자열이 아니라면 이미 작성한 게시글이므로 form div에 해당 게시글 출력(수정 작업)
 if(contents != '') {
@@ -108,19 +112,7 @@ form.addEventListener('click', (e) => {
 	}
 	
 	if(targetNode.className == 'img-preview') {
-		console.log('이미지를 클릭했습니다.');
-		
-		/*
-		targetNode.addEventListener('keypress', (e) => {
-			if(e.code == 'Backspace') {
-				// 이미지 삭제 로직
-				// ...
-				targetNode.remove();
-				console.log('이미지를 삭제합니다.');
-			}
-		});
-		*/
-		
+		console.log('이미지를 클릭했습니다.');		
 	}
 });
 
@@ -233,8 +225,17 @@ inputFile.addEventListener('change', (e) => {
 				newImg.setAttribute('src', src); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
 				newImg.setAttribute('data-ifile', key);
 				newImg.classList.add('img-preview');
-				newWrapDiv.appendChild(newImg);
+				
+				// 작업 완료하면 주석 풀기
+				/*
+				let newDeleteIcon = document.createElement('img'); // img 요소 새로 생성
+				newDeleteIcon.classList.add('icon-thumbnail-delete');
+				newDeleteIcon.setAttribute('src', '${pageContext.request.contextPath }/images/egovframework/winitech/icon-delete.png'); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
+				newWrapDiv.appendChild(newDeleteIcon);
+				*/
+				
 				newWrapDiv.appendChild(newThumbnailChioceForm);
+				newWrapDiv.appendChild(newImg);
 				form.appendChild(newWrapDiv);
         	}
         },
@@ -320,6 +321,13 @@ form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 �
 			}
 		}
 		
+		console.log('Backspace 키를 눌렀습니다.');
+		console.log('이벤트가 발생한 타겟은 ' + e.target + '입니다.');
+		
+		if(previousSiblingNode.className == 'img-preview') {
+			console.log('이미지를 삭제합니다.');
+		}
+		
 		// 제일 앞에 textarea를 지우고 싶을 때
 		if(!previousSiblingNode && nextSiblingNode.nodeName == 'TEXTAREA') { // nodeName은 무조건 대문자
 			targetNode.remove();
@@ -359,7 +367,7 @@ form.addEventListener('keypress', (e) => { // keypress - 키보드 눌렀을 때
 		targetNode.after(newTextarea);
 		newTextarea.focus(); // 새로 생긴 textarea 창에 바로 입력할 수 있게 focus 적용
 	}
-		
+	
 	/*
 	if(e.code == 'ControlLeft' && e.code == 'KeyA') {
 		console.log('모든 내용을 삭제합니다.');

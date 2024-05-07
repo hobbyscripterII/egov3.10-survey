@@ -10,6 +10,7 @@ import egovframework.example.sample.service.model.PhotoListGetVo;
 import egovframework.example.sample.service.model.PhotoSelVo;
 import egovframework.example.sample.service.model.PhotoUpdDto;
 import egovframework.example.sample.service.model.UpdPhotoBoardFileThumbnailUnFlDto;
+import egovframework.example.sample.service.model.getPhotoBoardNullInsertIboardVo;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("photoMapper")
@@ -24,4 +25,5 @@ public interface PhotoMapper {
 	int delPhotoBoard(int iboard);
 	int updPhotoBoardFileThumbnailFl(int ifile);
 	int updPhotoBoardFileThumbnailUnFl(UpdPhotoBoardFileThumbnailUnFlDto dto);
+	List<getPhotoBoardNullInsertIboardVo> getPhotoBoardNullInsertIboard();
 }

@@ -18,8 +18,9 @@ import egovframework.example.sample.service.model.PhotoListGetVo;
 import egovframework.example.sample.service.model.PhotoSelVo;
 import egovframework.example.sample.service.model.PhotoUpdDto;
 import egovframework.example.sample.service.model.UpdPhotoBoardFileThumbnailUnFlDto;
+import egovframework.example.sample.service.model.getPhotoBoardNullInsertIboardVo;
 
-@Service
+@Service("photoServiceImpl") // xml 빈 주입 시 value 명시 필수
 public class PhotoServiceImpl implements PhotoService {
 	private final PhotoMapper photoMapper;
 	private final FileUtils fileUtils;
@@ -27,13 +28,18 @@ public class PhotoServiceImpl implements PhotoService {
 
 	public PhotoServiceImpl(PhotoMapper photoMapper, FileUtils fileUtils) { this.photoMapper = photoMapper; this.fileUtils = fileUtils; }
 
+	@Override
+	public void unInsertBoardDeleteTaskScheduler() {
+		log.info("unInsertBoardDeleteTaskScheduler Run!");
+
+		photoMapper.getPhotoBoardNullInsertIboard().forEach(vo -> { delPhotoBoard(vo.getIboard()); }); // 메소드 재사용
+	}
+	
 	public int delPhotoBoard(int iboard) {
 		List<PhotoBoardFileNameVo> getPhotoBoardFileNameList = getPhotoBoardFileNameList(iboard);
-		// 로컬 파일 삭제
-		getPhotoBoardFileNameList.forEach(vo -> { fileUtils.deleteFile(vo.getFileName()); });
-		// 게시글 삭제
-		int delPhotoBoardRows = photoMapper.delPhotoBoard(iboard);
-		
+		getPhotoBoardFileNameList.forEach(vo -> { fileUtils.deleteFile(vo.getFileName()); }); // 로컬 파일 삭제
+		int delPhotoBoardRows = photoMapper.delPhotoBoard(iboard); // 게시글 삭제
+
 		if(Utils.isNotNull(delPhotoBoardRows)) { return Const.SUCCESS; }
 		
 		return Const.FAIL;
@@ -84,5 +90,10 @@ public class PhotoServiceImpl implements PhotoService {
 	@Override
 	public int updPhotoBoardFileThumbnailUnFl(UpdPhotoBoardFileThumbnailUnFlDto dto) {
 		return photoMapper.updPhotoBoardFileThumbnailUnFl(dto);
+	}
+
+	@Override
+	public List<getPhotoBoardNullInsertIboardVo> getPhotoBoardNullInsertIboard() {
+		return photoMapper.getPhotoBoardNullInsertIboard();
 	}
 }

@@ -10,6 +10,7 @@ import egovframework.example.sample.service.model.PhotoListGetVo;
 import egovframework.example.sample.service.model.PhotoSelVo;
 import egovframework.example.sample.service.model.PhotoUpdDto;
 import egovframework.example.sample.service.model.UpdPhotoBoardFileThumbnailUnFlDto;
+import egovframework.example.sample.service.model.getPhotoBoardNullInsertIboardVo;
 
 public interface PhotoService {
 	public List<PhotoListGetVo> getPhotoBoardList(Criteria criteria);
@@ -22,4 +23,6 @@ public interface PhotoService {
 	int delPhotoBoard(int iboard);
 	int updPhotoBoardFileThumbnailFl(int ifile);
 	int updPhotoBoardFileThumbnailUnFl(UpdPhotoBoardFileThumbnailUnFlDto dto);
+	public void unInsertBoardDeleteTaskScheduler();
+	List<getPhotoBoardNullInsertIboardVo> getPhotoBoardNullInsertIboard();
 }

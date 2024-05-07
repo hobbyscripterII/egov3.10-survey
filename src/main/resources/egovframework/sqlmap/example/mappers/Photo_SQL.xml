@@ -67,4 +67,8 @@ UPDATE file_tbl SET thumbnail_fix = 'Y' WHERE ifile = #{ifile}
 <update id="updPhotoBoardFileThumbnailUnFl" parameterType="UpdPhotoBoardFileThumbnailUnFlDto">
 UPDATE file_tbl SET thumbnail_fix = 'N' WHERE iboard = #{iboard} AND  ifile != #{ifile}
 </update>
+
+<select id="getPhotoBoardNullInsertIboard" resultType="getPhotoBoardNullInsertIboardVo">
+SELECT iboard FROM board_tbl WHERE title = '' AND contents = ''
+</select>
 </mapper>
