@@ -11,12 +11,13 @@
 	<!-- 스케줄러 설정 xml -->
 	
 	<!-- 
-		0 0 12 * * ? * - 정오 12시마다
+		java cron식은 6자리까지만 허용 가능(년도 설정 불가능)
+		0 0 * * * * - 오전 12시마다
 		0/10 * * * * ? - 10초마다 (테스터용)
 	-->
 	<bean id="photoServiceImpl" class="egovframework.example.sample.service.impl.PhotoServiceImpl" />
 	<task:scheduler id="baseScheduler" pool-size="10" />
 	<task:scheduled-tasks scheduler="baseScheduler">
-		<task:scheduled ref="photoServiceImpl" method="unInsertBoardDeleteTaskScheduler" cron="0 0 12 * * ? *" />
+		<task:scheduled ref="photoServiceImpl" method="unInsertBoardDeleteTaskScheduler" cron="0 0 * * * *" />
 	</task:scheduled-tasks>
 </beans>

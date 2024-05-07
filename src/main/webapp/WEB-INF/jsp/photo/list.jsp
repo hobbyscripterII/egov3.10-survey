@@ -17,6 +17,7 @@ p { margin-bottom: 0 !important; }
 </style>
 <body>
 <h1 class="title">사진 게시판 목록</h1>
+<div><span class="span-board-cnt">전체: <span style="color: #D1180B"><c:out value="${pagination.total }" /></span>건</span></div>
 <div class="div-photo-board-list-wrap">
 	<c:forEach var="l" items="${list }">
 		<div class="div-img-thumbnail-wrap">
