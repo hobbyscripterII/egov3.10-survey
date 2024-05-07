@@ -63,13 +63,22 @@ let iconImageUpload = document.getElementById('icon-image-upload');
 let inputFile = document.getElementById('input-file');
 let imgPreview = document.querySelector('img-preview');
 let btnInsert = document.getElementById('btn-insert');
+let btnCancle = document.getElementById('btn-cancle');
 let iboard = document.getElementById('btn-insert').dataset.iboard; // 게시글 등록 버튼 눌렀을 때 생기는 pk
 let contents = `${dto.contents }`;
 let thumbnail = 0; // 대표 썸네일 pk 초기화
 let imgArr = [];
 
-// dto contents가 빈 문자열이 아니라면 이미 작성한 게시글이므로 form div에 해당 게시글 출력(수정 작업)
-if(contents != '') {
+// [게시글 작성 취소 버튼 클릭 이벤트]
+btnCancle.addEventListener('click', () => {
+   	if(confirm('작성을 취소하시겠습니까?')) {
+   		alert('작성이 취소되었습니다.');
+   		location.href = '/winitech/photo/list.do';
+   	}
+});
+
+// [수정 시 발생 이벤트]
+if(contents != '') { // dto contents가 빈 문자열이 아니라면 이미 작성한 게시글이므로 form div에 해당 게시글 출력(수정 작업)
 	// p 태그 다시 textarea로 변경 작업
 	let prefixReplace = contents.replaceAll('<p>', '<textarea>'); // replaceAll - 왼쪽 인자 값에 해당하는 모든 문자열을 오른쪽 인자 값으로 변경 / 제일 앞에있는 거 변경할 때는 replace
 	let suffixReplace = prefixReplace.replaceAll('</p>', '</textarea>');
@@ -89,11 +98,11 @@ if(contents != '') {
 }
 
 form.addEventListener('click', (e) => {
-	let targetNode = e.target;
-	let nextSiblingNode = e.target.nextSibling;
-	let previousSiblingNode = e.target.previousSibling;
+	let targetNode = e.target; // 이벤트 발생 타겟
+	let nextSiblingNode = e.target.nextSibling; // 발생 타겟의 다음 노드
+	let previousSiblingNode = e.target.previousSibling; // 발생 타겟의 이전 노드
 	let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
-		
+	
 	if(targetNode.className == 'div-thumbnail-chioce-form') {
 		let divThumbnailChioceForms = document.getElementsByClassName('div-thumbnail-chioce-form');
 		
@@ -115,6 +124,8 @@ form.addEventListener('click', (e) => {
 		console.log('이미지를 클릭했습니다.');		
 	}
 });
+
+// ================================================================================================================================================================
 
 // 게시글 '등록' 버튼 누를 때 이미 insert 되었으므로 이후 작업들은 다 update임
 // 따라서 아래 로직을 재사용함
@@ -163,8 +174,10 @@ btnInsert.addEventListener('click', (e) => {
 	}
 });
 
-// 이미지 업로드 아이콘 클릭 시 input file이 클릭됨
-// input file 폼은 display none으로 처리
+// =====
+
+// [이미지 업로드 아이콘 클릭 이벤트]
+// 클릭 시 input file이 클릭됨(input file 폼은 display none으로 처리)
 iconImageUpload.addEventListener('click', () => { inputFile.click(); });
 
 inputFile.addEventListener('change', (e) => {
