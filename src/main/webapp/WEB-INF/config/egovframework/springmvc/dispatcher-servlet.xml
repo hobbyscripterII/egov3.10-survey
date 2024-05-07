@@ -5,12 +5,23 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
-	<!-- application.properties 사용을 위한 bean 주입 -->
+
+	<!-- interceptor -->
+	<!-- 수정 필요 -->
 	<!--
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	    <property name="location" value="classpath:/application.properties"/>
-	    <property name="fileEncoding" value="UTF-8" />
-	</bean>
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/"/>
+			<mvc:exclude-mapping path="/winitech/user/id-check.do"/>
+			<mvc:exclude-mapping path="/winitech/user/signup.do"/>
+			<mvc:exclude-mapping path="/winitech/user/signin.do"/>
+			<mvc:exclude-mapping path="/winitech/user/signout.do"/>
+			<mvc:exclude-mapping path="/winitech/home.do"/>
+			<mvc:exclude-mapping path="/resources/css/**"/>
+			<bean class="egovframework.example.cmmn.web.EgovInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 	-->
 	
 	<!-- json -->
