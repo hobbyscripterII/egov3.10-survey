@@ -35,10 +35,15 @@ public class PhotoServiceImpl implements PhotoService {
 		photoMapper.getPhotoBoardNullInsertIboard().forEach(vo -> { delPhotoBoard(vo.getIboard()); }); // 메소드 재사용
 	}
 	
+	@Override
+	public int delPhotoBoardFile(int iboard) {
+		return photoMapper.delPhotoBoard(iboard);
+	}
+	
 	public int delPhotoBoard(int iboard) {
 		List<PhotoBoardFileNameVo> getPhotoBoardFileNameList = getPhotoBoardFileNameList(iboard);
 		getPhotoBoardFileNameList.forEach(vo -> { fileUtils.deleteFile(vo.getFileName()); }); // 로컬 파일 삭제
-		int delPhotoBoardRows = photoMapper.delPhotoBoard(iboard); // 게시글 삭제
+		int delPhotoBoardRows = delPhotoBoardFile(iboard); // 게시글 삭제
 
 		if(Utils.isNotNull(delPhotoBoardRows)) { return Const.SUCCESS; }
 		

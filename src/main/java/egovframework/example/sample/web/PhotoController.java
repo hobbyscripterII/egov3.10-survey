@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -38,7 +39,6 @@ public class PhotoController {
 	private final PhotoService photoService;
 	private final FileUtils fileUtils;
 	private final Logger log = LoggerFactory.getLogger(getClass());
-    @Autowired DefaultTransactionDefinition txManager;
 
 	public PhotoController(PhotoService photoService, FileUtils fileUtils) { this.photoService = photoService; this.fileUtils = fileUtils; }
 	
@@ -125,7 +125,9 @@ public class PhotoController {
 	@PostMapping("/file-delete.do")
 	@ResponseBody
 	public int delPhotoBoardFile(@RequestParam int iboard, @RequestParam String src) {
-		return Const.FAIL;
+		fileUtils.deleteFile(src); // 예외 처리 필요
+		
+		return photoService.delPhotoBoardFile(iboard) == Const.SUCCESS ? Const.SUCCESS : Const.FAIL;
 	}
 	
 	// 로그인 시 session에 저장했던 회원 이름

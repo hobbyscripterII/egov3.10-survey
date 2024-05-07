@@ -21,6 +21,7 @@ public interface PhotoService {
 	int insPhotoBoardFile(BoardFileInsDto dto);
 	List<PhotoBoardFileNameVo> getPhotoBoardFileNameList(int iboard);
 	int delPhotoBoard(int iboard);
+	int delPhotoBoardFile(int iboard);
 	int updPhotoBoardFileThumbnailFl(int ifile);
 	int updPhotoBoardFileThumbnailUnFl(UpdPhotoBoardFileThumbnailUnFlDto dto);
 	public void unInsertBoardDeleteTaskScheduler();

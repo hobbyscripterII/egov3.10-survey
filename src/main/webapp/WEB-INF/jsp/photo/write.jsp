@@ -9,7 +9,7 @@
 textarea { width: 100%; height: 30px; line-height: 30px; border-bottom: 1px dotted #000; margin-top: 4px; outline: none; resize: none; overflow: hidden; } /* border-bottom: 1px dotted #000; */
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
 .div-thumbnail-chioce-form { padding: 5px 5px 5px 10px; cursor: pointer; position: relative; width: 126px; top: 34px; background-color: white; }
-.icon-thumbnail-delete { cursor: pointer; position: relative; bottom: 17rem; right: 17px; }
+.icon-thumbnail-delete { cursor: pointer; position: relative; top: 59px; left: 134px; z-index: 9999; }
 </style>
 
 <div class="icon-thumbnail-delete"></div>
@@ -67,7 +67,26 @@ let btnCancle = document.getElementById('btn-cancle');
 let iboard = document.getElementById('btn-insert').dataset.iboard; // 게시글 등록 버튼 눌렀을 때 생기는 pk
 let contents = `${dto.contents }`;
 let thumbnail = 0; // 대표 썸네일 pk 초기화
-let imgArr = [];
+
+function imgDelete(e) {
+	if(confirm('이미지를 삭제하시겠습니까?')) {
+		let targetNode = e.nextSibling.nextSibling;
+		let ifile = targetNode.dataset.ifile;
+		let src_ = targetNode.getAttribute('src');
+		let src = src_.replaceAll('/winitech/img/', '');
+		let parentNode = targetNode.parentNode;
+		
+		$.ajax({
+			type: 'post',
+			url: '/winitech/photo/file-delete.do',
+			data: { "iboard": iboard, "src": src },
+			success: (data) => {
+				if (data == 1) { parentNode.remove(); }
+				else { console.log('이미지 삭제에 실패했습니다.'); }},
+			error: (x) => { console.log(x); }
+		});
+	}
+}
 
 // [게시글 작성 취소 버튼 클릭 이벤트]
 btnCancle.addEventListener('click', () => {
@@ -91,7 +110,12 @@ if(contents != '') { // dto contents가 빈 문자열이 아니라면 이미 작
     	let newThumbnailChioceText = document.createTextNode('대표 이미지 선택'); // 대표 이미지 선택 폼에 넣을 텍스트 노드 추가
     	newThumbnailChioceForm.classList.add('div-thumbnail-chioce-form'); // wrap div에 css 먹인 class 추가
     	newThumbnailChioceForm.appendChild(newThumbnailChioceText); // wrap div에 텍스트 노드 추가
-		newWrapDiv.appendChild(newThumbnailChioceForm); // 대표 이미지 선택 폼 div를 wrap div로 이동
+		let newDeleteIcon = document.createElement('img'); // img 요소 새로 생성
+		newDeleteIcon.classList.add('icon-thumbnail-delete');
+		newDeleteIcon.setAttribute('src', '${pageContext.request.contextPath }/images/egovframework/winitech/icon-delete.png'); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
+		newDeleteIcon.setAttribute('onclick', 'imgDelete(this)'); // 아이콘 클릭 시 ajax 연결 후 해당 파일 삭제
+		newWrapDiv.appendChild(newDeleteIcon);
+    	newWrapDiv.appendChild(newThumbnailChioceForm); // 대표 이미지 선택 폼 div를 wrap div로 이동
 		newWrapDiv.appendChild(item); // 이미지 class를 wrap div로 이동
 		form.appendChild(newWrapDiv); // text div로 wrap div를 이동시킴 
 	});
@@ -234,18 +258,17 @@ inputFile.addEventListener('change', (e) => {
 	        	let newThumbnailChioceText = document.createTextNode('대표 이미지 선택');
 	        	newThumbnailChioceForm.classList.add('div-thumbnail-chioce-form');
 	        	newThumbnailChioceForm.appendChild(newThumbnailChioceText);
-				let newImg = document.createElement('img'); // img 요소 새로 생성
+				
+	        	let newImg = document.createElement('img'); // img 요소 새로 생성
 				newImg.setAttribute('src', src); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
 				newImg.setAttribute('data-ifile', key);
 				newImg.classList.add('img-preview');
 				
-				// 작업 완료하면 주석 풀기
-				/*
 				let newDeleteIcon = document.createElement('img'); // img 요소 새로 생성
 				newDeleteIcon.classList.add('icon-thumbnail-delete');
 				newDeleteIcon.setAttribute('src', '${pageContext.request.contextPath }/images/egovframework/winitech/icon-delete.png'); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
+				newDeleteIcon.setAttribute('onclick', 'imgDelete(this)'); // 아이콘 클릭 시 ajax 연결 후 해당 파일 삭제
 				newWrapDiv.appendChild(newDeleteIcon);
-				*/
 				
 				newWrapDiv.appendChild(newThumbnailChioceForm);
 				newWrapDiv.appendChild(newImg);
@@ -274,8 +297,6 @@ form.addEventListener('keyup', (e) => { // keyup - 키보드에서 손 뗐을 �
 	let previousSiblingNode = e.target.previousSibling;
 	let nextSiblingNode = e.target.nextSibling;
 	
-	// console.log('★ [keyup] e.code = ', e.code);
-	
 	// textarea 키보드 커서 제일 마지막에 위치하기 위한 작업
 	// 방향키에 따라 포커즈 이동(노드 이동) // 방향키는 keyup, keydown만 가능
 	/*
@@ -302,44 +323,9 @@ form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 �
 	let previousSiblingNode = e.target.previousSibling;
 	let nextSiblingNode = e.target.nextSibling;
 
-	// console.log('★ [keydown] e.code = ', e.code);
-	
 	// backspace 키 누를 경우 발생
 	if(e.code == 'Backspace') {
 		let thisTextValue = e.target.value; // backspace 이벤트를 발생시킨 textarea에 입력된 value
-		console.log('thisTextValue = ', thisTextValue);
-		
-		if(previousSiblingNode) {
-			if(previousSiblingNode.className == 'img-preview') {
-				let ifile = previousSiblingNode.getAttribute('data-ifile');
-				let src = previousSiblingNode.getAttribute('src').replace('/winitech/img/', '');
-				console.log('ifile = ', ifile);
-				console.log('src = ', src);
-				console.log('이미지를 삭제합니다.');
-				previousSiblingNode.remove();
-				
-				// 사용자가 이미지 삭제할 경우 서버 / 테이블에서 미리 삭제
-				/*
-				$.ajax({
-					type: 'post',
-					url: '/winitech/photo/file-delete.do',
-					data: { "iboard": iboard, "src": src },
-					success: (data) => {
-						if (data == 1) { previousSiblingNode.remove(); }
-						// 수정 필요
-						else { console.log('이미지 삭제에 실패했습니다.'); }},
-					error: (x) => { console.log(x); }
-				});
-				*/
-			}
-		}
-		
-		console.log('Backspace 키를 눌렀습니다.');
-		console.log('이벤트가 발생한 타겟은 ' + e.target + '입니다.');
-		
-		if(previousSiblingNode.className == 'img-preview') {
-			console.log('이미지를 삭제합니다.');
-		}
 		
 		// 제일 앞에 textarea를 지우고 싶을 때
 		if(!previousSiblingNode && nextSiblingNode.nodeName == 'TEXTAREA') { // nodeName은 무조건 대문자
@@ -373,18 +359,10 @@ form.addEventListener('keypress', (e) => { // keypress - 키보드 눌렀을 때
 	let previousSiblingNode = e.target.previousSibling;
 	let nextSiblingNode = e.target.nextSibling;
 	
-	// console.log('★ [keypress] e.code = ', e.code);
-	
 	if(e.code == 'Enter') { // text 폼에서 enter를 눌렀을 경우에만 발생 / 대소문자 구분 주의
 		let newTextarea = document.createElement('textarea');
 		targetNode.after(newTextarea);
 		newTextarea.focus(); // 새로 생긴 textarea 창에 바로 입력할 수 있게 focus 적용
 	}
-	
-	/*
-	if(e.code == 'ControlLeft' && e.code == 'KeyA') {
-		console.log('모든 내용을 삭제합니다.');
-	}
-	*/
 });
 </script>

@@ -10,10 +10,8 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<!-- mapping - 인터셉터 적용 url -->
-			<mvc:mapping path="/board/write.do/**"/>
 			<mvc:mapping path="/board/update.do/**"/>
 			<mvc:mapping path="/board/delete.do/**"/>
-			<mvc:mapping path="/photo/write.do/**"/>
 			<mvc:mapping path="/photo/update.do/**"/>
 			<mvc:mapping path="/photo/delete.do/**"/>
 
