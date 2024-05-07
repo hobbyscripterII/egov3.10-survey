@@ -13,7 +13,8 @@
 </head>
 <style>
 p { margin-bottom: 0 !important; }
-#p-img-thumbnail-title { font-weight: bold; width: 100%; margin-top: 5px; }
+#p-img-thumbnail-title, #p-img-thumbnail-name { width: 100%; margin-top: 5px; }
+#p-img-thumbnail-title { font-weight: bold; }
 </style>
 <body>
 <h1 class="title">사진 게시판 목록</h1>
@@ -23,6 +24,7 @@ p { margin-bottom: 0 !important; }
 		<div class="div-img-thumbnail-wrap">
 			<a href="/winitech/photo/view.do?iboard=${l.iboard }"><img alt="썸네일" class="img-fluid img-thumbnail" src="/winitech/img/${l.thumbnail }"></a>
 			<p id="p-img-thumbnail-title"><a href="/winitech/photo/view.do?iboard=${l.iboard }" style="color: #000 !important"><c:out value="${l.title }" /></a></p>
+			<p id="p-img-thumbnail-name"><c:out value="${l.name }" /></p>
 			<p style="color: #9E9E9E"><span><c:out value="${l.createdAt }" /></span><span>
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
 			  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
@@ -74,3 +76,14 @@ p { margin-bottom: 0 !important; }
 </div>
 </body>
 </html>
+<script type="text/javascript">
+document.addEventListener('click', (e) => {
+	if(e.target.id == 'btn-search') {
+		const category = document.getElementById('select-search');
+		const keyword = document.getElementById('input-search');
+		if(category.value == 'null') { alert('검색 카테고리를 선택해주세요.'); category.focus(); }
+		else if(keyword.value == null || keyword.value == '') { alert('검색 키워드를 입력해주세요.'); keyword.focus(); }
+		else { location.href = '/winitech/photo/list.do?' + category.value + '=' + keyword.value; }
+	}
+});
+</script>

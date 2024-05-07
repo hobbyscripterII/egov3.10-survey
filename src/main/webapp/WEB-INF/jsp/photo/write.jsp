@@ -82,8 +82,8 @@ if(contents != '') {
     	let newThumbnailChioceText = document.createTextNode('대표 이미지 선택'); // 대표 이미지 선택 폼에 넣을 텍스트 노드 추가
     	newThumbnailChioceForm.classList.add('div-thumbnail-chioce-form'); // wrap div에 css 먹인 class 추가
     	newThumbnailChioceForm.appendChild(newThumbnailChioceText); // wrap div에 텍스트 노드 추가
-		newWrapDiv.appendChild(item); // 이미지 class를 wrap div로 이동
 		newWrapDiv.appendChild(newThumbnailChioceForm); // 대표 이미지 선택 폼 div를 wrap div로 이동
+		newWrapDiv.appendChild(item); // 이미지 class를 wrap div로 이동
 		form.appendChild(newWrapDiv); // text div로 wrap div를 이동시킴 
 	});
 }
@@ -103,7 +103,7 @@ form.addEventListener('click', (e) => {
 		
 		console.log('대표 이미지를 선택합니다.');
 		targetNode.style.backgroundColor = '#03C04A';
-		thumbnail = previousSiblingNode.getAttribute('data-ifile');
+		thumbnail = nextSiblingNode.getAttribute('data-ifile');
 	}
 	
 	// 앞 뒤로 이미지만 있을 때 / 다음 형제 노드가 없을 때 새로운 textarea 생성
