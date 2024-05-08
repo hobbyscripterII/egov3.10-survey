@@ -6,7 +6,7 @@
 <html>
 <style>
 #div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 850px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
-textarea { width: 100%; height: 30px; line-height: 30px; border: none; border-bottom: 1px dotted #000; margin-top: 4px; outline: none; resize: none; overflow: hidden; } /* border-bottom: 1px dotted #000; */
+textarea { width: 100%; height: 30px; line-height: 30px; border: none; margin-top: 4px; outline: none; resize: none; overflow: hidden; } /* border-bottom: 1px dotted #000; */
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
 .div-thumbnail-chioce-form { padding: 5px 5px 5px 10px; cursor: pointer; position: relative; width: 3rem; top: 34px; background-color: white; }
 .icon-thumbnail-delete { cursor: pointer; position: relative; top: 59px; left: 3.5rem; z-index: 9999; }

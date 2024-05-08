@@ -37,4 +37,4 @@ a { text-decoration: none; color: black; }
 .text-muted > span { color: #FF0000; font-weight: bold; }
 .img-thumbnail { object-fit: cover; width: 265px; height: 240px; }
 .div-img-thumbnail-wrap { width: 265px; height: 100%; display: flex; justify-content: flex-start; flex-wrap: wrap; margin: 10px 0 0 30px; }
-.div-photo-board-list-wrap { display: flex; width: 100%; flex-wrap: wrap; justify-content: center; }
+.div-photo-board-list-wrap { display: flex; width: 100%; flex-wrap: wrap; justify-content: space-between; }

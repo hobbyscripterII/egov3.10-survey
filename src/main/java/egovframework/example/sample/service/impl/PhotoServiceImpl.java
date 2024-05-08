@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import egovframework.example.cmmn.Const;
 import egovframework.example.cmmn.FileUtils;
@@ -24,9 +28,14 @@ import egovframework.example.sample.service.model.getPhotoBoardNullInsertIboardV
 public class PhotoServiceImpl implements PhotoService {
 	private final PhotoMapper photoMapper;
 	private final FileUtils fileUtils;
+	private final DataSourceTransactionManager txManager;
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	public PhotoServiceImpl(PhotoMapper photoMapper, FileUtils fileUtils) { this.photoMapper = photoMapper; this.fileUtils = fileUtils; }
+	public PhotoServiceImpl(PhotoMapper photoMapper, FileUtils fileUtils, DataSourceTransactionManager txManager) {
+		this.photoMapper = photoMapper;
+		this.fileUtils = fileUtils;
+		this.txManager = txManager;
+	}
 
 	@Override
 	public void unInsertBoardDeleteTaskScheduler() {
@@ -66,10 +75,32 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
-	public int updPhotoBoard(PhotoUpdDto dto) {
-		photoMapper.updPhotoBoardFileThumbnailFl(dto.getThumbnail());
-		updPhotoBoardFileThumbnailUnFl(new UpdPhotoBoardFileThumbnailUnFlDto(dto.getIboard(), dto.getThumbnail()));
-		return photoMapper.updPhotoBoard(dto);
+	public int updPhotoBoard(PhotoUpdDto dto) throws Exception {
+	DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+	TransactionStatus txStatus = txManager.getTransaction(def);
+	
+		try {
+			// 썸네일로 지정한 이미지의 pk를 들고와 썸네일 플래그 컬럼을 'Y'로 업데이트함
+			photoMapper.updPhotoBoardFileThumbnailFl(dto.getThumbnail());
+			
+			// 썸네일로 지정된 이미지를 제외한 해당 게시글의 이미지의 썸네일 플래그 컬럼을 'N'으로 업데이트함
+			photoMapper.updPhotoBoardFileThumbnailUnFl(new UpdPhotoBoardFileThumbnailUnFlDto(dto.getIboard(), dto.getThumbnail()));
+			
+			// 게시글 수정
+			int updPhotoBoardRows = photoMapper.updPhotoBoard(dto);
+			
+			if(Utils.isNull(updPhotoBoardRows)) {
+				throw new Exception();
+			}
+			
+			txManager.commit(txStatus);
+			
+			return Const.SUCCESS;
+		} catch(Exception e) {
+			txManager.rollback(txStatus);
+			return Const.FAIL;
+		}
 	}
 
 	@Override
@@ -85,16 +116,6 @@ public class PhotoServiceImpl implements PhotoService {
 	@Override
 	public List<PhotoBoardFileNameVo> getPhotoBoardFileNameList(int iboard) {
 		return photoMapper.getPhotoBoardFileNameList(iboard);
-	}
-
-	@Override
-	public int updPhotoBoardFileThumbnailFl(int ifile) {
-		return photoMapper.updPhotoBoardFileThumbnailFl(ifile);
-	}
-
-	@Override
-	public int updPhotoBoardFileThumbnailUnFl(UpdPhotoBoardFileThumbnailUnFlDto dto) {
-		return photoMapper.updPhotoBoardFileThumbnailUnFl(dto);
 	}
 
 	@Override
