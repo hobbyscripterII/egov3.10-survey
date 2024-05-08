@@ -43,7 +43,7 @@ UPDATE board_tbl SET title = #{title}, contents = #{contents} WHERE iboard = #{i
 </update>
 
 <select id="selPhotoBoard" parameterType="int" resultType="PhotoSelVo">
-SELECT a.iboard, b.iuser, b.name, a.title, a.contents, a.created_at createdAt
+SELECT a.iboard, b.iuser, (SELECT ifile FROM file_tbl WHERE thumbnail_fix = 'Y' AND iboard = #{iboard}) thumbnail, b.name, a.title, a.contents, a.created_at createdAt
 FROM board_tbl a
 INNER JOIN user_tbl b
 ON a.iuser = b.iuser
@@ -73,4 +73,8 @@ UPDATE file_tbl SET thumbnail_fix = 'N' WHERE iboard = #{iboard} AND  ifile != #
 <select id="getPhotoBoardNullInsertIboard" resultType="getPhotoBoardNullInsertIboardVo">
 SELECT iboard FROM board_tbl WHERE title = '' AND contents = ''
 </select>
+
+<update id="updView" parameterType="int">
+UPDATE board_tbl SET VIEW = (SELECT VIEW FROM board_tbl WHERE iboard = #{iboard}) + 1 WHERE iboard = #{iboard}
+</update>
 </mapper>

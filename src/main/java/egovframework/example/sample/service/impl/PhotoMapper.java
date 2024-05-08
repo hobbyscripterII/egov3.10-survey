@@ -26,4 +26,5 @@ public interface PhotoMapper {
 	int updPhotoBoardFileThumbnailFl(int ifile);
 	int updPhotoBoardFileThumbnailUnFl(UpdPhotoBoardFileThumbnailUnFlDto dto);
 	List<getPhotoBoardNullInsertIboardVo> getPhotoBoardNullInsertIboard();
+	int updView(int iboard);
 }

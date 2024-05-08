@@ -31,6 +31,7 @@ import egovframework.example.cmmn.Utils;
 import egovframework.example.sample.service.PhotoService;
 import egovframework.example.sample.service.model.BoardFileInsDto;
 import egovframework.example.sample.service.model.PhotoInsNullDto;
+import egovframework.example.sample.service.model.PhotoSelVo;
 import egovframework.example.sample.service.model.PhotoUpdDto;
 
 @Controller
@@ -72,8 +73,9 @@ public class PhotoController {
 	
 	@GetMapping("/view.do")
 	public String selPhotoBoard(@RequestParam int iboard, Model model) {
-//		boardService.updView(iboard); // 조회수 증가(수정 필요)
-		model.addAttribute("vo", photoService.selPhotoBoard(iboard));
+		photoService.updView(iboard);
+		PhotoSelVo vo = photoService.selPhotoBoard(iboard);
+		model.addAttribute("vo", vo);
 		return "photo/read";
 	}
 

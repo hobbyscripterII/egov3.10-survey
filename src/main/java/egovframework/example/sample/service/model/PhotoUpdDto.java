@@ -1,5 +1,7 @@
 package egovframework.example.sample.service.model;
 
+import java.util.Arrays;
+
 public class PhotoUpdDto {
 	private int iboard;
 	private int iuser;
@@ -7,6 +9,7 @@ public class PhotoUpdDto {
 	private String title;
 	private String contents;
 	private int thumbnail;
+	private int[] deleteFileArr; // 사용자가 삭제 버튼 누른 이미지의 pk가 담긴 배열
 	
 	public int getIboard() { return iboard; }
 	public void setIboard(int iboard) { this.iboard = iboard; }
@@ -20,6 +23,8 @@ public class PhotoUpdDto {
 	public void setContents(String contents) { this.contents = contents; }
 	public int getThumbnail() { return thumbnail; }
 	public void setThumbnail(int thumbnail) { this.thumbnail = thumbnail; }
+	public int[] getDeleteFileArr() { return deleteFileArr; }
+	public void setDeleteFileArr(int[] deleteFileArr) { this.deleteFileArr = deleteFileArr; }
 	
-	@Override public String toString() { return "PhotoUpdDto [iboard=" + iboard + ", iuser=" + iuser + ", name=" + name + ", title=" + title + ", contents=" + contents + ", thumbnail=" + thumbnail + "]"; }
+	@Override public String toString() { return "PhotoUpdDto [iboard=" + iboard + ", iuser=" + iuser + ", name=" + name + ", title=" + title + ", contents=" + contents + ", thumbnail=" + thumbnail + ", deleteFileArr=" + Arrays.toString(deleteFileArr) + "]"; }
 }

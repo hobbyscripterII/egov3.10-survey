@@ -26,4 +26,5 @@ public interface PhotoService {
 	int updPhotoBoardFileThumbnailUnFl(UpdPhotoBoardFileThumbnailUnFlDto dto);
 	public void unInsertBoardDeleteTaskScheduler();
 	List<getPhotoBoardNullInsertIboardVo> getPhotoBoardNullInsertIboard();
+	int updView(int iboard);
 }

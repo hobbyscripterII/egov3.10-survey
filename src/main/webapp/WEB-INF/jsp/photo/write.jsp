@@ -6,10 +6,10 @@
 <html>
 <style>
 #div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 850px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
-textarea { width: 100%; height: 30px; line-height: 30px; border-bottom: 1px dotted #000; margin-top: 4px; outline: none; resize: none; overflow: hidden; } /* border-bottom: 1px dotted #000; */
+textarea { width: 100%; height: 30px; line-height: 30px; border: none; border-bottom: 1px dotted #000; margin-top: 4px; outline: none; resize: none; overflow: hidden; } /* border-bottom: 1px dotted #000; */
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
-.div-thumbnail-chioce-form { padding: 5px 5px 5px 10px; cursor: pointer; position: relative; width: 126px; top: 34px; background-color: white; }
-.icon-thumbnail-delete { cursor: pointer; position: relative; top: 59px; left: 134px; z-index: 9999; }
+.div-thumbnail-chioce-form { padding: 5px 5px 5px 10px; cursor: pointer; position: relative; width: 3rem; top: 34px; background-color: white; }
+.icon-thumbnail-delete { cursor: pointer; position: relative; top: 59px; left: 3.5rem; z-index: 9999; }
 </style>
 
 <div class="icon-thumbnail-delete"></div>
@@ -66,7 +66,8 @@ let btnInsert = document.getElementById('btn-insert');
 let btnCancle = document.getElementById('btn-cancle');
 let iboard = document.getElementById('btn-insert').dataset.iboard; // 게시글 등록 버튼 눌렀을 때 생기는 pk
 let contents = `${dto.contents }`;
-let thumbnail = 0; // 대표 썸네일 pk 초기화
+let thumbnail = `${dto.thumbnail }`; // 대표 썸네일 pk 초기화
+let deleteFileArr = []; // 추후 처리
 
 function imgDelete(e) {
 	if(confirm('이미지를 삭제하시겠습니까?')) {
@@ -107,7 +108,7 @@ if(contents != '') { // dto contents가 빈 문자열이 아니라면 이미 작
 	$('.img-preview').each((idx, item) => {
     	let newWrapDiv = document.createElement('div'); // 이미지 / 대표 이미지 선택 폼 감싸줄 wrap용 div 생성
     	let newThumbnailChioceForm = document.createElement('div'); // 대표 이미지 선택 폼 전용 div 생성
-    	let newThumbnailChioceText = document.createTextNode('대표 이미지 선택'); // 대표 이미지 선택 폼에 넣을 텍스트 노드 추가
+    	let newThumbnailChioceText = document.createTextNode('대표'); // 대표 이미지 선택 폼에 넣을 텍스트 노드 추가
     	newThumbnailChioceForm.classList.add('div-thumbnail-chioce-form'); // wrap div에 css 먹인 class 추가
     	newThumbnailChioceForm.appendChild(newThumbnailChioceText); // wrap div에 텍스트 노드 추가
 		let newDeleteIcon = document.createElement('img'); // img 요소 새로 생성
@@ -123,8 +124,9 @@ if(contents != '') { // dto contents가 빈 문자열이 아니라면 이미 작
 
 form.addEventListener('click', (e) => {
 	let targetNode = e.target; // 이벤트 발생 타겟
-	let nextSiblingNode = e.target.nextSibling; // 발생 타겟의 다음 노드
-	let previousSiblingNode = e.target.previousSibling; // 발생 타겟의 이전 노드
+	let nextSiblingNode = targetNode.nextSibling; // 발생 타겟의 다음 노드
+	let previousSiblingNode = targetNode.previousSibling; // 발생 타겟의 이전 노드
+	let parentNode = targetNode.parentNode;
 	let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
 	
 	if(targetNode.className == 'div-thumbnail-chioce-form') {
@@ -140,16 +142,21 @@ form.addEventListener('click', (e) => {
 	}
 	
 	// 앞 뒤로 이미지만 있을 때 / 다음 형제 노드가 없을 때 새로운 textarea 생성
-	if((targetNode.className == 'img-preview' && nextSiblingNode.className == 'img-preview') || !nextSiblingNode) {
+	if(targetNode.className == 'img-preview' & !nextSiblingNode) {
 		targetNode.after(newTextarea);
 	}
 	
-	if(targetNode.className == 'img-preview') {
-		console.log('이미지를 클릭했습니다.');		
-	}
+	// text div 어디를 클릭하더라도 마지막 textarea 폼으로 이동
+	if(e.target.id == 'div-custom-form-control') { form.lastChild.focus(); }
 });
 
-// ================================================================================================================================================================
+//[text div 관련 이벤트 로직]
+//text div 클릭 시 새로운 textarea 폼 생성(2번 실행 x)
+form.addEventListener('click', (e) => {
+	let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
+	newTextarea.classList.add('textarea-custom-form-control'); // 해당 textarea에 css 먹임
+	form.appendChild(newTextarea); // textarea를 text div의 마지막 자식 요소에 덧붙임
+}, {once : true}); // text 폼 클릭 시 input 폼 한번만 생성하기 위해 once 속성을 true로 지정
 
 // 게시글 '등록' 버튼 누를 때 이미 insert 되었으므로 이후 작업들은 다 update임
 // 따라서 아래 로직을 재사용함
@@ -179,7 +186,8 @@ btnInsert.addEventListener('click', (e) => {
 	    contents = contents.trim(); // 값 제대입 / 앞에 빈 값 초기화했던 공백 제거
 		// >>>>> 게시글 내용 담는 작업 종료
 		
-	    if(contents == '') { alert('내용을 입력해주세요.'); }
+	    if(contents == '') { alert('내용을 입력해주세요.'); return false; }
+	    else if(thumbnail == '0') { alert('대표 이미지를 지정해주세요.'); return false; }
 	    else {
 			let dto = {iboard : iboard, title : title.val(), contents : contents, thumbnail : thumbnail};
 			
@@ -255,7 +263,7 @@ inputFile.addEventListener('change', (e) => {
 	        	let src = '/winitech/img/' + value; // html 태그로 출력하기 위함 / /winitech/img/ - 실제 경로
 	        	let newWrapDiv = document.createElement('div');
 	        	let newThumbnailChioceForm = document.createElement('div');
-	        	let newThumbnailChioceText = document.createTextNode('대표 이미지 선택');
+	        	let newThumbnailChioceText = document.createTextNode('대표');
 	        	newThumbnailChioceForm.classList.add('div-thumbnail-chioce-form');
 	        	newThumbnailChioceForm.appendChild(newThumbnailChioceText);
 				
@@ -277,19 +285,6 @@ inputFile.addEventListener('change', (e) => {
         },
         error: (x) => { console.log(x); }
      })
-});
-
-// [text div 관련 이벤트 로직]
-// text div 클릭 시 새로운 textarea 폼 생성(2번 실행 x)
-form.addEventListener('click', (e) => {
-	let newTextarea = document.createElement('textarea'); // text div에 새로 삽입하기 위한 textarea 생성
-	newTextarea.classList.add('textarea-custom-form-control'); // 해당 textarea에 css 먹임
-	form.appendChild(newTextarea); // textarea를 text div의 마지막 자식 요소에 덧붙임
-}, {once : true}); // text 폼 클릭 시 input 폼 한번만 생성하기 위해 once 속성을 true로 지정
-
-form.addEventListener('click', (e) => {
-	// text div 어디를 클릭하더라도 마지막 textarea 폼으로 이동
-	if(e.target.id == 'div-custom-form-control') { form.lastChild.focus(); }
 });
 
 form.addEventListener('keyup', (e) => { // keyup - 키보드에서 손 뗐을 때 실행

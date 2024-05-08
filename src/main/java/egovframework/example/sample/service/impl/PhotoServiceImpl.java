@@ -101,4 +101,9 @@ public class PhotoServiceImpl implements PhotoService {
 	public List<getPhotoBoardNullInsertIboardVo> getPhotoBoardNullInsertIboard() {
 		return photoMapper.getPhotoBoardNullInsertIboard();
 	}
+
+	@Override
+	public int updView(int iboard) {
+		return photoMapper.updView(iboard);
+	}
 }

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.example.cmmn.Const;
+import egovframework.example.cmmn.Utils;
 import egovframework.example.sample.service.BoardService;
 
 public class EgovInterceptor implements HandlerInterceptor {
@@ -26,21 +27,26 @@ public class EgovInterceptor implements HandlerInterceptor {
 		String url = request.getRequestURI();
 		String ip = Inet4Address.getLocalHost().getHostAddress();
 		request.setAttribute(Const.USER_IP, ip);
-//		int iboard = Integer.parseInt(request.getParameter("iboard"));
-//		int boardByIuser = boardService.getBoardByIuser(iboard);
 		
 		log.info("REQUEST [{}][{}]", ip, url);
 
 		// 저장된 session이 없거나 session에 회원 pk가 저장되지 않았다면 아래 로직을 실행함
-//		if (session == null || session.getAttribute(Const.USER_IUSER) == null) {
-//			response.sendRedirect("/winitech/user/signin.do"); // sendRedirect - 로그인 페이지로 리다이렉트 시킴(forward랑 다르게 값을
-//			return false; // false를 반환할 경우 리다이렉트 후 종료됨 / 남은 인터셉터, 컨트롤러 실행 x
-//		} else if (boardByIuser != (int)session.getAttribute(Const.USER_IUSER)) {
-//			response.sendRedirect("/winitech/exception/403.do");
-////			response.sendRedirect("/winitech/common/403.jsp"); // 'webapp/common' 경로에 jsp 바로 넣고 접근할 경우 tiles 적용 안됨 / tiles 적용 경로 내에 넣어놔도 .jsp로 접근할 경우 레이아웃 적용 x
-//			return false;
-//		}
+		if (session == null || session.getAttribute(Const.USER_IUSER) == null) {
+			response.sendRedirect("/winitech/user/signin.do"); // sendRedirect - 로그인 페이지로 리다이렉트 시킴(forward랑 다르게 값을
+			return false; // false를 반환할 경우 리다이렉트 후 종료됨 / 남은 인터셉터, 컨트롤러 실행 x
+		}
 		
+		if(Utils.isNotNull(request.getParameter("iboard"))) {
+			int boardByIuser = boardService.getBoardByIuser(Integer.parseInt(request.getParameter("iboard")));
+			
+			if (boardByIuser != (int)session.getAttribute(Const.USER_IUSER)) {
+				response.sendRedirect("/winitech/exception/403.do");
+//				response.sendRedirect("/winitech/common/403.jsp"); // 'webapp/common' 경로에 jsp 바로 넣고 접근할 경우 tiles 적용 안됨 / tiles 적용 경로 내에 넣어놔도 .jsp로 접근할 경우 레이아웃 적용 x
+				return false;
+			}
+			
+			return true;
+		}
 		return true; // 반환 값이 true일 때만 다음 동작(컨트롤러 이동)을 실행함
 	}
 
