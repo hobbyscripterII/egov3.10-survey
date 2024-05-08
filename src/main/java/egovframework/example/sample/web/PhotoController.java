@@ -108,6 +108,8 @@ public class PhotoController {
 	@PostMapping("/update.do")
 	@ResponseBody
 	public int updPhotoBoard(@RequestBody PhotoUpdDto dto, HttpServletRequest request) {
+		// 트랜잭션 서비스 단에서
+		
 		dto.setIuser(getIuser(request));
 		int updPhotoBoardRows = photoService.updPhotoBoard(dto);
 		

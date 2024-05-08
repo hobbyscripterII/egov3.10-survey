@@ -4,7 +4,7 @@
 <select id="getPhotoBoardList" resultType="PhotoListGetVo">
 SELECT a.iboard, a.title, c.NAME, a.created_at createdAt, a.VIEW, (SELECT CONCAT(saved_name, ext) FROM file_tbl WHERE iboard = a.iboard AND thumbnail_fix = 'Y') thumbnail
 FROM board_tbl a
-INNER JOIN file_tbl b
+LEFT JOIN file_tbl b
 ON a.iboard = b.iboard
 INNER JOIN user_tbl c
 ON a.iuser = c.iuser

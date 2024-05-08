@@ -69,6 +69,8 @@ let contents = `${dto.contents }`;
 let thumbnail = `${dto.thumbnail }`; // 대표 썸네일 pk 초기화
 let deleteFileArr = []; // 추후 처리
 
+console.log('thumbnail = ', thumbnail);
+
 function imgDelete(e) {
 	if(confirm('이미지를 삭제하시겠습니까?')) {
 		let targetNode = e.nextSibling.nextSibling;
@@ -147,7 +149,7 @@ form.addEventListener('click', (e) => {
 	}
 	
 	// text div 어디를 클릭하더라도 마지막 textarea 폼으로 이동
-	if(e.target.id == 'div-custom-form-control') { form.lastChild.focus(); }
+	// if(e.target.id == 'div-custom-form-control') { form.lastChild.focus(); }
 });
 
 //[text div 관련 이벤트 로직]
@@ -165,11 +167,24 @@ btnInsert.addEventListener('click', (e) => {
 	let imgPreview = $('.img-preview');
 	let textareas = $('textarea');
 	let contents = ''; // 빈 값 초기화(null, undefined) 안나오게 처리하기 위함
-	
 	let length = imgPreview.length + textareas.length; // 작성한 게시글 내용을 다 처리하기 위해서 배열을 img 태그 개수 + textarea 개수로 계산
 	
 	if(!title.val()) { alert('제목을 입력해주세요.'); title.focus(); }
 	else {
+		if(imgPreview.length == 0) {
+			let contentsValidation = '';
+			
+			for (let i = 0; i < length; i++) {
+				contentsValidation += textareas[i].value.trim();
+				console.log('contentsValidation = ', contentsValidation);
+			}
+			
+			if(contentsValidation == '') {
+				alert('내용을 입력해주세요.');
+				return false;
+			}
+		}
+
 		// >>>>> 게시글 내용 담는 작업 시작
 		let contentsTempArr = []; // 게시글 내용을 순서대로 담을 임시 배열 생성
 		
@@ -187,7 +202,7 @@ btnInsert.addEventListener('click', (e) => {
 		// >>>>> 게시글 내용 담는 작업 종료
 		
 	    if(contents == '') { alert('내용을 입력해주세요.'); return false; }
-	    else if(thumbnail == '0') { alert('대표 이미지를 지정해주세요.'); return false; }
+	    else if(imgPreview.length != 0 && thumbnail == 0) { alert('대표 이미지를 지정해주세요.'); return false; }
 	    else {
 			let dto = {iboard : iboard, title : title.val(), contents : contents, thumbnail : thumbnail};
 			
@@ -291,26 +306,6 @@ form.addEventListener('keyup', (e) => { // keyup - 키보드에서 손 뗐을 �
 	let targetNode = e.target;
 	let previousSiblingNode = e.target.previousSibling;
 	let nextSiblingNode = e.target.nextSibling;
-	
-	// textarea 키보드 커서 제일 마지막에 위치하기 위한 작업
-	// 방향키에 따라 포커즈 이동(노드 이동) // 방향키는 keyup, keydown만 가능
-	/*
-	let target;
-	if(e.code == 'ArrowDown' || e.code == 'ArrowRight') {
-		target = nextSiblingNode;
-		target.focus();
-	} else if(e.code == 'ArrowUp' || e.code == 'ArrowLeft') {
-		target = previousSiblingNode;
-		target.focus();
-	}
-	*/
-	
-	// textarea 자동 높이 조절
-	/*
-	let target = e.target;
-	target.style.height = target.scrollHeight + 'px';
-	*/
-	
 });
 
 form.addEventListener('keydown', (e) => { // keydown - 키보드 눌렀을 때 실행 / 누르고 있을 때 한번만 실행됨
