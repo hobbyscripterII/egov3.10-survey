@@ -5,6 +5,7 @@
 <style>
 	section { flex-wrap: wrap; }
 	footer { position: fixed; bottom: 0; }
+	#body { height: auto; }
 </style>
 <body>
 <h1 class="title">접근 권한 알림(403)</h1>

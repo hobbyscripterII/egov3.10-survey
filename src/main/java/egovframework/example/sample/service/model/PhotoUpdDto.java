@@ -1,6 +1,7 @@
 package egovframework.example.sample.service.model;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PhotoUpdDto {
 	private int iboard;
@@ -9,7 +10,7 @@ public class PhotoUpdDto {
 	private String title;
 	private String contents;
 	private int thumbnail;
-	private int[] deleteFileArr; // 사용자가 삭제 버튼 누른 이미지의 pk가 담긴 배열
+	private Map<Integer, String> delFileMap = new HashMap<Integer, String>(); // 사용자가 삭제 버튼 누른 이미지의 pk가 담긴 배열
 	
 	public int getIboard() { return iboard; }
 	public void setIboard(int iboard) { this.iboard = iboard; }
@@ -23,8 +24,8 @@ public class PhotoUpdDto {
 	public void setContents(String contents) { this.contents = contents; }
 	public int getThumbnail() { return thumbnail; }
 	public void setThumbnail(int thumbnail) { this.thumbnail = thumbnail; }
-	public int[] getDeleteFileArr() { return deleteFileArr; }
-	public void setDeleteFileArr(int[] deleteFileArr) { this.deleteFileArr = deleteFileArr; }
+	public Map<Integer, String> getDelFileMap() { return delFileMap; }
+	public void setDelFileMap(Map<Integer, String> delFileMap) { this.delFileMap = delFileMap; }
 	
-	@Override public String toString() { return "PhotoUpdDto [iboard=" + iboard + ", iuser=" + iuser + ", name=" + name + ", title=" + title + ", contents=" + contents + ", thumbnail=" + thumbnail + ", deleteFileArr=" + Arrays.toString(deleteFileArr) + "]"; }
+	@Override public String toString() { return "PhotoUpdDto [iboard=" + iboard + ", iuser=" + iuser + ", name=" + name + ", title=" + title + ", contents=" + contents + ", thumbnail=" + thumbnail + ", delFileMap=" + delFileMap + "]"; }
 }

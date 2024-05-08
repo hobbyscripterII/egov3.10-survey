@@ -67,27 +67,28 @@ let btnCancle = document.getElementById('btn-cancle');
 let iboard = document.getElementById('btn-insert').dataset.iboard; // 게시글 등록 버튼 눌렀을 때 생기는 pk
 let contents = `${dto.contents }`;
 let thumbnail = `${dto.thumbnail }`; // 대표 썸네일 pk 초기화
-let deleteFileArr = []; // 추후 처리
-
-console.log('thumbnail = ', thumbnail);
+let delFileMap = new Map();
 
 function imgDelete(e) {
 	if(confirm('이미지를 삭제하시겠습니까?')) {
 		let targetNode = e.nextSibling.nextSibling;
 		let ifile = targetNode.dataset.ifile;
-		let src_ = targetNode.getAttribute('src');
-		let src = src_.replaceAll('/winitech/img/', '');
+		let src = targetNode.getAttribute('src').replaceAll('/winitech/img/', '');
 		let parentNode = targetNode.parentNode;
 		
-		$.ajax({
-			type: 'post',
-			url: '/winitech/photo/file-delete.do',
-			data: { "iboard": iboard, "src": src },
-			success: (data) => {
-				if (data == 1) { parentNode.remove(); }
-				else { console.log('이미지 삭제에 실패했습니다.'); }},
-			error: (x) => { console.log(x); }
-		});
+		console.log('ifile = ', ifile);
+		console.log('src = ', src);
+		console.log('parentNode = ', parentNode);
+		
+		if(ifile == 0) {
+			alert('파일을 삭제할 수 없습니다.');
+			return false;
+		} else {
+			delFileMap.set(ifile, src);
+			parentNode.remove();
+		}
+		
+		console.log('delFileMap = ', delFileMap);
 	}
 }
 
@@ -204,7 +205,9 @@ btnInsert.addEventListener('click', (e) => {
 	    if(contents == '') { alert('내용을 입력해주세요.'); return false; }
 	    else if(imgPreview.length != 0 && thumbnail == 0) { alert('대표 이미지를 지정해주세요.'); return false; }
 	    else {
-			let dto = {iboard : iboard, title : title.val(), contents : contents, thumbnail : thumbnail};
+			let dto = {iboard : iboard, title : title.val(), contents : contents, thumbnail : thumbnail, delFileMap : delFileMap};
+			
+			console.log('dto = ', dto);
 			
 			$.ajax({
 		        type: 'post',
@@ -213,6 +216,10 @@ btnInsert.addEventListener('click', (e) => {
 		        contentType : 'application/json',
 		        success: (data) => {
 		        	const SUCCESS = 1;
+		        	const TEST = 3;
+		        	
+		        	if(data == TEST) { alert('테스트가 완료되었습니다.'); }
+		        	
 		        	if(data == SUCCESS) { if(confirm('게시글 등록에 성공했습니다. 등록한 글을 확인하러 가시겠습니까?')) { location.href ='/winitech/photo/view.do?iboard=' + iboard; } } 
 		        	else { alert('게시글 등록에 실패하였습니다. 잠시 후 다시 시도해주세요.'); }}, 
 		        error: (x) => { console.log(x); }

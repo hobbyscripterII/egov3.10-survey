@@ -104,14 +104,17 @@ public class PhotoController {
 	@PostMapping("/update.do")
 	@ResponseBody
 	public int updPhotoBoard(@RequestBody PhotoUpdDto dto, HttpServletRequest request) throws Exception {
-		dto.setIuser(getIuser(request));
-		int updPhotoBoardRows = photoService.updPhotoBoard(dto);
+		log.info("dto.getDelFileMap() = {}", dto.getDelFileMap());
+		return 3;
 		
-		if(Utils.isNotNull(updPhotoBoardRows)) {
-			return Const.SUCCESS;
-		}
-		
-		return Const.FAIL;
+//		dto.setIuser(getIuser(request));
+//		int updPhotoBoardRows = photoService.updPhotoBoard(dto);
+//		
+//		if(Utils.isNotNull(updPhotoBoardRows)) {
+//			return Const.SUCCESS;
+//		}
+//		
+//		return Const.FAIL;
 	}
 	
 	@PostMapping("/delete.do")
