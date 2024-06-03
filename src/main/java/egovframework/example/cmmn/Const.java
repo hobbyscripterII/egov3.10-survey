@@ -1,6 +1,56 @@
 package egovframework.example.cmmn;
 
 public class Const {
+	// API
+	public static final String MODEL_YEARS_KEY = "YEARS";
+	public static final String MODEL_JSON_KEY = "JSON";
+	public static final String MODEL_ERRORS_KEY = "ERRORS";
+	public static final String MODEL_CATEGORY_KEY = "CATEGORY";
+	public static final String MODEL_KEYWORD_KEY = "KEYWORD";
+	public static final String MODEL_NAME_KEY = "NAME";
+	public static final String MODEL_PARAMETER_KEY = "PARAMETER";
+	public static final String MODEL_STOCK_NAME_KEY = "STOCKNAME";
+	public static final String MODEL_MOVIENM_KEY = "MOVIENM";
+	public static final String MODEL_DIRECTORNM_KEY = "DIRECTORNM";
+	public static final String MODEL_TOTCNT_KEY = "TOTCNT";
+	
+	public static final String ERRORS_NOT_FOUND_STOCK_NAME = "[알림] 해당 종목을 찾을 수 없습니다. 다시 입력해주세요.";
+	public static final String ERRORS_NOT_FOUND_URL = "[알림] 데이터를 불러오는 데 실패하였습니다. 관리자에게 문의해주세요.";
+	public static final String ERRORS_FILE_READ_FAIL = "[알림] 파일을 읽을 수 없습니다. 관리자에게 문의해주세요.";
+	public static final String ERRORS_RUNTIME_EXCEPTION = "[알림] 내부적으로 에러가 발생하였습니다. 관리자에게 문의해주세요.";
+	
+	// 과제
+	public static final int CODE_TEST_EXIT = 0;
+	public static final String MSG_TEST_EXIT = "테스트가 종료되었습니다.";
+	
+	public static final String SURVEY_CREATE_SUCCESS = "설문조사 등록이 완료되었습니다.";
+	public static final String SURVEY_CREATE_FAIL = "설문조사 등록에 실패하였습니다. 잠시 후 다시 시도해주세요.";
+	public static final String SURVEY_IMAGE_UPLOAD_FAIL = "설문조사 등록 중 이미지 업로드에 실패하였습니다. 잠시 후 다시 시도해주세요.";
+	public static final String NOT_FOUND_SESSION = "해당 권한이 없습니다.";
+	public static final String SURVEY_UPDATE_SUCCESS = "설문조사 수정이 완료되었습니다.";
+	public static final String SURVEY_UPDATE_FAIL = "설문조사 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.";
+	public static final String NOT_FOUND_USER = "회원가입 후 설문조사에 참여해주세요.";
+	public static final String SURVEY_PARTICIPATE_SUCCESS = "설문조사 참여가 완료되었습니다. 감사합니다.";
+	public static final String SURVEY_PARTICIPATE_FAIL = "일시적인 오류로 설문조사 참여에 실패하였습니다. 잠시 후 다시 시도해주세요.";
+	public static final String SURVEY_PARTICIPATE_INSERT_FAIL = "누락된 항목에 응답 후 참여해주세요.";
+	public static final String SURVEY_DELETE_FAIL = "설문조사 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.";
+	public static final String SURVEY_DELETE_SUCCESS = "설문조사 삭제가 완료되었습니다.";
+	public static final String SURVEY_REQUIRED_QUESTION_ERROR = "필수 문항에 응답해주세요.";
+	
+	// Model Key 값
+	public static final String MODEL_LIST_KEY = "LIST";
+	public static final String MODEL_VO_KEY = "VO";
+	public static final String MODEL_DTO_KEY = "DTO";
+	public static final String MODEL_SURVEY_KEY = "SURVEY";
+	public static final String MODEL_QUESTION_KEY = "QUESTION";
+	
+	// 권한 문자열
+	public static final String ROLE_ADMIN = "ADMIN";
+	public static final String ROLE_USER = "USER";
+	
+	// 관리자 권한 인터셉터 url 문자열
+	public static final String ROLE_ADMIN_COMMON_URL = "admin";
+	
 	// [예외 처리]
 	// HashMap key 값
 	public static final String MSG_KEY = "MSG";

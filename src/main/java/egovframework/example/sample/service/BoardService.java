@@ -3,13 +3,13 @@ package egovframework.example.sample.service;
 import java.util.List;
 
 import egovframework.example.cmmn.Pagination;
-import egovframework.example.sample.service.model.BoardChkPwdDto;
-import egovframework.example.sample.service.model.BoardFileInsDto;
-import egovframework.example.sample.service.model.BoardFileSelVo;
-import egovframework.example.sample.service.model.BoardInsDto;
-import egovframework.example.sample.service.model.BoardListGetVo;
-import egovframework.example.sample.service.model.BoardSelVo;
-import egovframework.example.sample.service.model.BoardUpdDto;
+import egovframework.example.sample.service.model.board.BoardChkPwdDto;
+import egovframework.example.sample.service.model.board.BoardFileInsDto;
+import egovframework.example.sample.service.model.board.BoardFileSelVo;
+import egovframework.example.sample.service.model.board.BoardInsDto;
+import egovframework.example.sample.service.model.board.BoardListGetVo;
+import egovframework.example.sample.service.model.board.BoardSelVo;
+import egovframework.example.sample.service.model.board.BoardUpdDto;
 
 public interface BoardService {
 	public void insBoardFile(List<BoardFileInsDto> dto, int iboard);

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.sample.service.impl.AdminMapper">
+<select id="getSurveyList" resultType="AdminSurveyListGetVo">
+SELECT a.isurvey, a.survey_title surveyTitle, a.survey_use_fl surveyUseFl,
+	   if((SELECT finished_at finishedAt FROM survey_tbl WHERE isurvey = a.isurvey) >= NOW(), 'Y', 'N') surveyResponseUseFl,
+	   b.NAME
+FROM survey_tbl a
+INNER JOIN user_tbl b
+ON a.iuser = b.iuser
+WHERE delete_fl = 'N'
+</select>
+
+<insert id="insSurvey" parameterType="AdminSurveyInsDto" useGeneratedKeys="true" keyProperty="isurvey">
+INSERT INTO survey_tbl(iuser, survey_title, survey_descript, started_at, finished_at, created_user) VALUES (#{iuser}, #{title}, #{descript}, #{startedAt}, #{finishedAt}, #{iuser})
+</insert>
+
+<insert id="insQuestion" parameterType="AdminSurveyQuestionInsDto" useGeneratedKeys="true" keyProperty="iquestion">
+INSERT INTO question_tbl(isurvey, question_name, question_img, required_fl) VALUES (#{isurvey}, #{name}, #{imgPath}, #{requiredFl})
+</insert>
+
+<insert id="insResponse" parameterType="AdminSurveyResponseInsDto">
+INSERT INTO response_option_tbl(iquestion, iresponseformat, response_option_name) VALUES (#{iquestion}, #{iresponseformat}, #{optionName})
+</insert>
+
+<update id="updSurvey" parameterType="AdminSurveyUpdDto">
+UPDATE survey_tbl SET survey_title = #{title}, survey_descript = #{descript}, started_at = #{startedAt}, finished_at = #{finishedAt}, updated_user = #{iuser}
+WHERE isurvey = #{isurvey}
+</update>
+
+<update id="updQuestion" parameterType="AdminSurveyQuestionUpdDto">
+UPDATE question_tbl SET question_name = #{name}, required_fl = #{requiredFl} WHERE iquestion = #{iquestion}
+</update>
+
+<update id="updResponse" parameterType="AdminSurveyResponseUpdDto">
+UPDATE response_option_tbl SET response_option_name = #{optionName} WHERE ioption = #{ioption}
+</update>
+
+<update id="updQuestionImg" parameterType="AdminSurveyQuestionImgUpdDto">
+UPDATE question_tbl SET question_img = #{imgPath} WHERE iquestion = #{iquestion}
+</update>
+
+<update id="updResponseFormat" parameterType="AdminSurveyResponseFormatUpdDto">
+UPDATE response_option_tbl SET iresponseformat = #{iresponseformat} WHERE iquestion = #{iquestion}
+</update>
+
+<select id="getQuestion" parameterType="int" resultType="AdminSurveyQuestionGetVo">
+SELECT iquestion FROM question_tbl WHERE isurvey = #{isurvey}
+</select>
+
+<select id="getResponseOption" parameterType="int" resultType="AdminSurveyResponseOptionGetVo">
+SELECT ioption FROM response_option_tbl WHERE iquestion = #{iquestion}
+</select>
+
+<delete id="delQuestion" parameterType="int">
+DELETE FROM question_tbl WHERE iquestion = #{iquestion}
+</delete>
+
+<select id="beforeResponseFormat" parameterType="int" resultType="int">
+SELECT iresponseformat FROM response_option_tbl WHERE iquestion = #{iquestion} GROUP BY iquestion
+</select>
+
+<delete id="delBeforeResponseFormat" parameterType="int">
+DELETE FROM response_option_tbl WHERE iquestion = #{iquestion}
+</delete>
+
+<delete id="delResponse" parameterType="int">
+DELETE FROM response_option_tbl WHERE ioption = #{ioption}
+</delete>
+
+<select id="selSurveyStats" parameterType="int" resultType="AdminSurveyStatsSelVo">
+SELECT isurvey, survey_title surveyTitle, survey_descript surveyDescript, survey_use_fl surveyUseFl, started_at startedAt, finished_at finishedAt, created_at createdAt
+FROM survey_tbl
+WHERE isurvey = #{isurvey}
+</select>
+
+<select id="getSurveyQuestionStats" parameterType="int" resultType="AdminSurveyQuestionStatsGetVo">
+SELECT iquestion, question_name questionName FROM question_tbl WHERE isurvey = #{isurvey}
+</select>
+
+<select id="getMultipleQuestionStats" parameterType="int" resultType="AdminMultipleResponseStatsGetVo">
+SELECT a.iquestion, b.iresponseformat, a.ioption, COUNT(a.ioption) responseSum,
+		 (COUNT(a.ioption) * 100.0) / (SELECT COUNT(*) FROM response_tbl WHERE iquestion = #{iquestion}) responsePercentage,
+		 b.response_option_name responseOptionName, a.response_contents responseContents
+FROM response_tbl a
+INNER JOIN response_option_tbl b
+ON a.ioption = b.ioption
+WHERE a.iquestion = #{iquestion}
+GROUP BY ioption
+</select>
+
+<select id="getAnswerResponseStats" parameterType="int" resultType="AdminAnswereResponseStatsGetVo">
+SELECT response_contents responseContents
+FROM response_tbl
+WHERE iquestion = #{iquestion}
+</select>
+
+<update id="delSurvey" parameterType="int">
+UPDATE survey_tbl SET delete_fl = 'Y' WHERE isurvey = #{isurvey}
+</update>
+</mapper>

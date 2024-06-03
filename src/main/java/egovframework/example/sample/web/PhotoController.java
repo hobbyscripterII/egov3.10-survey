@@ -25,10 +25,10 @@ import egovframework.example.cmmn.FileUtils;
 import egovframework.example.cmmn.Pagination;
 import egovframework.example.cmmn.Utils;
 import egovframework.example.sample.service.PhotoService;
-import egovframework.example.sample.service.model.BoardFileInsDto;
-import egovframework.example.sample.service.model.PhotoInsNullDto;
-import egovframework.example.sample.service.model.PhotoSelVo;
-import egovframework.example.sample.service.model.PhotoUpdDto;
+import egovframework.example.sample.service.model.board.BoardFileInsDto;
+import egovframework.example.sample.service.model.photo.PhotoInsNullDto;
+import egovframework.example.sample.service.model.photo.PhotoSelVo;
+import egovframework.example.sample.service.model.photo.PhotoUpdDto;
 
 @Controller
 @RequestMapping("/photo")
@@ -104,17 +104,14 @@ public class PhotoController {
 	@PostMapping("/update.do")
 	@ResponseBody
 	public int updPhotoBoard(@RequestBody PhotoUpdDto dto, HttpServletRequest request) throws Exception {
-		log.info("dto.getDelFileMap() = {}", dto.getDelFileMap());
-		return 3;
+		dto.setIuser(getIuser(request));
+		int updPhotoBoardRows = photoService.updPhotoBoard(dto);
 		
-//		dto.setIuser(getIuser(request));
-//		int updPhotoBoardRows = photoService.updPhotoBoard(dto);
-//		
-//		if(Utils.isNotNull(updPhotoBoardRows)) {
-//			return Const.SUCCESS;
-//		}
-//		
-//		return Const.FAIL;
+		if(Utils.isNotNull(updPhotoBoardRows)) {
+			return Const.SUCCESS;
+		}
+		
+		return Const.FAIL;
 	}
 	
 	@PostMapping("/delete.do")

@@ -4,7 +4,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import egovframework.example.cmmn.Const;
-import egovframework.example.sample.service.model.BoardInsDto;
+import egovframework.example.sample.service.model.board.BoardInsDto;
 
 public class BoardInsValidator implements Validator {
 	@Override public boolean supports(Class<?> clazz) { return BoardInsDto.class.isAssignableFrom(clazz); }

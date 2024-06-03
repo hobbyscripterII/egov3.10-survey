@@ -24,7 +24,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -38,11 +37,11 @@ import egovframework.example.cmmn.Pagination;
 import egovframework.example.cmmn.Utils;
 import egovframework.example.sample.service.BoardInsValidator;
 import egovframework.example.sample.service.BoardService;
-import egovframework.example.sample.service.model.BoardChkPwdDto;
-import egovframework.example.sample.service.model.BoardFileInsDto;
-import egovframework.example.sample.service.model.BoardFileSelVo;
-import egovframework.example.sample.service.model.BoardInsDto;
-import egovframework.example.sample.service.model.BoardUpdDto;
+import egovframework.example.sample.service.model.board.BoardFileInsDto;
+import egovframework.example.sample.service.model.board.BoardFileSelVo;
+import egovframework.example.sample.service.model.board.BoardInsDto;
+import egovframework.example.sample.service.model.board.BoardListGetVo;
+import egovframework.example.sample.service.model.board.BoardUpdDto;
 
 @Controller
 @RequestMapping("/board")
@@ -104,7 +103,8 @@ public class BoardController {
 	@GetMapping("/list.do")
 	public String getBoardList(Pagination.Criteria criteria, Model model) throws Exception {
 		Pagination pagination = new Pagination(criteria, boardService.getBoardListCnt(criteria));
-		model.addAttribute("vo", boardService.getBoardList(criteria)); // view에 출력할 게시글 정보
+		List<BoardListGetVo> vo = boardService.getBoardList(criteria);
+		model.addAttribute(Const.MODEL_VO_KEY, vo); // view에 출력할 게시글 정보
 		model.addAttribute("pagination", pagination); // 페이지네이션
 		model.addAttribute("criteria", criteria);
 		return "board/list";
@@ -116,7 +116,7 @@ public class BoardController {
 	@GetMapping("/view.do")
 	public String selBoard(@RequestParam int iboard, Model model) {
 		boardService.updView(iboard); // 조회수 증가(수정 필요)
-		model.addAttribute("vo", boardService.selBoard(iboard));
+		model.addAttribute(Const.MODEL_VO_KEY, boardService.selBoard(iboard));
 		return "board/read";
 	}
 

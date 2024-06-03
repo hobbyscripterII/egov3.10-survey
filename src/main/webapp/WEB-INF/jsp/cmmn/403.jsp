@@ -10,7 +10,7 @@
 <body>
 <h1 class="title">접근 권한 알림(403)</h1>
 <div id="div-error-form">
-	<p><img id="img-icon-megaphone" alt="메가폰 아이콘" src="${pageContext.request.contextPath }/images/egovframework/winitech/icon-forbidden.png"></p>
+	<p><img id="img-icon-megaphone" alt="메가폰 아이콘" src="${pageContext.request.contextPath }/images/egovframework/icon-forbidden.png"></p>
 	<p><c:out value="해당 페이지에 접근할 권한이 없습니다." /></p>
 	<p><c:out value="정상적인 이용을 부탁드립니다." /></p>
 	<p><button type="button" class="btn btn-secondary btn-lg" id="btn-back">돌아가기</button></p>

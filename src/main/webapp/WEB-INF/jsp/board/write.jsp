@@ -95,13 +95,13 @@ document.addEventListener('click', (e) => {
     		
         	// 첨부파일 받을 수 있게 수정
 		    $.ajax({
-		        type: 'post', url: '/winitech/board/update.do', data: formData,
+		        type: 'post', url: '/survey/board/update.do', data: formData,
     	        contentType: false, // 전달 데이터 형식 / formData로 보낼 경우 명시 필수
     	        processData: false, // string 변환 여부 / formData로 보낼 경우 명시 필수
 		        success: (data) => {
 		        	if(data == 1) {
-		        		if(confirm('게시글이 수정되었습니다. 수정된 게시글을 확인하러 가시겠습니까?')) { location.href = '/winitech/board/view.do?category=1&iboard=' + iboard; }
-		        		else { alert('게시글 목록으로 이동합니다.'); location.href = '/winitech/board/list.do?category=1'; }}
+		        		if(confirm('게시글이 수정되었습니다. 수정된 게시글을 확인하러 가시겠습니까?')) { location.href = '/survey/board/view.do?category=1&iboard=' + iboard; }
+		        		else { alert('게시글 목록으로 이동합니다.'); location.href = '/survey/board/list.do?category=1'; }}
 		        	else { alert('게시글 수정에 실패하였습니다. 잠시 후 다시 시도해주세요.'); }
 		        },
 		        error: (x) => { console.log(x); }
@@ -117,7 +117,7 @@ document.addEventListener('click', (e) => {
     		alert('작성이 취소되었습니다.');
     		if(NAME != undefined) { suffixUrl = 'name=' + NAME; }
     		else if(TITLE != undefined) { suffixUrl = 'title=' + TITLE; }
-    		location.href = '/winitech/board/list.do??category=1' + suffixUrl;
+    		location.href = '/survey/board/list.do??category=1' + suffixUrl;
     	}
     }
     
@@ -171,7 +171,7 @@ document.addEventListener('click', (e) => {
 
         		$.ajax({
         	        type: 'post',
-        	        url: '/winitech/board/write.do',
+        	        url: '/survey/board/write.do',
         	        contentType: false, // 전달 데이터 형식 / formData로 보낼 경우 명시 필수
         	        processData: false, // string 변환 여부 / formData로 보낼 경우 명시 필수
         	        data: formData,
@@ -185,7 +185,7 @@ document.addEventListener('click', (e) => {
        	        		if(MSG > 0) {
         	        			if(confirm('게시글 등록이 완료되었습니다. 등록한 글을 확인하러가시겠습니까?')) {
         	        				const IBOARD = data.IBOARD;
-        	        				location.href = '/winitech/board/view.do?category=1&iboard=' + IBOARD;
+        	        				location.href = '/survey/board/view.do?category=1&iboard=' + IBOARD;
         	        			} else {
             	        			alert('게시판 목록으로 이동합니다.');
     	       	            		const NAME = document.getElementById('btn-insert').dataset.name;
@@ -194,7 +194,7 @@ document.addEventListener('click', (e) => {
     	       	            		
     	       	            		if(NAME != undefined) { suffixUrl = 'name=' + NAME; }
     	       	            		else if(TITLE != undefined) { suffixUrl = 'title=' + TITLE; }
-    	       	            		location.href = '/winitech/board/list.do?category=1&' + suffixUrl;
+    	       	            		location.href = '/survey/board/list.do?category=1&' + suffixUrl;
         	        			}
         	        	} else {
         	        		if(MSG == -2) {

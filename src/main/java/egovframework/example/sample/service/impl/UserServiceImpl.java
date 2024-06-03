@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import egovframework.example.cmmn.Const;
 import egovframework.example.cmmn.Utils;
 import egovframework.example.sample.service.UserService;
-import egovframework.example.sample.service.model.UserDetailVo;
-import egovframework.example.sample.service.model.UserSignInDto;
-import egovframework.example.sample.service.model.UserSignUpDto;
+import egovframework.example.sample.service.model.user.UserDetailVo;
+import egovframework.example.sample.service.model.user.UserSignInDto;
+import egovframework.example.sample.service.model.user.UserSignUpDto;
 
 @Service
 public class UserServiceImpl implements UserService {

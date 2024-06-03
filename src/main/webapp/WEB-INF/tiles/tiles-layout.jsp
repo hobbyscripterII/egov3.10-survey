@@ -8,6 +8,4 @@
 	<div id="body"><tiles:insertAttribute name="body"/></div>
 	<tiles:insertAttribute name="footer"/>
 </body>
-
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/photo-write.js" />
 </html>

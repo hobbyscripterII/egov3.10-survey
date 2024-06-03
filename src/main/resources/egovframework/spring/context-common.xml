@@ -15,6 +15,7 @@
 		<property name="basenames">
 			<list>
 				<value>classpath:/egovframework/message/message-common</value>
+				<value>classpath:/egovframework/message/message-winitech</value>
 				<value>classpath:/egovframework/rte/fdl/idgnr/messages/idgnr</value>
 				<value>classpath:/egovframework/rte/fdl/property/messages/properties</value>
 			</list>

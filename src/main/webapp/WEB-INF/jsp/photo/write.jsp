@@ -5,8 +5,9 @@
 <!DOCTYPE html>
 <html>
 <style>
-#div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 850px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
 textarea { width: 100%; height: 30px; line-height: 30px; border: none; margin-top: 4px; outline: none; resize: none; overflow: hidden; } /* border-bottom: 1px dotted #000; */
+#body { height: auto; }
+#div-custom-form-control { padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: 0.375rem; height: 850px; /* text 창 처럼 보이기위한 속임수 */ cursor: text; overflow: auto; }
 #icon-image-upload { margin-top: 3px; cursor: pointer; }
 .div-thumbnail-chioce-form { padding: 5px 5px 5px 10px; cursor: pointer; position: relative; width: 3rem; top: 34px; background-color: white; }
 .icon-thumbnail-delete { cursor: pointer; position: relative; top: 59px; left: 3.5rem; z-index: 9999; }
@@ -31,7 +32,7 @@ textarea { width: 100%; height: 30px; line-height: 30px; border: none; margin-to
 	  <tr>
 		  <td colspan="4">
 			  <div>
-				  <img id="icon-image-upload" alt="" title="이미지 업로드 아이콘" src="${pageContext.request.contextPath }/images/egovframework/winitech/icon-image-upload.png" onchange="preview(this)">
+				  <img id="icon-image-upload" alt="" title="이미지 업로드 아이콘" src="${pageContext.request.contextPath }/images/egovframework/icon-image-upload.png" onchange="preview(this)">
 				  <input class="form-control" type="file" id="input-file" accept="image/*" multiple style="display: none">
 			  </div>
 		  </td>
@@ -73,7 +74,7 @@ function imgDelete(e) {
 	if(confirm('이미지를 삭제하시겠습니까?')) {
 		let targetNode = e.nextSibling.nextSibling;
 		let ifile = targetNode.dataset.ifile;
-		let src = targetNode.getAttribute('src').replaceAll('/winitech/img/', '');
+		let src = targetNode.getAttribute('src').replaceAll('/survey/img/', '');
 		let parentNode = targetNode.parentNode;
 		
 		console.log('ifile = ', ifile);
@@ -96,7 +97,7 @@ function imgDelete(e) {
 btnCancle.addEventListener('click', () => {
    	if(confirm('작성을 취소하시겠습니까?')) {
    		alert('작성이 취소되었습니다.');
-   		location.href = '/winitech/photo/list.do';
+   		location.href = '/survey/photo/list.do';
    	}
 });
 
@@ -116,7 +117,7 @@ if(contents != '') { // dto contents가 빈 문자열이 아니라면 이미 작
     	newThumbnailChioceForm.appendChild(newThumbnailChioceText); // wrap div에 텍스트 노드 추가
 		let newDeleteIcon = document.createElement('img'); // img 요소 새로 생성
 		newDeleteIcon.classList.add('icon-thumbnail-delete');
-		newDeleteIcon.setAttribute('src', '${pageContext.request.contextPath }/images/egovframework/winitech/icon-delete.png'); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
+		newDeleteIcon.setAttribute('src', '${pageContext.request.contextPath }/images/egovframework/icon-delete.png'); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
 		newDeleteIcon.setAttribute('onclick', 'imgDelete(this)'); // 아이콘 클릭 시 ajax 연결 후 해당 파일 삭제
 		newWrapDiv.appendChild(newDeleteIcon);
     	newWrapDiv.appendChild(newThumbnailChioceForm); // 대표 이미지 선택 폼 div를 wrap div로 이동
@@ -211,7 +212,7 @@ btnInsert.addEventListener('click', (e) => {
 			
 			$.ajax({
 		        type: 'post',
-		        url: '/winitech/photo/update.do',
+		        url: '/survey/photo/update.do',
 		        data :  JSON.stringify(dto),
 		        contentType : 'application/json',
 		        success: (data) => {
@@ -220,7 +221,7 @@ btnInsert.addEventListener('click', (e) => {
 		        	
 		        	if(data == TEST) { alert('테스트가 완료되었습니다.'); }
 		        	
-		        	if(data == SUCCESS) { if(confirm('게시글 등록에 성공했습니다. 등록한 글을 확인하러 가시겠습니까?')) { location.href ='/winitech/photo/view.do?iboard=' + iboard; } } 
+		        	if(data == SUCCESS) { if(confirm('게시글 등록에 성공했습니다. 등록한 글을 확인하러 가시겠습니까?')) { location.href ='/survey/photo/view.do?iboard=' + iboard; } } 
 		        	else { alert('게시글 등록에 실패하였습니다. 잠시 후 다시 시도해주세요.'); }}, 
 		        error: (x) => { console.log(x); }
 		     })
@@ -272,7 +273,7 @@ inputFile.addEventListener('change', (e) => {
 	
 	$.ajax({
         type: 'post',
-        url: '/winitech/photo/fileupload.do',
+        url: '/survey/photo/fileupload.do',
         contentType: false, // 전달 데이터 형식 / formData로 보낼 경우 명시 필수
         processData: false, // string 변환 여부 / formData로 보낼 경우 명시 필수
         data: formData,
@@ -282,7 +283,7 @@ inputFile.addEventListener('change', (e) => {
         	// key - insert 후 반환된 이미지 pk
         	// value - 실제 업로드 경로에있는 UUID + 확장자
         	for(let [key, value] of map) {
-	        	let src = '/winitech/img/' + value; // html 태그로 출력하기 위함 / /winitech/img/ - 실제 경로
+	        	let src = '/survey/img/' + value; // html 태그로 출력하기 위함 / /survey/img/ - 실제 경로
 	        	let newWrapDiv = document.createElement('div');
 	        	let newThumbnailChioceForm = document.createElement('div');
 	        	let newThumbnailChioceText = document.createTextNode('대표');
@@ -296,7 +297,7 @@ inputFile.addEventListener('change', (e) => {
 				
 				let newDeleteIcon = document.createElement('img'); // img 요소 새로 생성
 				newDeleteIcon.classList.add('icon-thumbnail-delete');
-				newDeleteIcon.setAttribute('src', '${pageContext.request.contextPath }/images/egovframework/winitech/icon-delete.png'); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
+				newDeleteIcon.setAttribute('src', '${pageContext.request.contextPath }/images/egovframework/icon-delete.png'); // src 속성 생성 후 ajax 리턴 값으로 받아온 값을 넣어줌
 				newDeleteIcon.setAttribute('onclick', 'imgDelete(this)'); // 아이콘 클릭 시 ajax 연결 후 해당 파일 삭제
 				newWrapDiv.appendChild(newDeleteIcon);
 				

@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 import egovframework.example.cmmn.Pagination.Criteria;
-import egovframework.example.sample.service.model.BoardFileInsDto;
-import egovframework.example.sample.service.model.PhotoBoardFileNameVo;
-import egovframework.example.sample.service.model.PhotoInsNullDto;
-import egovframework.example.sample.service.model.PhotoListGetVo;
-import egovframework.example.sample.service.model.PhotoSelVo;
-import egovframework.example.sample.service.model.PhotoUpdDto;
-import egovframework.example.sample.service.model.getPhotoBoardNullInsertIboardVo;
+import egovframework.example.sample.service.model.board.BoardFileInsDto;
+import egovframework.example.sample.service.model.photo.PhotoBoardFileNameVo;
+import egovframework.example.sample.service.model.photo.PhotoInsNullDto;
+import egovframework.example.sample.service.model.photo.PhotoListGetVo;
+import egovframework.example.sample.service.model.photo.PhotoSelVo;
+import egovframework.example.sample.service.model.photo.PhotoUpdDto;
+import egovframework.example.sample.service.model.photo.getPhotoBoardNullInsertIboardVo;
 
 public interface PhotoService {
 	public List<PhotoListGetVo> getPhotoBoardList(Criteria criteria);

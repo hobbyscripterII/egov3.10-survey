@@ -1,8 +1,8 @@
 package egovframework.example.sample.service.impl;
 
-import egovframework.example.sample.service.model.UserDetailVo;
-import egovframework.example.sample.service.model.UserSignInDto;
-import egovframework.example.sample.service.model.UserSignUpDto;
+import egovframework.example.sample.service.model.user.UserDetailVo;
+import egovframework.example.sample.service.model.user.UserSignInDto;
+import egovframework.example.sample.service.model.user.UserSignUpDto;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("userMapper")

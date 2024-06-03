@@ -27,26 +27,40 @@ public class EgovInterceptor implements HandlerInterceptor {
 		String url = request.getRequestURI();
 		String ip = Inet4Address.getLocalHost().getHostAddress();
 		request.setAttribute(Const.USER_IP, ip);
-		
+
 		log.info("REQUEST [{}][{}]", ip, url);
 
 		// 저장된 session이 없거나 session에 회원 pk가 저장되지 않았다면 아래 로직을 실행함
 		if (session == null || session.getAttribute(Const.USER_IUSER) == null) {
-			response.sendRedirect("/winitech/user/signin.do"); // sendRedirect - 로그인 페이지로 리다이렉트 시킴(forward랑 다르게 값을
+			response.sendRedirect("/survey/user/signin.do"); // sendRedirect - 로그인 페이지로 리다이렉트 시킴(forward랑 다르게 값을
 			return false; // false를 반환할 경우 리다이렉트 후 종료됨 / 남은 인터셉터, 컨트롤러 실행 x
-		}
-		
-		if(Utils.isNotNull(request.getParameter("iboard"))) {
-			int boardByIuser = boardService.getBoardByIuser(Integer.parseInt(request.getParameter("iboard")));
-			
-			if (boardByIuser != (int)session.getAttribute(Const.USER_IUSER)) {
-				response.sendRedirect("/winitech/exception/403.do");
-//				response.sendRedirect("/winitech/common/403.jsp"); // 'webapp/common' 경로에 jsp 바로 넣고 접근할 경우 tiles 적용 안됨 / tiles 적용 경로 내에 넣어놔도 .jsp로 접근할 경우 레이아웃 적용 x
-				return false;
+		} else {
+			// >>>>> 게시글 수정 페이지 url로 접근할 경우 작성한 회원 pk와 비교 -> 아니면 에러 페이지로 이동
+			if (Utils.isNotNull(request.getParameter("iboard"))) {
+				int boardByIuser = boardService.getBoardByIuser(Integer.parseInt(request.getParameter("iboard")));
+
+				if (boardByIuser != (int) session.getAttribute(Const.USER_IUSER)) {
+					response.sendRedirect("/survey/exception/403.do");
+//					response.sendRedirect("/survey/common/403.jsp"); // 'webapp/common' 경로에 jsp 바로 넣고 접근할 경우 tiles 적용 안됨 / tiles 적용 경로 내에 넣어놔도 .jsp로 접근할 경우 레이아웃 적용 x
+					return false;
+				}
+				return true;
 			}
 			
-			return true;
+			// >>>>> admin 페이지는 권한이 'ADMIN'일 경우에만 접근 o
+			String userRole = String.valueOf(session.getAttribute(Const.USER_ROLE)); // 위에서 회원 session 검증 했으므로 변수에 담음
+			boolean urlMatchResult = url.contains(Const.ROLE_ADMIN_COMMON_URL); // url에 'admin'이 있으면 true 없으면 false
+
+			if (Utils.isTrue(urlMatchResult)) {
+				// session에 저장된 회원 권한이 'ADMIN'이 아닐 경우 에러 페이지로 이동
+				if (!userRole.equals(Const.ROLE_ADMIN)) {
+					response.sendRedirect("/survey/exception/403.do");
+					return false; // 남은 인터셉터 진행 x
+				}
+				return true; // session에 저장된 권한이 'ADMIN'이면 다음 인터셉터 진행 o
+			}
 		}
+
 		return true; // 반환 값이 true일 때만 다음 동작(컨트롤러 이동)을 실행함
 	}
 

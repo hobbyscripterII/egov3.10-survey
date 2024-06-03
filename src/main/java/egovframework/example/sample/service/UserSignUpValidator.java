@@ -8,7 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import egovframework.example.cmmn.Const;
-import egovframework.example.sample.service.model.UserSignUpDto;
+import egovframework.example.sample.service.model.user.UserSignUpDto;
 
 public class UserSignUpValidator implements Validator {
 	@Override public boolean supports(Class<?> clazz) { return UserSignUpDto.class.isAssignableFrom(clazz); }

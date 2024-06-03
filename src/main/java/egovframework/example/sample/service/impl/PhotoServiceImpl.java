@@ -15,14 +15,14 @@ import egovframework.example.cmmn.FileUtils;
 import egovframework.example.cmmn.Utils;
 import egovframework.example.cmmn.Pagination.Criteria;
 import egovframework.example.sample.service.PhotoService;
-import egovframework.example.sample.service.model.BoardFileInsDto;
-import egovframework.example.sample.service.model.PhotoBoardFileNameVo;
-import egovframework.example.sample.service.model.PhotoInsNullDto;
-import egovframework.example.sample.service.model.PhotoListGetVo;
-import egovframework.example.sample.service.model.PhotoSelVo;
-import egovframework.example.sample.service.model.PhotoUpdDto;
-import egovframework.example.sample.service.model.UpdPhotoBoardFileThumbnailUnFlDto;
-import egovframework.example.sample.service.model.getPhotoBoardNullInsertIboardVo;
+import egovframework.example.sample.service.model.board.BoardFileInsDto;
+import egovframework.example.sample.service.model.photo.PhotoBoardFileNameVo;
+import egovframework.example.sample.service.model.photo.PhotoInsNullDto;
+import egovframework.example.sample.service.model.photo.PhotoListGetVo;
+import egovframework.example.sample.service.model.photo.PhotoSelVo;
+import egovframework.example.sample.service.model.photo.PhotoUpdDto;
+import egovframework.example.sample.service.model.photo.UpdPhotoBoardFileThumbnailUnFlDto;
+import egovframework.example.sample.service.model.photo.getPhotoBoardNullInsertIboardVo;
 
 @Service("photoServiceImpl") // xml 빈 주입 시 value 명시 필수
 public class PhotoServiceImpl implements PhotoService {

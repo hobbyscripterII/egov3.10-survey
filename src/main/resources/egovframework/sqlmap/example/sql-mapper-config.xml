@@ -3,30 +3,47 @@
 
 <configuration>
     <typeAliases>
-    	<typeAlias alias="BoardListGetVo" type="egovframework.example.sample.service.model.BoardListGetVo" />
-		<typeAlias alias="BoardSelVo" type="egovframework.example.sample.service.model.BoardSelVo" />
-		<typeAlias alias="BoardUpdDto" type="egovframework.example.sample.service.model.BoardUpdDto" />
+    	<typeAlias alias="BoardListGetVo" type="egovframework.example.sample.service.model.board.BoardListGetVo" />
+		<typeAlias alias="BoardSelVo" type="egovframework.example.sample.service.model.board.BoardSelVo" />
+		<typeAlias alias="BoardUpdDto" type="egovframework.example.sample.service.model.board.BoardUpdDto" />
 		<typeAlias alias="Criteria" type="egovframework.example.cmmn.Pagination$Criteria" /> <!-- 구조 변경 후 확인 필요 -->
-		<typeAlias alias="BoardFileGetVo" type="egovframework.example.sample.service.model.BoardFileGetVo" />
-		<typeAlias alias="BoardFileSelVo" type="egovframework.example.sample.service.model.BoardFileSelVo" />
-		<typeAlias alias="BoardReplyUpdDto" type="egovframework.example.sample.service.model.BoardReplyUpdDto" />
-		<typeAlias alias="BoardFileInsDto" type="egovframework.example.sample.service.model.BoardFileInsDto" />
+		<typeAlias alias="BoardFileGetVo" type="egovframework.example.sample.service.model.board.BoardFileGetVo" />
+		<typeAlias alias="BoardFileSelVo" type="egovframework.example.sample.service.model.board.BoardFileSelVo" />
+		<typeAlias alias="BoardReplyUpdDto" type="egovframework.example.sample.service.model.board.BoardReplyUpdDto" />
+		<typeAlias alias="BoardFileInsDto" type="egovframework.example.sample.service.model.board.BoardFileInsDto" />
 		
-		<typeAlias alias="PhotoListGetVo" type="egovframework.example.sample.service.model.PhotoListGetVo"/>
-		<typeAlias alias="PhotoInsNullDto" type="egovframework.example.sample.service.model.PhotoInsNullDto"/>
-		<typeAlias alias="PhotoUpdDto" type="egovframework.example.sample.service.model.PhotoUpdDto"/>
-		<typeAlias alias="PhotoSelVo" type="egovframework.example.sample.service.model.PhotoSelVo"/>
-		<typeAlias alias="PhotoBoardFileNameVo" type="egovframework.example.sample.service.model.PhotoBoardFileNameVo"/>
-		<typeAlias alias="UpdPhotoBoardFileThumbnailUnFlDto" type="egovframework.example.sample.service.model.UpdPhotoBoardFileThumbnailUnFlDto"/>
-		<typeAlias alias="getPhotoBoardNullInsertIboardVo" type="egovframework.example.sample.service.model.getPhotoBoardNullInsertIboardVo"/>
+		<typeAlias alias="PhotoListGetVo" type="egovframework.example.sample.service.model.photo.PhotoListGetVo"/>
+		<typeAlias alias="PhotoInsNullDto" type="egovframework.example.sample.service.model.photo.PhotoInsNullDto"/>
+		<typeAlias alias="PhotoUpdDto" type="egovframework.example.sample.service.model.photo.PhotoUpdDto"/>
+		<typeAlias alias="PhotoSelVo" type="egovframework.example.sample.service.model.photo.PhotoSelVo"/>
+		<typeAlias alias="PhotoBoardFileNameVo" type="egovframework.example.sample.service.model.photo.PhotoBoardFileNameVo"/>
+		<typeAlias alias="UpdPhotoBoardFileThumbnailUnFlDto" type="egovframework.example.sample.service.model.photo.UpdPhotoBoardFileThumbnailUnFlDto"/>
+		<typeAlias alias="getPhotoBoardNullInsertIboardVo" type="egovframework.example.sample.service.model.photo.getPhotoBoardNullInsertIboardVo"/>
 		
-		<typeAlias alias="UserSignInDto" type="egovframework.example.sample.service.model.UserSignInDto"/>
-		<typeAlias alias="UserSignUpDto" type="egovframework.example.sample.service.model.UserSignUpDto"/>
-		<typeAlias alias="UserDetailVo" type="egovframework.example.sample.service.model.UserDetailVo"/>
+		<typeAlias alias="UserSignInDto" type="egovframework.example.sample.service.model.user.UserSignInDto"/>
+		<typeAlias alias="UserSignUpDto" type="egovframework.example.sample.service.model.user.UserSignUpDto"/>
+		<typeAlias alias="UserDetailVo" type="egovframework.example.sample.service.model.user.UserDetailVo"/>
 		
-    	<!--
-		<typeAlias alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
-		<typeAlias alias="sampleVO" type="egovframework.example.sample.service.SampleVO"/>
-    	-->
+		<typeAlias alias="AdminSurveyListGetVo" type="egovframework.example.sample.service.model.admin.AdminSurveyListGetVo"/>
+		<typeAlias alias="AdminSurveyInsDto" type="egovframework.example.sample.service.model.admin.AdminSurveyInsDto"/>
+		<typeAlias alias="AdminSurveyQuestionInsDto" type="egovframework.example.sample.service.model.admin.AdminSurveyInsDto$AdminSurveyQuestionInsDto"/>
+		<typeAlias alias="AdminSurveyResponseInsDto" type="egovframework.example.sample.service.model.admin.AdminSurveyInsDto$AdminSurveyResponseInsDto"/>
+		<typeAlias alias="AdminSurveyUpdDto" type="egovframework.example.sample.service.model.admin.AdminSurveyUpdDto"/>
+		<typeAlias alias="AdminSurveyQuestionUpdDto" type="egovframework.example.sample.service.model.admin.AdminSurveyUpdDto$AdminSurveyQuestionUpdDto"/>
+		<typeAlias alias="AdminSurveyResponseUpdDto" type="egovframework.example.sample.service.model.admin.AdminSurveyUpdDto$AdminSurveyResponseUpdDto"/>
+		<typeAlias alias="AdminSurveyQuestionImgUpdDto" type="egovframework.example.sample.service.model.admin.AdminSurveyUpdDto$AdminSurveyQuestionImgUpdDto"/>
+		<typeAlias alias="AdminSurveyResponseFormatUpdDto" type="egovframework.example.sample.service.model.admin.AdminSurveyUpdDto$AdminSurveyResponseFormatUpdDto"/>
+		<typeAlias alias="AdminSurveyQuestionGetVo" type="egovframework.example.sample.service.model.admin.AdminSurveyQuestionGetVo"/>
+		<typeAlias alias="AdminSurveyResponseOptionGetVo" type="egovframework.example.sample.service.model.admin.AdminSurveyResponseOptionGetVo"/>
+		<typeAlias alias="AdminSurveyStatsSelVo" type="egovframework.example.sample.service.model.admin.AdminSurveyStatsSelVo"/>
+		<typeAlias alias="AdminSurveyQuestionStatsGetVo" type="egovframework.example.sample.service.model.admin.AdminSurveyStatsSelVo$AdminSurveyQuestionStatsGetVo"/>
+		<typeAlias alias="AdminAnswereResponseStatsGetVo" type="egovframework.example.sample.service.model.admin.AdminSurveyStatsSelVo$AdminAnswereResponseStatsGetVo"/>
+		<typeAlias alias="AdminMultipleResponseStatsGetVo" type="egovframework.example.sample.service.model.admin.AdminSurveyStatsSelVo$AdminMultipleResponseStatsGetVo"/>
+		
+		<typeAlias alias="SurveyListGetVo" type="egovframework.example.sample.service.model.survey.SurveyListGetVo"/>
+		<typeAlias alias="SurveySelVo" type="egovframework.example.sample.service.model.survey.SurveySelVo"/>
+		<typeAlias alias="surveyQuestionGetVo" type="egovframework.example.sample.service.model.survey.SurveySelVo$SurveyQuestionGetVo"/>
+		<typeAlias alias="SurveyQuestionResponseOptionGetVo" type="egovframework.example.sample.service.model.survey.SurveySelVo$SurveyQuestionResponseOptionGetVo"/>
+		<typeAlias alias="SurveyResponseInsDto" type="egovframework.example.sample.service.model.survey.SurveyResponseInsDto"/>
     </typeAliases>
 </configuration>

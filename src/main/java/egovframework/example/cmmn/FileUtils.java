@@ -4,29 +4,30 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import egovframework.example.sample.service.model.BoardFileInsDto;
+import egovframework.example.sample.service.model.board.BoardFileInsDto;
 
 @Component
 public class FileUtils {
-	private final String prefixPath = "C:/winitech";
+	private final MessageSource messageSource;
+	private final String prefixPath;
 	Logger log = LoggerFactory.getLogger(getClass());
-
-	// application.properties에 저장된 실제 로컬의 경로를 가져옴
-	// 해당 변수는 빈 주입 시 초기화됨(생성자 주입)
-//	public FileUtils(@Value("${upload.prefix.path}") String prefixPath) {
-//		// this - 객체 주소값 참조
-//		// 지역 변수에 있는 값을 클래스의 멤버 변수에 참조 시킴
-//		this.prefixPath = prefixPath;
-//	}
+	
+	// context-common.xml에 등록된 messageSource 빈을 사용
+	public FileUtils(MessageSource messageSource) {
+		this.messageSource = messageSource;
+		this.prefixPath = messageSource.getMessage("upload.prefix.path", null, Locale.getDefault());
+	}
 
 	// 로컬에 저장될 UUID 추출
 	private String getFileName() {
@@ -44,9 +45,13 @@ public class FileUtils {
 
 		if (!Files.exists(getPath)) {
 			// 해당 경로가 존재하지 않을 경우 해당 디렉토리를 생성
-			try { Files.createDirectories(getPath); }
+			try {
+				Files.createDirectories(getPath);
+			}
 			// 생성에 실패할 경우 예외 발생(수정 필요)
-			catch (Exception e) { throw new RuntimeException(); }
+			catch (Exception e) {
+				throw new RuntimeException();
+			}
 		}
 		return savedPath;
 	}
@@ -72,11 +77,12 @@ public class FileUtils {
 		try {
 			File file = new File(uploadPath); // 파일을 저장하기 위해 경로를 추상화시킨 File 객체 생성
 			multipartFile.transferTo(file); // 해당 경로에 파일 저장
+		} catch (Exception e) {
+			throw new Exception(); // 서비스에서 처리함
 		}
-		catch (Exception e) { throw new Exception(); } // 저장에 실패할 경우 예외 발생(수정 필요)
 		return dto; // 저장 후 dto 반환
 	}
-	
+
 	public void deleteFile(String path) {
 		try {
 			String fullPath = getDownloadPath(path); // 로컬에 저장된 풀 경로를 가져옴(경로/UUID.확장명)
@@ -84,8 +90,11 @@ public class FileUtils {
 			// 파일 경로가 존재하지 않을 경우 예외 처리 필요
 			// ...
 			file.delete(); // 파일 삭제
-			log.info("파일 삭제를 완료했습니다."); }
+			log.info("파일 삭제를 완료했습니다.");
+		}
 		// 삭제에 실패할 경우 예외 발생(수정 필요)
-		catch (Exception e) { e.printStackTrace(); }
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

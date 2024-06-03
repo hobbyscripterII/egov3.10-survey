@@ -74,7 +74,7 @@ btnIdChk.addEventListener('click', () => {
 	} else {
 		$.ajax({
 	        type: 'post',
-	        url: '/winitech/user/id-check.do',
+	        url: '/survey/user/id-check.do',
 	        data: { 'id' : id.value },
 	        success: (result) => {
 	        	if(result == SUCCESS) {
@@ -110,5 +110,5 @@ pwdChk.addEventListener('keyup', () => {
 	else { pwdChkMsgEl.innerHTML = '<span style="color: red">'+ PWD_CHK_FAIL_MSG +'</span>'; }
 });
 
-btnSignUpCancel.addEventListener('click', () => { if(confirm('회원가입을 취소하시겠습니까?')) { location.href = '/winitech/home.do' } })
+btnSignUpCancel.addEventListener('click', () => { if(confirm('회원가입을 취소하시겠습니까?')) { location.href = '/survey/home.do' } })
 </script>

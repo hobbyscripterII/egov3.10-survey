@@ -1,40 +1,55 @@
 @charset "UTF-8";
 @font-face { font-family: 'Freesentation-9Black'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-9Black.woff2') format('woff2'); font-weight: 900; font-style: normal; }
 @font-face { font-family: 'Pretendard-Regular'; src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff'); font-weight: 400; font-style: normal; }
-* { font-family: 'Pretendard-Regular'; margin: 0px; padding: 0px; }
+@font-face { font-family: 'sagaksagak'; src: url('https://cdn.jsdelivr.net/gh/fontbee/font@main/Beomdolee/sagaksagak.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: '87MMILSANG-Regular'; src: url('https://cdn.jsdelivr.net/gh/fontbee/font@main/87mmtypeface/87MMILSANG-Regular.woff2') format('woff2'); font-weight: normal; font-style: normal; }
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+* { font-family: "Noto Sans KR", sans-serif; margin: 0px; padding: 0px; }
 body { width: 100%; display: flex; justify-content: start; flex-wrap: wrap; }
 header { width: 100%; background-color: rgb(255,255,255); padding: 15px 0 10px 0; }
-/** header > h1 { font-family: 'Freesentation-9Black'; text-align: center; color: black; } **/
 nav { width: 100%; position: fixed !important; z-index: 9999; }
-.nav-item > a { font-size: 1rem; }
 a { text-decoration: none; color: black; }
 #body { width: 100%; height: 1000px; position: relative; top: 60px; margin: 20px; }
-/* section { width: 100%; margin: 50px; position: relative; top: 58px; } */
-.title { font-family: 'Freesentation-9Black'; width: 100%; text-align: center; margin: 10px 0 10px 0; }
 #body-index { background-image: url("https://images.unsplash.com/photo-1713782522314-caab46f64c79?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"); background-size: cover; background-attachment: fixed; }
+#input-search { width: 400px; margin-left: 5px; }
+.nav-item > a { font-size: 1rem; }
+/* .navbar-brand { color: #000 !important; } */
+.title { width: 100%; text-align: center; margin: 10px 0 10px 0; font-weight: bold; }
+#btn-search { margin-left: 5px; }
+#btn-signin { margin-top: 10px; }
+.btn-margin { margin-right: 5px; }
+.btn-file-delete { margin-left: 5px; }
+.btn-signup { margin-top: 15px; width: 49.5%; }
+.btn-signin { margin-top: 10px; width: 100%; }
+.span-byte-text { color: #C0C0C0; font-size: 0.8rem; font-weight: bold; }
+#div-signin-wrap, #div-signup-wrap { width: 510px; height: 100%; margin-top: 20px; }
+#div-error-form, #div-signup-success-form { text-align: center; }
+#div-create-question {
+	width: 40px; position: fixed; top: 55vh; left: 73vw; margin-left: 10px; background-color: white; border-radius: 5px; box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
+	@media (max-width: 1050px) { left: 86vw; }
+	@media (min-width: 1175px) { left: 73vw; }
+}
+.span-board-cnt { font-weight: bold; color: gray; font-size: 13px; }
+.div-index-form { margin-top: 130px; background-color: white; border-radius: 20px; width: 400px; height: 250px; padding: 30px 0 20px 25px; }
 .div-list-bottom-wrap { width: 100%; display: block; }
 .div-pagination-wrap { width: 100%; display: flex; justify-content: center; flex-wrap: wrap; }
 .div-btn-group-wrap { width: 100%; display: flex; justify-content: flex-end; }
-.btn-margin { margin-right: 5px; }
-#input-search { width: 400px; margin-left: 5px; }
-#btn-search { margin-left: 5px; }
-.d-flex { justify-content: center; }
-.th-style { font-weight: bold; }
-.th-style, .td-style { text-align: center; }
-.span-byte-text { color: #C0C0C0; font-size: 0.8rem; font-weight: bold; }
-.btn-file-delete { margin-left: 5px; }
-.span-board-cnt { font-weight: bold; color: gray; font-size: 13px; }
-.label-file-alert { font-size: 13px; font-weight: bold; color: gray; }
-.div-index-form { margin-top: 130px; background-color: white; border-radius: 20px; width: 400px; height: 250px; padding: 30px 0 20px 25px; }
-#img-icon-megaphone { width: 250px; height: 250px; }
-#div-error-form, #div-signup-success-form { text-align: center; }
-.navbar-brand { color: #000 !important; }
-#div-signin-wrap, #div-signup-wrap { width: 510px; height: 100%; margin-top: 20px; }
-#btn-signin { margin-top: 10px; }
-.btn-signup { margin-top: 15px; width: 49.5%; }
-.btn-signin { margin-top: 10px; width: 100%; }
+.div-img-thumbnail-wrap { width: 290px; height: 100%; display: flex; justify-content: flex-start; flex-wrap: wrap; margin: 10px 0 0 30px; }
+.div-photo-board-list-wrap { display: flex; width: 100%; flex-wrap: wrap; justify-content: space-between; }
+.div-survey-form-wrap, .div-survey-info-form-wrap, .div-survey-submit-form-wrap { width: 100%; display: flex; justify-content: center; flex-wrap: wrap; }
+.div-survey-form { width: 900px; height: auto; background-color: white; border-radius: 5px; margin-bottom: 15px; box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12); }
+.div-question-form, .div-survey-form { padding: 20px 25px 20px 25px; }
 .text-muted { height: 20px; text-align: center; }
 .text-muted > span { color: #FF0000; font-weight: bold; }
+.th-style { font-weight: bold; }
+.th-style, .td-style { text-align: center; }
+.label-file-alert { font-size: 13px; font-weight: bold; color: gray; }
+#img-icon-megaphone { width: 250px; height: 250px; }
 .img-thumbnail { object-fit: cover; width: 265px; height: 240px; }
-.div-img-thumbnail-wrap { width: 265px; height: 100%; display: flex; justify-content: flex-start; flex-wrap: wrap; margin: 10px 0 0 30px; }
-.div-photo-board-list-wrap { display: flex; width: 100%; flex-wrap: wrap; justify-content: space-between; }
+#icon-create-question, #icon-save, #icon-update { margin: auto; width: 100%; height: 100%; padding: 5px; cursor: pointer;  }
+#icon-trash { width: 25px; height: 25px; cursor: pointer; }
+.d-flex { justify-content: center; }
+input, input:focus, textarea, textarea:focus, select, select:focus { outline: none !important; box-shadow: none !important; } /* bootstrap, bootswatch 폼 클릭 시 border focus 처리 x */
+.p-survey-text { color: #000; text-align: left; font-weight: bold; font-size: 1.5rem; }
+.div-crime-select-wrap { display: flex; }
+.mt-4 { margin: 6px !important; }

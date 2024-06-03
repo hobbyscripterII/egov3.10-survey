@@ -12,16 +12,16 @@ import egovframework.example.cmmn.FileUtils;
 import egovframework.example.cmmn.Pagination;
 import egovframework.example.cmmn.Utils;
 import egovframework.example.sample.service.BoardService;
-import egovframework.example.sample.service.model.BoardChkPwdDto;
-import egovframework.example.sample.service.model.BoardFileGetVo;
-import egovframework.example.sample.service.model.BoardFileInsDto;
-import egovframework.example.sample.service.model.BoardFileSelVo;
-import egovframework.example.sample.service.model.BoardInsDto;
-import egovframework.example.sample.service.model.BoardListGetVo;
-import egovframework.example.sample.service.model.BoardReplyUpdDto;
-import egovframework.example.sample.service.model.BoardSelVo;
-import egovframework.example.sample.service.model.BoardUpdDto;
-import egovframework.example.sample.service.model.UpdPhotoBoardFileThumbnailUnFlDto;
+import egovframework.example.sample.service.model.board.BoardChkPwdDto;
+import egovframework.example.sample.service.model.board.BoardFileGetVo;
+import egovframework.example.sample.service.model.board.BoardFileInsDto;
+import egovframework.example.sample.service.model.board.BoardFileSelVo;
+import egovframework.example.sample.service.model.board.BoardInsDto;
+import egovframework.example.sample.service.model.board.BoardListGetVo;
+import egovframework.example.sample.service.model.board.BoardReplyUpdDto;
+import egovframework.example.sample.service.model.board.BoardSelVo;
+import egovframework.example.sample.service.model.board.BoardUpdDto;
+import egovframework.example.sample.service.model.photo.UpdPhotoBoardFileThumbnailUnFlDto;
 
 @Service
 public class BoardServiceImpl implements BoardService {

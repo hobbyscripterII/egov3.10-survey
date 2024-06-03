@@ -22,7 +22,7 @@
 		<button type="button" class="btn btn-warning btn-margin" id="btn-update">수정</button>
 		<button type="button" class="btn btn-danger btn-margin" id="btn-delete">삭제</button>
 	</c:if>
-	<button type="button" class="btn btn-primary" onclick="location.href = '/winitech/photo/list.do'">목록</button>
+	<button type="button" class="btn btn-primary" onclick="location.href = '/survey/photo/list.do'">목록</button>
 </div>
 </body>
 </html>
@@ -34,16 +34,16 @@ let iboard = document.querySelector('.title').dataset.iboard;
 let contents = document.getElementById('contents');
 contents.innerHTML = `${vo.contents }`; // 내용은 따로 출력 / `` 백틱키로 감싸주지 않으면 태그 자체로 인식하므로 감싸주기
 
-btnUpdate.addEventListener('click', () => { location.href = '/winitech/photo/update.do?iboard=' + iboard; });
+btnUpdate.addEventListener('click', () => { location.href = '/survey/photo/update.do?iboard=' + iboard; });
 
 btnDelete.addEventListener('click', () => {
 	if (confirm('게시글을 삭제하시겠습니까?')) {
 		$.ajax({
 			type: 'post',
-			url: '/winitech/photo/delete.do',
+			url: '/survey/photo/delete.do',
 			data: { "iboard": iboard },
 			success: (data) => {
-				if (data == 1) { alert('게시글 삭제가 완료되었습니다. 게시글 목록으로 이동합니다.'); location.href = '/winitech/photo/list.do?category=2'; }
+				if (data == 1) { alert('게시글 삭제가 완료되었습니다. 게시글 목록으로 이동합니다.'); location.href = '/survey/photo/list.do?category=2'; }
 				else { alert('게시글 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.'); return false; }},
 			error: (x) => { console.log(x); }
 		});

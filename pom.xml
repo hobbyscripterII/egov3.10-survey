@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.project</groupId>
-	<artifactId>winitech</artifactId>
+	<artifactId>survey</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0</version>
-	<name>winitech</name>
+	<name>survey</name>
 	<url>http://www.egovframe.go.kr</url>
 
 	<licenses>
@@ -65,6 +65,13 @@
     </repositories>
 
 	<dependencies>
+		<dependency>
+		    <groupId>org.glassfish.jersey.core</groupId>
+		    <artifactId>jersey-common</artifactId>
+		    <version>2.22.2</version>
+		    <scope>test</scope>
+		</dependency>
+		
 		<!-- 스케줄러 -->
 		<dependency>
 		    <groupId>org.quartz-scheduler</groupId>
