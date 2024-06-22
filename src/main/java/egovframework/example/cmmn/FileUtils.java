@@ -4,14 +4,12 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Locale;
 import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,14 +17,12 @@ import egovframework.example.sample.service.model.board.BoardFileInsDto;
 
 @Component
 public class FileUtils {
-	private final MessageSource messageSource;
 	private final String prefixPath;
 	Logger log = LoggerFactory.getLogger(getClass());
 	
-	// context-common.xml에 등록된 messageSource 빈을 사용
-	public FileUtils(MessageSource messageSource) {
-		this.messageSource = messageSource;
-		this.prefixPath = messageSource.getMessage("upload.prefix.path", null, Locale.getDefault());
+	// context-common.xml을 참조
+	public FileUtils(@Value("#{prop['upload.prefix.path']}") String prefixPath) {
+		this.prefixPath = prefixPath;
 	}
 
 	// 로컬에 저장될 UUID 추출
